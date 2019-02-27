@@ -2,8 +2,10 @@ package Shelf;
 
 import java.awt.print.Book;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import Media.*;
+import Utilities.Status;
 
 /**
  * This class holds and deals with library's physical media : CD's, DVD's , Paper Media as arrayLists.
@@ -29,6 +31,33 @@ public class Shelf {
 		this.paperMedias = paperMedia;
 	}
 	
+	/**
+	 * Getters & setters
+	 */
+	
+	public ArrayList<CD> getCds() {
+		return cds;
+	}
+
+	public void setCds(ArrayList<CD> cds) {
+		this.cds = cds;
+	}
+
+	public ArrayList<DVD> getDvds() {
+		return dvds;
+	}
+
+	public void setDvds(ArrayList<DVD> dvds) {
+		this.dvds = dvds;
+	}
+
+	public ArrayList<PaperMedia> getPaperMedias() {
+		return paperMedias;
+	}
+
+	public void setPaperMedias(ArrayList<PaperMedia> paperMedias) {
+		this.paperMedias = paperMedias;
+	}
 
 	/**
 	 * Add CD to shelf
@@ -51,6 +80,43 @@ public class Shelf {
 	 */
 	public void addPaperMedia(PaperMedia paper) {
 		paperMedias.add(paper);
+	}
+	
+	/**
+	 * Media is loaded from file and put into shelf
+	 * TODO
+	 */
+	public void loadMedia() {
+		//load media from file.. so create objects of CDS,DVDS and Books/Magazines/Comics & store them in arrays of this class
+		
+		//Create metallica CD
+		ArrayList<String> metallicaComposers = new ArrayList<String>();
+		metallicaComposers.add("Metallica");
+		Calendar metallicaDate = Calendar.getInstance();
+		metallicaDate.set(1988,7,25);
+		CD metallica = new CD("...And Justice For All",metallicaComposers, metallicaDate,new Status("available"));
+		
+		//Create titanic DVD
+		ArrayList<String> titanicDirectors = new ArrayList<String>();
+		 titanicDirectors.add("James Cameron");
+		 titanicDirectors.add("james C.");
+		 Calendar titanicDate = Calendar.getInstance();
+		 titanicDate.set(1997,11,18);
+		 DVD titanic = new DVD("Titanic",titanicDirectors, titanicDate,new Status("unavailable"));
+		 
+		 //Create atlantis BOOK
+		 ArrayList<String> atlantisAuthor = new ArrayList<String>();
+		 atlantisAuthor.add("Stephen King");
+		 Calendar atlanticDate = Calendar.getInstance();
+		 atlanticDate.set(1999,8,14);
+		 PaperMedia atlantis = new PaperMedia("Hearts in Atlantis",atlantisAuthor, atlanticDate,new Status("reserved"));
+		 
+		 //Add physical media (CD,DVD,BOOK) on virtual shelf
+		
+		this.addCD(metallica);
+		this.addDVD(titanic);
+		this.addPaperMedia(atlantis);
+		
 	}
 	
 	public String toString() {
