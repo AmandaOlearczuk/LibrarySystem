@@ -56,6 +56,10 @@ public class Customer {
 	}
 	
 	/**Getters & setters*/
+	public String getID() {
+		return this.ID;
+	}
+	
 	public void setIsBlackListed(Boolean b) {
 		this.IsBlackListed = b;
 	}

@@ -75,8 +75,9 @@ public class Librarian {
 	 * @param media
 	 * @param currentDate
 	 * @param holdOrTake - String that is either "hold" or "take" depends what student wants if book is available now
+	 * @return String - message
 	 */
-	public void addMediaOwned(Customer customer,PhysicalMedia media,String holdOrTake) {
+	public String addMediaOwned(Customer customer,PhysicalMedia media,String holdOrTake) {
 		if (customer.getIsBlackListed() == false && customer.getNumMediaOwned() < customer.getMaxMedia()
 				&& !media.getStatus().toString().equals("unavailable")) {
 			
@@ -89,6 +90,8 @@ public class Librarian {
 					Calendar retDate = media.calcReturnDate(); //either 2 wks or 2h
 					customer.addMediaOwned(media, retDate); //add media to customer account & ret date
 					media.setStatus(new Status("in use")); //set new status to media
+					
+					return "Media was issued to customer and added to customer's : " + customer.getID() + " account";
 				}
 				
 				if (holdOrTake.equals("hold")) {
@@ -98,18 +101,26 @@ public class Librarian {
 					CalendarPeriod calendarP = new CalendarPeriod(now,oneWeekFromNow);
 					customer.addMediaOnHold(media, calendarP); //add media to customer's holds & period
 					media.setStatus(new Status("in use"));
+					
+					return "Media is put on hold by customer: " + customer.getID();
 				}
 				
+				
 			}
 			
-			//If media is held by some other customer (& there's a possible queue or no queue)
-			else if (media.getCustomer() != null) {
+			//If media is held by some other customer (& there's a possible queue or no queue) AND customer isn't holding same item
+			//  multiple times
+			else if (media.getCustomer() != null && media.getCustomer() != customer && media.getLineUp().isInLine(customer) == false) {
 				
 				media.getLineUp().addToLine(customer); //customer added to queue for media
-
+				
+				return "Customer " +  customer.getID() + " was put on queue in position: " + media.getLineUp().size();
+				
 			}
-			
+		
 		}
+		
+		return "Unable to issue a book to the customer: " + customer.getID();
 		
 	}
 	

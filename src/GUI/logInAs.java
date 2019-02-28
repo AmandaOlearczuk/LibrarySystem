@@ -29,11 +29,12 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import Actors.Customer;
 import Actors.Librarian;
+import DataStorage.CustomersDatabase;
 import Media.CD;
 import Media.DVD;
 import Media.PaperMedia;
 import Media.PhysicalMedia;
-import Shelf.Shelf;
+import DataStorage.Shelf;
 import Utilities.Address;
 import Utilities.LogIn;
 import Utilities.Status;
@@ -50,10 +51,13 @@ import javax.swing.JTextField;
 import javax.swing.JSplitPane;
 import java.awt.Font;
 import java.awt.Component;
+import java.awt.Dialog.ModalityType;
+
 import javax.swing.JSeparator;
 import javax.swing.border.LineBorder;
 import javax.swing.JList;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.AbstractListModel;
@@ -123,9 +127,24 @@ public class logInAs {
 	private final JLabel lblMediaName = new JLabel("Media name:");
 	private JTextField textField_1;
 	private final JPanel borrow_media = new JPanel();
-	private final JButton btnNewButton_2 = new JButton("Borrow");
+	private final JButton borrow_button = new JButton("Borrow");
 	private final JPanel panel_6 = new JPanel();
 	private final JButton btnNewButton_3 = new JButton("New button");
+	
+	//Items for Pop up dialog for borrowing books 
+    private JButton okButton = new JButton("Ok");
+    private JLabel customerID = new JLabel("Customer ID: ");
+	private JTextField idTextField = new JTextField();
+	private JLabel holdOrTakeLabel = new JLabel("Hold/Take : ");
+	private JComboBox holdOrTakeComboBox = new JComboBox();
+	private JDialog dialogMediaBorrow = new JDialog();
+	
+	
+	//Screensize of current monitor screen
+	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	
+	private Shelf shelf = new Shelf();
+	private CustomersDatabase customerDtb = new CustomersDatabase();
 	
 	
 
@@ -161,6 +180,10 @@ public class logInAs {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		//Load customers & media
+		shelf.loadMedia();
+		customerDtb.loadCustomers(); 
+		
 		cl.setVgap(5);
 		cl.setHgap(5);
 		
@@ -293,15 +316,12 @@ public class logInAs {
 		panel_5.add(panel_6);
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.Y_AXIS));
 		
-		panel_6.add(btnNewButton_2);
+		panel_6.add(borrow_button);
 		panel_6.add(btnNewButton_3);
 		
 		middle.add(borrow_media, "name_49849626154600");
 
 
-
-
-		
 		
 		
 		/**
@@ -393,8 +413,7 @@ public class logInAs {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				String comboBoxValue = (String) comboBox.getSelectedItem();
-				Shelf shelf = new Shelf();
-				shelf.loadMedia(); //load media info from file
+				
 				ArrayList<PaperMedia> papermedia = shelf.getPaperMedias();
 				ArrayList<CD> cds = shelf.getCds();
 				ArrayList<DVD> dvds = shelf.getDvds();
@@ -434,7 +453,7 @@ public class logInAs {
 		frmLogin.setResizable(false);
 
 		frmLogin.setTitle("Mount Royal Library Management System");
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
 		frmLogin.setBounds(0,0,screenSize.width/2, screenSize.height/2 );
 		frmLogin.setLocationRelativeTo ( null ); //centers the window
 		frmLogin.getContentPane().add(panelCont);
@@ -447,9 +466,9 @@ public class logInAs {
 	
 	
 	
-	public void librarianWindowActions(String email) {
+	public void librarianWindowActions(String ID) {
 		
-				//Load librarian's info based on email from file TODO
+				//Load librarian's info based on ID from file TODO
 		
 				//Create a librarian
 				Calendar librarianSophieBirthDate = Calendar.getInstance();
@@ -458,8 +477,6 @@ public class logInAs {
 						new Address(10,"St.Paul","AAAA33","Calgary","Canada"),"4035667080");
 				
 				nameLabel.setText(Sophie.getFirstName() + " " + Sophie.getLastName());
-				
-				
 				
 						
 				librarianBrowseButton.addActionListener(new ActionListener() {
@@ -480,27 +497,70 @@ public class logInAs {
 				/**
 				 * Borrow button TODO
 				 */
-				btnNewButton_2.addActionListener(new ActionListener() {
+				borrow_button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+												
+						if (list.getSelectedIndex() != -1) {
+								
 						
-						//addMediaOwned(Customer customer,PhysicalMedia media,String holdOrTake)
+							dialogMediaBorrow.setLayout(new GridLayout(6,1,5,5));
+							dialogMediaBorrow.setModalityType(ModalityType.TOOLKIT_MODAL);
 						
-						//try{CD item = (CD)list.getSelectedValue();
-						  //  }catch(Exception e) {
-						//	try {DVD item = (DVD)list.getSelectedValue();}catch(Exception f) {
-						//		try {PaperMedia item = (PaperMedia)list.getSelectedValue();}catch(Exception f) {
-									
-							//	}
-						//	}
+							dialogMediaBorrow.setBounds(0,0 ,screenSize.width/3, screenSize.height/3);
+							dialogMediaBorrow.setLocationRelativeTo(null);
+						
+							
+							holdOrTakeComboBox.setBackground(Color.white);
+							holdOrTakeComboBox.setModel(new DefaultComboBoxModel(new String[] {"hold" , "take"}));
+							
+						
+							dialogMediaBorrow.add(customerID);
+							dialogMediaBorrow.add(idTextField );
+							dialogMediaBorrow.add(holdOrTakeLabel );
+							dialogMediaBorrow.add(holdOrTakeComboBox );
+							dialogMediaBorrow.add(okButton);
+							
+							dialogMediaBorrow.setVisible(true);
+						
+						
+						}else {
+							JOptionPane.showMessageDialog(null, "Please select media from the list", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
 						}
 						
 						
+					}		
 						//System.out.println(item.toString());
 					//}
 				});
 				
-				
-				
+				/**
+				 * Ok button within a dialog
+				 */
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						//Search customer by ID
+						
+						Customer c = customerDtb.searchByID(idTextField.getText());
+						
+						
+						if (c == null) {
+							JOptionPane.showMessageDialog(dialogMediaBorrow, "No customer with such ID exists", "InfoBox ", JOptionPane.WARNING_MESSAGE);
+						} else {
+							
+							PhysicalMedia item = new PhysicalMedia();
+							try{item = (CD)list.getSelectedValue();}catch(Exception e) {
+								try {item = (DVD)list.getSelectedValue();}catch(Exception f) {
+									try {item = (PaperMedia)list.getSelectedValue();}catch(Exception g) {}}}
+							
+							String msg = Sophie.addMediaOwned(c,item,String.valueOf(holdOrTakeComboBox.getSelectedItem()));
+									
+							JOptionPane.showMessageDialog(dialogMediaBorrow, msg, "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+					
+						}
+					}
+				});
+		
 				
 	}
 }

@@ -5,7 +5,7 @@ import Utilities.FeeChargeSystem;
 import Actors.Librarian;
 import Actors.Student;
 import Media.*;
-import Shelf.Shelf;
+import DataStorage.Shelf;
 import Utilities.*;
 
 public class main {
@@ -70,6 +70,8 @@ public class main {
 		
 		//Ann wants to be put in queue for same CD John got
 		Sophie.addMediaOwned(AnnLis, metallica, "hold"); 
+		Sophie.addMediaOwned(AnnLis, metallica, "hold"); 
+		
 		
 		//Print books involved with customers
 		System.out.println("\nJohn Smith's media: \n" + JohnSmith.showMedia());

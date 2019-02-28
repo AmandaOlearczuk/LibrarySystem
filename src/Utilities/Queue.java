@@ -53,4 +53,8 @@ public class Queue{
 		return s;
 		
 	}
+	
+	public Boolean isInLine(Customer c) {
+		if (Q.contains(c)) {return true;}else {return false;}
+	}
 }
