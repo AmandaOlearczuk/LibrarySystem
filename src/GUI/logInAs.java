@@ -495,7 +495,7 @@ public class logInAs {
 				});
 				
 				/**
-				 * Borrow button TODO
+				 * Borrow button 
 				 */
 				borrow_button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
@@ -529,8 +529,7 @@ public class logInAs {
 						
 						
 					}		
-						//System.out.println(item.toString());
-					//}
+						
 				});
 				
 				/**
