@@ -66,6 +66,7 @@ import javax.swing.JScrollBar;
 import java.awt.Button;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import java.awt.Panel;
 
 public class logInAs {
 
@@ -122,15 +123,12 @@ public class logInAs {
 	private final JLabel lblNewLabel_9 = new JLabel("");
 	private final JLabel lblWelcome = new JLabel("Logged in as Librarian: ");
 	private final JLabel nameLabel = new JLabel("<name>");
-	private final JLabel lblMediaName = new JLabel("Media name:");
 	
 	private final JPasswordField passwordField = new JPasswordField();
 	
 	private final JComboBox comboBox = new JComboBox();
 	
 	private final JTextField emailTextField = new JTextField();
-	private final JTextField textField = new JTextField();
-	private JTextField textField_1;
 	
 	private final JList list = new JList();
 	
@@ -152,6 +150,9 @@ public class logInAs {
 	//Shelf and customer database initialization
 	private Shelf shelf = new Shelf();
 	private CustomersDatabase customerDtb = new CustomersDatabase();
+	private JTextField mediaNameField;
+	private JTextField custIDField;
+	private final Button button_1 = new Button("Return");
 	
 	/**
 	 * Launch the application.
@@ -173,8 +174,6 @@ public class logInAs {
 	 * Create the application.
 	 */
 	public logInAs() {
-		textField.setBounds(326, 5, 86, 20);
-		textField.setColumns(10);
 		emailTextField.setHorizontalAlignment(SwingConstants.LEFT);
 		emailTextField.setColumns(10);
 		
@@ -238,22 +237,42 @@ public class logInAs {
 		browse_media.add(panel_5);
 		
 		middle.add(return_media, "return");
-		
 		return_media.setLayout(null);
 		
-		lblMediaName.setBounds(260, 8, 61, 14);
+		Panel panel_8 = new Panel();
+		panel_8.setBounds(0, 138, 843, 258);
+		return_media.add(panel_8);
+		panel_8.setLayout(null);
 		
-		return_media.add(lblMediaName);
-		return_media.add(textField);
+		JLabel lblMediaId = new JLabel("Media Name");
+		lblMediaId.setBounds(160, 105, 101, 14);
+		lblMediaId.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_8.add(lblMediaId);
 		
-		JLabel lblCustomerId = new JLabel("Customer ID:");
-		lblCustomerId.setBounds(249, 33, 72, 14);
-		return_media.add(lblCustomerId);
+		mediaNameField = new JTextField();
+		mediaNameField.setBounds(304, 102, 149, 20);
+		mediaNameField.setColumns(10);
+		panel_8.add(mediaNameField);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(326, 30, 86, 20);
-		return_media.add(textField_1);
-		textField_1.setColumns(10);
+		JLabel label_1 = new JLabel("Customer ID:");
+		label_1.setBounds(160, 68, 101, 14);
+		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_8.add(label_1);
+		
+		custIDField = new JTextField();
+		custIDField.setBounds(304, 65, 149, 20);
+		custIDField.setColumns(10);
+		panel_8.add(custIDField);
+		
+		
+		
+		
+		button_1.setForeground(Color.BLACK);
+		button_1.setBackground(new Color(240, 240, 240));
+		button_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		button_1.setBounds(502, 82, 114, 22);
+		
+		panel_8.add(button_1);
 		
 		panelCont.add(StudentWindow,"StudentWindow");
 		panelCont.add(FacultyWindow,"FacultyWindow");
@@ -543,6 +562,19 @@ public class logInAs {
 						
 					}		
 						
+				});
+				
+				/* 
+				 * Return button
+				 */
+				button_1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (false /*custIDField.getText() filled && mediaNameField.getText() filled */) {
+							
+						}else /* info not filled */ {
+							JOptionPane.showMessageDialog(null, "Please fill both values", "ErrorBox", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
 				});
 				
 				/**
