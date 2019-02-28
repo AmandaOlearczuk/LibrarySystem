@@ -77,59 +77,62 @@ public class logInAs {
 	private JPanel StudentWindow = new JPanel();
 	private JPanel LibrarianWindow = new JPanel();
 	private JPanel FacultyWindow = new JPanel();
+	private final JPanel panel_2 = new JPanel();
+	private final JPanel panel = new JPanel();
+	private final JPanel panel_1 = new JPanel();
+	private final JPanel person = new JPanel();
+	private final JPanel panel_4 = new JPanel();
+	private final JPanel menu = new JPanel();
+	private final JPanel middle = new JPanel();
+	private final JPanel browse_media = new JPanel();
+	private final JPanel return_media = new JPanel();
+	private final JPanel panel_3 = new JPanel();
+	private final JPanel panel_5 = new JPanel();
+	private final JPanel borrow_media = new JPanel();
+	private final JPanel panel_6 = new JPanel();
 	
 	private JButton btnBack1 = new JButton("Back");
 	private JButton studentBtn = new JButton("Student");
 	private JButton facultyBtn = new JButton("Faculty");
 	private JButton librarianBtn = new JButton("Librarian");
+    private final JButton loginButton = new JButton("Log in");
+	private final JButton librarianReturnButton = new JButton("Return media");
+	private final JButton btnNewButton_1 = new JButton("Add media");
+	private final JButton librarianBrowseButton = new JButton("Browse media");
+	private final JButton browseBtn = new JButton("Browse");
+	private final JButton btnNewButton = new JButton("Log Out");
+	private final JButton borrow_button = new JButton("Borrow");
+	private final JButton btnNewButton_3 = new JButton("New button");
 	
 	private CardLayout cl = new CardLayout();
+	private final CardLayout mid = new CardLayout(0,0);
 	
 	private final JLabel lblNewLabel = new JLabel("Log in as ..");
 	private final JLabel lblNewLabel_1 = new JLabel("");
 	private final JLabel lblNewLabel_2 = new JLabel("");
-	private final JPanel panel_2 = new JPanel();
-	private final JPanel panel = new JPanel();
-	private final JPasswordField passwordField = new JPasswordField();
 	private final JLabel lblNewLabel_3 = new JLabel("Email : ");
 	private final JLabel lblNewLabel_4 = new JLabel("Password : ");
-	private final JTextField emailTextField = new JTextField();
 	private final JLabel who = new JLabel("Librarian");
 	private final JLabel lblNewLabel_6 = new JLabel("");
 	private final JLabel lblNewLabel_7 = new JLabel("");
 	private final JLabel lblNewLabel_8 = new JLabel("");
 	private final JLabel lblNewLabel_9 = new JLabel("");
-	private final JPanel panel_1 = new JPanel();
-	private final JButton loginButton = new JButton("Log in");
-	private final JPanel person = new JPanel();
 	private final JLabel lblWelcome = new JLabel("Logged in as Librarian: ");
 	private final JLabel nameLabel = new JLabel("<name>");
-	private final JPanel panel_4 = new JPanel();
-	private final JPanel menu = new JPanel();
-	private final JButton librarianReturnButton = new JButton("Return media");
-	private final JButton btnNewButton_1 = new JButton("Add media");
-	private final JButton librarianBrowseButton = new JButton("Browse media");
-	
-	private final JPanel middle = new JPanel();
-	private final JPanel browse_media = new JPanel();
-	private final JPanel return_media = new JPanel();
-	
-	private final JButton browseBtn = new JButton("Browse");
-	private final JComboBox comboBox = new JComboBox();
-	private final JPanel panel_3 = new JPanel();
-	private final JPanel panel_5 = new JPanel();
-	private final CardLayout mid = new CardLayout(0,0);
-	private final JButton btnNewButton = new JButton("Log Out");
-	private final JList list = new JList();
-	private final DefaultListModel dlm = new DefaultListModel();
-	private JScrollPane scrollPane;
-	private final JTextField textField = new JTextField();
 	private final JLabel lblMediaName = new JLabel("Media name:");
+	
+	private final JPasswordField passwordField = new JPasswordField();
+	
+	private final JComboBox comboBox = new JComboBox();
+	
+	private final JTextField emailTextField = new JTextField();
+	private final JTextField textField = new JTextField();
 	private JTextField textField_1;
-	private final JPanel borrow_media = new JPanel();
-	private final JButton borrow_button = new JButton("Borrow");
-	private final JPanel panel_6 = new JPanel();
-	private final JButton btnNewButton_3 = new JButton("New button");
+	
+	private final JList list = new JList();
+	
+	private final DefaultListModel dlm = new DefaultListModel();
+	
 	
 	//Items for Pop up dialog for borrowing books 
     private JButton okButton = new JButton("Ok");
@@ -140,14 +143,13 @@ public class logInAs {
 	private JDialog dialogMediaBorrow = new JDialog();
 	
 	
-	//Screensize of current monitor screen
+	//Screen-size of current monitor screen
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
+	//Shelf and customer database initialization
 	private Shelf shelf = new Shelf();
 	private CustomersDatabase customerDtb = new CustomersDatabase();
 	
-	
-
 	/**
 	 * Launch the application.
 	 */
@@ -190,59 +192,53 @@ public class logInAs {
 		panelCont.setLayout(cl);
 		panelCont.add(LogInAs,"1");
 		panelCont.add(LogInAsSomeone,"2");
-		
 		panelCont.add(panel_4, "name_88267641545600");
 		panelCont.add(LibrarianWindow,"LibrarianWindow");
+		
 		LibrarianWindow.setLayout(new BorderLayout(0, 0));
 		person.setBorder(new LineBorder(new Color(0, 0, 0)));
 		LibrarianWindow.add(person, BorderLayout.SOUTH);
 		person.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
-		
 		person.add(lblWelcome);
+		
 		nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		
 		person.add(nameLabel);
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		person.add(btnNewButton);
+		
 		menu.setBorder(null);
 		LibrarianWindow.add(menu, BorderLayout.WEST);
 		menu.setLayout(new GridLayout(5, 0, 0, 0));
 		
 		menu.add(librarianReturnButton);
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		
-		
 		menu.add(librarianBrowseButton);
+		
 		middle.setBorder(new LineBorder(new Color(0, 0, 0)));
-		
 		LibrarianWindow.add(middle, BorderLayout.CENTER);
-		
 		middle.setLayout(mid);
-		
 		middle.add(browse_media, "browse");
-		browse_media.setLayout(new GridLayout(2, 1, 0, 0));
 		
+		browse_media.setLayout(new GridLayout(2, 1, 0, 0));
 		browse_media.add(panel_3);
 		panel_3.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		panel_3.add(comboBox);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Books/Magazines/Comics", "CDs", "DVDs"}));
 		
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Books/Magazines/Comics", "CDs", "DVDs"}));
+	
 		panel_3.add(browseBtn);
 		
 		browse_media.add(panel_5);
 		
-		
 		middle.add(return_media, "return");
+		
 		return_media.setLayout(null);
+		
 		lblMediaName.setBounds(260, 8, 61, 14);
 		
 		return_media.add(lblMediaName);
-		
 		return_media.add(textField);
 		
 		JLabel lblCustomerId = new JLabel("Customer ID:");
@@ -253,6 +249,7 @@ public class logInAs {
 		textField_1.setBounds(326, 30, 86, 20);
 		return_media.add(textField_1);
 		textField_1.setColumns(10);
+		
 		panelCont.add(StudentWindow,"StudentWindow");
 		panelCont.add(FacultyWindow,"FacultyWindow");
 		
