@@ -91,6 +91,9 @@ public class logInAs {
 	private final JPanel borrow_media = new JPanel();
 	private final JPanel panel_6 = new JPanel();
 	
+	//For scrollable list
+	private JScrollPane scroll; 
+		
 	private JButton btnBack1 = new JButton("Back");
 	private JButton studentBtn = new JButton("Student");
 	private JButton facultyBtn = new JButton("Faculty");
@@ -101,7 +104,7 @@ public class logInAs {
 	private final JButton librarianBrowseButton = new JButton("Browse media");
 	private final JButton browseBtn = new JButton("Browse");
 	private final JButton btnNewButton = new JButton("Log Out");
-	private final JButton borrow_button = new JButton("Borrow");
+	private final JButton borrow_button = new JButton("Borrow       ");
 	private final JButton btnNewButton_3 = new JButton("New button");
 	
 	private CardLayout cl = new CardLayout();
@@ -182,6 +185,8 @@ public class logInAs {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		
 		//Load customers & media
 		shelf.loadMedia();
 		customerDtb.loadCustomers(); 
@@ -306,19 +311,31 @@ public class logInAs {
 		loginButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		panel_1.add(loginButton);
-		panel_5.setLayout(new GridLayout(2, 2, 0, 0));
+		panel_5.setLayout(null);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		panel_5.add(list);
+		panel_6.setLocation(563, 61);
+		panel_6.setSize(100, 58);
 		
 		panel_5.add(panel_6);
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.Y_AXIS));
+		borrow_button.setAlignmentY(0.0f);
 		
 		panel_6.add(borrow_button);
 		panel_6.add(btnNewButton_3);
 		
 		middle.add(borrow_media, "name_49849626154600");
 
-
+		//Scroll thingy
+				list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				list.setLayoutOrientation(JList.VERTICAL);
+				list.setVisibleRowCount(3);
+				scroll = new JScrollPane(list);
+				scroll.setPreferredSize(new Dimension(600, 90));
+				scroll.setBounds(15, 15, 540, 140);
+				panel_5.add(scroll);
+				borrow_media.repaint();
 		
 		
 		/**
@@ -438,8 +455,9 @@ public class logInAs {
 						dlm.addElement(shelf.getPaperMedias().get(i));
 					}
 				}
-				
+		
 				list.setModel(dlm);
+				
 			}
 		});
 	   
@@ -460,8 +478,6 @@ public class logInAs {
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
 	
 	public void librarianWindowActions(String ID) {
 		
@@ -500,7 +516,7 @@ public class logInAs {
 						if (list.getSelectedIndex() != -1) {
 								
 						
-							dialogMediaBorrow.setLayout(new GridLayout(6,1,5,5));
+							dialogMediaBorrow.getContentPane().setLayout(new GridLayout(6,1,5,5));
 							dialogMediaBorrow.setModalityType(ModalityType.TOOLKIT_MODAL);
 						
 							dialogMediaBorrow.setBounds(0,0 ,screenSize.width/3, screenSize.height/3);
@@ -511,11 +527,11 @@ public class logInAs {
 							holdOrTakeComboBox.setModel(new DefaultComboBoxModel(new String[] {"hold" , "take"}));
 							
 						
-							dialogMediaBorrow.add(customerID);
-							dialogMediaBorrow.add(idTextField );
-							dialogMediaBorrow.add(holdOrTakeLabel );
-							dialogMediaBorrow.add(holdOrTakeComboBox );
-							dialogMediaBorrow.add(okButton);
+							dialogMediaBorrow.getContentPane().add(customerID);
+							dialogMediaBorrow.getContentPane().add(idTextField );
+							dialogMediaBorrow.getContentPane().add(holdOrTakeLabel );
+							dialogMediaBorrow.getContentPane().add(holdOrTakeComboBox );
+							dialogMediaBorrow.getContentPane().add(okButton);
 							
 							dialogMediaBorrow.setVisible(true);
 						
