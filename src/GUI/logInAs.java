@@ -143,6 +143,7 @@ public class logInAs {
 	private JLabel holdOrTakeLabel = new JLabel("Hold/Take : ");
 	private JComboBox holdOrTakeComboBox = new JComboBox();
 	private JDialog dialogMediaBorrow = new JDialog();
+	private JButton cancelButton = new JButton("Cancel");
 	
 	//Items for Pop up for returning items
 	private JButton closBut = new JButton("Close");
@@ -543,6 +544,7 @@ public class logInAs {
 							dialogMediaBorrow.getContentPane().add(holdOrTakeLabel );
 							dialogMediaBorrow.getContentPane().add(holdOrTakeComboBox );
 							dialogMediaBorrow.getContentPane().add(okButton);
+							dialogMediaBorrow.getContentPane().add(cancelButton);
 							
 							dialogMediaBorrow.setVisible(true);
 						
@@ -686,6 +688,16 @@ public class logInAs {
 							JOptionPane.showMessageDialog(dialogMediaBorrow, msg, "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
 					
 						}
+					}
+				});
+				
+				/**
+				 * Cancel button
+				 */
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						dialogMediaBorrow.dispose();
 					}
 				});
 		
