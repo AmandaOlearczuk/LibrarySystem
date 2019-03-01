@@ -107,6 +107,7 @@ public class logInAs {
 	private final JButton btnNewButton = new JButton("Log Out");
 	private final JButton borrow_button = new JButton("Borrow       ");
 	private final JButton btnNewButton_3 = new JButton("New button");
+	private final JButton btnReturn = new JButton("Return");
 	
 	private CardLayout cl = new CardLayout();
 	private final CardLayout mid = new CardLayout(0,0);
@@ -143,6 +144,14 @@ public class logInAs {
 	private JComboBox holdOrTakeComboBox = new JComboBox();
 	private JDialog dialogMediaBorrow = new JDialog();
 	
+	//Items for Pop up for returning items
+	private JButton closBut = new JButton("Close");
+	private JButton rtnButton = new JButton("Return");
+	private JLabel medID = new JLabel("Media ID: ");
+	private JTextField medIDTextField = new JTextField();
+	private JDialog dialogMediaReturn = new JDialog();
+	private JLabel userIDLab = new JLabel();
+	private JLabel userFeeLab = new JLabel();
 	
 	//Screen-size of current monitor screen
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -150,9 +159,7 @@ public class logInAs {
 	//Shelf and customer database initialization
 	private Shelf shelf = new Shelf();
 	private CustomersDatabase customerDtb = new CustomersDatabase();
-	private JTextField mediaNameField;
 	private JTextField custIDField;
-	private final Button button_1 = new Button("Return");
 	
 	/**
 	 * Launch the application.
@@ -244,16 +251,6 @@ public class logInAs {
 		return_media.add(panel_8);
 		panel_8.setLayout(null);
 		
-		JLabel lblMediaId = new JLabel("Media Name");
-		lblMediaId.setBounds(160, 105, 101, 14);
-		lblMediaId.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel_8.add(lblMediaId);
-		
-		mediaNameField = new JTextField();
-		mediaNameField.setBounds(304, 102, 149, 20);
-		mediaNameField.setColumns(10);
-		panel_8.add(mediaNameField);
-		
 		JLabel label_1 = new JLabel("Customer ID:");
 		label_1.setBounds(160, 68, 101, 14);
 		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -265,14 +262,8 @@ public class logInAs {
 		panel_8.add(custIDField);
 		
 		
-		
-		
-		button_1.setForeground(Color.BLACK);
-		button_1.setBackground(new Color(240, 240, 240));
-		button_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		button_1.setBounds(502, 82, 114, 22);
-		
-		panel_8.add(button_1);
+		btnReturn.setBounds(499, 63, 117, 25);
+		panel_8.add(btnReturn);
 		
 		panelCont.add(StudentWindow,"StudentWindow");
 		panelCont.add(FacultyWindow,"FacultyWindow");
@@ -566,16 +557,107 @@ public class logInAs {
 						
 				});
 				
+				
 				/* 
 				 * Return button
 				 */
-				button_1.addActionListener(new ActionListener() {
+				btnReturn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if (false /*custIDField.getText() filled && mediaNameField.getText() filled */) {
+						if ( !custIDField.getText().isEmpty() ) {
 							
-						}else /* info not filled */ {
-							JOptionPane.showMessageDialog(null, "Please fill both values", "ErrorBox", JOptionPane.INFORMATION_MESSAGE);
+							Customer c = customerDtb.searchByID(custIDField.getText());
+							
+							if(c==null){
+								JOptionPane.showMessageDialog(dialogMediaBorrow, "No customer with such ID exists", "InfoBox ", JOptionPane.WARNING_MESSAGE);
+							} else {
+							
+								dialogMediaReturn.getContentPane().setLayout(new GridBagLayout());
+								GridBagConstraints g = new GridBagConstraints();
+								
+								g.fill = GridBagConstraints.HORIZONTAL;
+								
+								
+								dialogMediaReturn.setModalityType(ModalityType.TOOLKIT_MODAL);
+						
+								dialogMediaReturn.setBounds(0,0 ,screenSize.width/3, screenSize.height/3);
+								dialogMediaReturn.setLocationRelativeTo(null);
+						
+								userIDLab.setText("Customer ID: " + custIDField.getText());
+								
+								
+								g.weightx = 0.5;
+								
+								g.fill = GridBagConstraints.HORIZONTAL;
+								g.gridx = 0;
+								g.gridy = 0;
+								
+								dialogMediaReturn.getContentPane().add(userIDLab, g);
+								
+								userFeeLab.setText("Fees due: $" + c.getFeesOwned());
+								g.fill = GridBagConstraints.HORIZONTAL;
+								g.weightx = 0.5;
+								g.gridx = 2;
+								g.gridy = 0;
+								
+								dialogMediaReturn.getContentPane().add(userFeeLab,g);
+								
+								g.fill = GridBagConstraints.HORIZONTAL;
+								g.weightx = 0.5;
+								g.weighty = 0.5;
+								g.ipadx = 0;
+								g.gridx = 1;
+								g.gridy = 1;
+								
+								dialogMediaReturn.getContentPane().add(medIDTextField,g);
+								
+								g.ipadx = 0;
+								g.fill = GridBagConstraints.HORIZONTAL;
+								g.weightx = 0.5;
+								g.weighty = 0.5;
+								g.gridx = 0;
+								g.gridy = 1;
+								
+								dialogMediaReturn.getContentPane().add(medID,g);
+								
+								g.fill = GridBagConstraints.HORIZONTAL;
+								g.weightx = 0.5;
+								g.weighty = 0.5;
+								g.ipady = 40;
+								g.gridx = 2;
+								g.gridy = 1;
+								
+								dialogMediaReturn.getContentPane().add(rtnButton,g);
+								
+								g.fill = GridBagConstraints.HORIZONTAL;
+								g.weighty = 0.5;
+								g.anchor = GridBagConstraints.PAGE_END;
+								g.ipady = 40;
+								g.gridx = 2;
+								g.gridy = 2;
+								
+								dialogMediaReturn.getContentPane().add(closBut,g);
+							
+								dialogMediaReturn.setVisible(true);
+							}
+							
+						}else {
+							JOptionPane.showMessageDialog(null, "Please fill in Customer ID", "ErrorBox", JOptionPane.INFORMATION_MESSAGE);
 						}
+					}
+				});
+				
+				/**
+				 * Return button within dialog
+				 */
+				
+				/**
+				 * Close button within dialog
+				 */
+				
+				closBut.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dialogMediaReturn.setVisible(false);
+						dialogMediaReturn.dispose();
 					}
 				});
 				
