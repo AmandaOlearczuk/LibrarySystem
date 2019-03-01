@@ -4,7 +4,7 @@ Title: ...And Justice For All
 
 Creator: Metallica
 
-Date: 1988 7 25
+Date: 1988 09 25
 
 Status: available
 
@@ -14,7 +14,7 @@ Title: Got Your Six
 
 Creator: Five Finger Death Punch
 
-Date: 2015 9 4
+Date: 2015 11 04
 
 Status: available
 
@@ -24,11 +24,9 @@ Title: Christmas Music
 
 Creator: M.Buble
 
-Date: 2018 2 13
+Date: 2018 04 13
 
 Status: unavailable
 
 END
-
-
 

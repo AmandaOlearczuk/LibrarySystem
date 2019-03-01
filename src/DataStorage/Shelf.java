@@ -2,6 +2,7 @@ package DataStorage;
 
 import java.awt.print.Book;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -287,9 +288,41 @@ public class Shelf {
 	return loadedList;
     }
     
-    
-	
+    public void save() { 
+    	ArrayList<PaperMedia> papermedia = this.getPaperMedias();
+		ArrayList<CD> cds = this.getCds();
+		ArrayList<DVD> dvds = this.getDvds();
+		CD tempCD = null;
+		DVD tempDVD = null;
+		PaperMedia tempPM = null;
+		PrintWriter writer = null;
+		int i,j,k;
+    	try {
+    	writer = new PrintWriter("src/DataStorage/CDs.txt");
+    	}
+    	catch(Exception e) {System.out.println(e);}
+    	writer.println("CD STORAGE FILE\n");
+    	for (i = 0; i < cds.size(); i++) {
+    		tempCD = cds.get(i); 
+    			
+    		writer.println("Title: " + tempCD.getTitle()+"\n");
+    		for (j = 0; j < tempCD.getComposers().size(); j++) {
+    			writer.println("Creator: " + tempCD.getComposers().get(j));
+    		}
+    		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+    		String formatted = format1.format(tempCD.getDate().getTime());
+    		writer.println("\nDate: " + formatted.replace('-', ' ')+ "\n");
+    		
+    		writer.println("Status: " + tempCD.getStatus()+"\n");
+    		writer.println("END\n");
+    	}
+    	
+    	System.out.println("Save successful");
+    	writer.close();
+    	
+    }
 }
+	
 	
 	
 

@@ -476,6 +476,7 @@ public class logInAs {
 				}
 		
 				list.setModel(dlm);
+				//shelf.save();
 				
 			}
 		});
