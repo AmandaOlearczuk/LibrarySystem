@@ -150,7 +150,9 @@ public class Shelf {
 		if (line.substring(0, 3).equals("END")) {
 		    temp = new CD(loadedTitle,creators, loadedDate,new Status(status));
 		    loadedList.add(temp);
-		    creators.clear();
+		    creators = new ArrayList<String>();
+		    dates = null;
+		    loadedDate = Calendar.getInstance();
 		    continue;
 		}
 		if (line.substring(0, 5).equals("Date:")) {
@@ -165,6 +167,8 @@ public class Shelf {
 		}
 		if (line.substring(0, 8).equals("Creator:")) {
 		    creators.add(line.substring(9, line.length()));
+		    //System.out.println(creators.get(0));
+
 		}
 		else {continue;}
 	    }
@@ -200,7 +204,8 @@ public class Shelf {
 		if (line.substring(0, 3).equals("END")) {
 		    temp = new DVD(loadedTitle,creators, loadedDate,new Status(status));
 		    loadedList.add(temp);
-		    creators.clear();
+		    creators = new ArrayList<String>();
+		    loadedDate = Calendar.getInstance();
 		    continue;
 		}
 		if (line.substring(0, 5).equals("Date:")) {
@@ -215,6 +220,8 @@ public class Shelf {
 		}
 		if (line.substring(0, 8).equals("Creator:")) {
 		    creators.add(line.substring(9, line.length()));
+		    //System.out.println(creators.get(0));
+
 		}
 		else {continue;}
 	    }
@@ -250,7 +257,8 @@ public class Shelf {
 		if (line.substring(0, 3).equals("END")) {
 		    temp = new PaperMedia(loadedTitle,creators, loadedDate,new Status(status));
 		    loadedList.add(temp);
-		    creators.clear();
+		    creators = new ArrayList<String>();
+		    loadedDate = Calendar.getInstance();
 		    continue;
 		}
 		if (line.substring(0, 5).equals("Date:")) {
@@ -265,6 +273,7 @@ public class Shelf {
 		}
 		if (line.substring(0, 8).equals("Creator:")) {
 		    creators.add(line.substring(9, line.length()));
+		    //System.out.println(creators.get(0));
 		}
 		else {continue;}
 	    }
@@ -277,6 +286,8 @@ public class Shelf {
 	}
 	return loadedList;
     }
+    
+    
 	
 }
 	

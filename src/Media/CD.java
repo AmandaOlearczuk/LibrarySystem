@@ -24,7 +24,6 @@ public class CD extends PhysicalMedia{
 		super.setDate(date);
 		super.setStatus(status);
 		this.setComposers(composers);
-		
 	}
 	
 	public ArrayList<String> getComposers() {
@@ -43,8 +42,8 @@ public class CD extends PhysicalMedia{
 		String c = String.join(", ", this.getComposers());
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = format1.format(this.getDate().getTime());
-		return "CD Title: " + "'" + super.getTitle() + "'" + " | CD composer/s: " +c +" | Date: " + formatted 
-				+ " | Status: " + this.getStatus();
+		return "CD Title: " + "'" + super.getTitle() + "'" + " | CD composer/s: " + c +" | Date: " + formatted 
+				+  " | Status: " + this.getStatus();
 	}
 
 }

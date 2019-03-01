@@ -559,7 +559,8 @@ public class logInAs {
 							JOptionPane.showMessageDialog(null, "Please select media from the list", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
 						}
 						
-						
+				// Add call to write storage	
+						//shelf.save();
 					}		
 						
 				});
