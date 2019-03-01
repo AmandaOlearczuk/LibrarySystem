@@ -572,7 +572,8 @@ public class logInAs {
 							if(c==null){
 								JOptionPane.showMessageDialog(dialogMediaBorrow, "No customer with such ID exists", "InfoBox ", JOptionPane.WARNING_MESSAGE);
 							} else {
-							
+								
+								//following is setting up layout of the Media Return Dialog Box
 								dialogMediaReturn.getContentPane().setLayout(new GridBagLayout());
 								GridBagConstraints g = new GridBagConstraints();
 								
@@ -651,6 +652,17 @@ public class logInAs {
 				/**
 				 * Return button within dialog
 				 */
+				
+				rtnButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						//TODO
+						//get data from medIDTextField (where the media name is typed)
+						//check if media is under specified user
+						//if it is, move from user back to shelf
+							//otherwise output error message
+						//
+					}
+				});
 				
 				/**
 				 * Close button within dialog
