@@ -655,12 +655,37 @@ public class logInAs {
 				
 				rtnButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						//TODO
-						//get data from medIDTextField (where the media name is typed)
-						//check if media is under specified user
-						//if it is, move from user back to shelf
-							//otherwise output error message
-						//
+						// get customer from ID (No error checking needed, done in the previous frame)
+						Customer cust = customerDtb.searchByID(custIDField.getText());
+
+						// get the customer's owned media and iterate to find the specified media
+						Map<PhysicalMedia,Calendar> owndMed = cust.getMediaOwned();
+						Iterator<Map.Entry<PhysicalMedia, Calendar>> iter = owndMed.entrySet().iterator();
+						while (iter.hasNext()) {							
+							Map.Entry<PhysicalMedia, Calendar> med = (Map.Entry<PhysicalMedia, Calendar>) iter.next();
+							PhysicalMedia temp = (PhysicalMedia) med.getKey();
+							
+							// if found, add to the correct shelf and remove it from the customer
+							if ( temp.getTitle().equals(medIDTextField.getText()) ) {
+								if (temp instanceof CD) {
+									shelf.addCD((CD) temp);
+								} else if (temp instanceof DVD) {
+									shelf.addDVD((DVD) temp);
+								} else if (temp instanceof PaperMedia) {
+									shelf.addPaperMedia((PaperMedia) temp);
+								}
+								
+								iter.remove();
+								// finished correctly pop up and return
+								JOptionPane.showMessageDialog(dialogMediaReturn, "Media Sucessfully Removed", "InfoBox", JOptionPane.WARNING_MESSAGE);
+							    return;
+							}
+							
+						}
+						
+						// not found, state error
+						JOptionPane.showMessageDialog(dialogMediaReturn, "Media Not Found For This User", "Error", JOptionPane.WARNING_MESSAGE);
+						
 					}
 				});
 				
