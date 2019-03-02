@@ -65,4 +65,8 @@ public class CustomersDatabase {
 		
 		return null;
 	}
+	
+	//public ArrayList<Customer> loadFile() {
+		
+	//}
 }

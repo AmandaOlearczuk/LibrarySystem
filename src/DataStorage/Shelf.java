@@ -158,7 +158,7 @@ public class Shelf {
 		}
 		if (line.substring(0, 5).equals("Date:")) {
 		    dates = line.split(" ");
-		    loadedDate.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]),Integer.valueOf(dates[dates.length-1]));
+		    loadedDate.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]) - 1,Integer.valueOf(dates[dates.length-1]));
 		}
 		if (line.substring(0, 6).equals("Title:")) {
 		    loadedTitle = line.substring(7, line.length());
@@ -211,7 +211,7 @@ public class Shelf {
 		}
 		if (line.substring(0, 5).equals("Date:")) {
 		    dates = line.split(" ");
-		    loadedDate.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]),Integer.valueOf(dates[dates.length-1]));
+		    loadedDate.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]) - 1,Integer.valueOf(dates[dates.length-1]));
 		}
 		if (line.substring(0, 6).equals("Title:")) {
 		    loadedTitle = line.substring(7, line.length());
@@ -264,7 +264,7 @@ public class Shelf {
 		}
 		if (line.substring(0, 5).equals("Date:")) {
 		    dates = line.split(" ");
-		    loadedDate.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]),Integer.valueOf(dates[dates.length-1]));
+		    loadedDate.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]) - 1,Integer.valueOf(dates[dates.length-1]));
 		}
 		if (line.substring(0, 6).equals("Title:")) {
 		    loadedTitle = line.substring(7, line.length());
@@ -296,7 +296,7 @@ public class Shelf {
 		DVD tempDVD = null;
 		PaperMedia tempPM = null;
 		PrintWriter writer = null;
-		int i,j,k;
+		int i,j;
     	try {
     	writer = new PrintWriter("src/DataStorage/CDs.txt");
     	}
@@ -316,6 +316,48 @@ public class Shelf {
     		writer.println("Status: " + tempCD.getStatus()+"\n");
     		writer.println("END\n");
     	}
+    	writer.close();
+    	
+    	try {
+        	writer = new PrintWriter("src/DataStorage/DVDs.txt");
+        	}
+        	catch(Exception e) {System.out.println(e);}
+        	writer.println("DVD STORAGE FILE\n");
+        	for (i = 0; i < dvds.size(); i++) {
+        		tempDVD = dvds.get(i); 
+        			
+        		writer.println("Title: " + tempDVD.getTitle()+"\n");
+        		for (j = 0; j < tempDVD.getDirectors().size(); j++) {
+        			writer.println("Creator: " + tempDVD.getDirectors().get(j));
+        		}
+        		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        		String formatted = format1.format(tempDVD.getDate().getTime());
+        		writer.println("\nDate: " + formatted.replace('-', ' ')+ "\n");
+        		
+        		writer.println("Status: " + tempDVD.getStatus()+"\n");
+        		writer.println("END\n");
+        	}
+        	writer.close();
+        	
+        	try {
+            	writer = new PrintWriter("src/DataStorage/PaperMedia.txt");
+            	}
+            	catch(Exception e) {System.out.println(e);}
+            	writer.println("PAPER MEDIA STORAGE FILE\n");
+            	for (i = 0; i < papermedia.size(); i++) {
+            		tempPM = papermedia.get(i); 
+            			
+            		writer.println("Title: " + tempPM.getTitle()+"\n");
+            		for (j = 0; j < tempPM.getAuthors().size(); j++) {
+            			writer.println("Creator: " + tempPM.getAuthors().get(j));
+            		}
+            		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+            		String formatted = format1.format(tempPM.getDate().getTime());
+            		writer.println("\nDate: " + formatted.replace('-', ' ')+ "\n");
+            		
+            		writer.println("Status: " + tempPM.getStatus()+"\n");
+            		writer.println("END\n");
+            	}
     	
     	System.out.println("Save successful");
     	writer.close();
