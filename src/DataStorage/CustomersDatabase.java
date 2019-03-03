@@ -87,7 +87,7 @@ public class CustomersDatabase {
 		PrintWriter writer = null;
 		int i;
     	try {
-    	writer = new PrintWriter("C:\\Users\\amand\\Desktop\\SENG300AssignmentsAndProject\\SENG300LibrarySystem\\src\\DataStorage\\Customers.txt");
+    	writer = new PrintWriter("/src/DataStorage/Customers.txt");
     	}
     	catch(Exception e) {System.out.println(e);}
     	writer.println("CUSTOMER STORAGE FILE\n");
@@ -149,127 +149,128 @@ public class CustomersDatabase {
 	}
 	
 	public void loadFile(ArrayList<CD> cd,ArrayList<DVD> dvd,ArrayList<PaperMedia> paperMedia) {
-			String fileName = "C:\\Users\\amand\\Desktop\\SENG300AssignmentsAndProject\\SENG300LibrarySystem\\src\\DataStorage\\Customers.txt";
-			FileReader fr = null;
-			BufferedReader inputStream = null;
-			try {
-			    fr = new FileReader(fileName);
-			    inputStream = new BufferedReader(fr);
-					
-			    Map<PhysicalMedia, Calendar> mediaOwned = new HashMap<PhysicalMedia, Calendar>();
-				Map<PhysicalMedia,Calendar> mediaReturned = new HashMap<PhysicalMedia, Calendar>(); 
-				Map<PhysicalMedia,CalendarPeriod> mediaOnHold = new HashMap<PhysicalMedia, CalendarPeriod>(); 
-			    Customer temp = null;
-			    String line = null;
-			    String loadedID = null;
-			    String loadedPhoneNum = null;
-			    String loadedType = null;
-			    String loadedTitle = null;
-			    double loadedFees = 0.0;
-			    int loadedAddressNum = 0;
-			    int i;
-			    String[] dates = null;
-			    String[] address = new String[4];
-			    String[] name = null;
-			    CalendarPeriod period = null;
-			    Calendar mediaDate = Calendar.getInstance();
-			    Calendar mediaDate2 = Calendar.getInstance();
-			    Calendar loadedDate = Calendar.getInstance();
-			
-			
-			    while((line = inputStream.readLine()) != null) {
-				if (line.length() <= 2) {continue;}
-				if (line.equals("Returned:")|| line.equals("done")) {continue;}
-				if (line.substring(0, 3).equals("ID:")) {
-				    loadedID = line.substring(4, line.length());
-				    continue;
-				}
-				if (line.substring(0, 3).equals("END")) {
-				    if (loadedType.equals("Student")) {
-				    	temp = new Student(loadedID,name[1] ,name[2] , loadedDate ,new Address 
-				(loadedAddressNum, address[0],address[1],address[2],address[3]),loadedPhoneNum, mediaOwned, mediaOnHold, mediaReturned, loadedFees);
-				    }
-				    if (loadedType.equals("Faculty")) {
-				    	temp = new Faculty(loadedID,name[1] ,name[2] , loadedDate ,new Address 
-				(loadedAddressNum, address[0],address[1],address[2],address[3]),loadedPhoneNum, mediaOwned, mediaOnHold, mediaReturned, loadedFees);
-				    }
-				    this.customers.add(temp);
-				    loadedDate = Calendar.getInstance();
-				    mediaOwned = new HashMap<PhysicalMedia, Calendar>();
-					mediaReturned = new HashMap<PhysicalMedia, Calendar>(); 
-					mediaOnHold = new HashMap<PhysicalMedia, CalendarPeriod>(); 
-				    continue;
-				}
-				if (line.substring(0, 5).equals("Fees:")) {
-					loadedFees = Double.valueOf(line.substring(6,line.length()));
-				    continue;
-				}
-				if (line.substring(0, 5).equals("Name:")) {
-					name = line.split(" ");
-				    continue;
-				}
-				if (line.substring(0, 5).equals("Held:")) {
-					while(!((line = inputStream.readLine()).contains("done"))) {
-						loadedTitle = inputStream.readLine();
-						for (i = 0; i < cd.size(); i++) {
-							if (cd.get(i).getTitle().equals(loadedTitle)) {
-								line = inputStream.readLine();
-								dates = line.split("-");
-								mediaDate.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]) - 1,Integer.valueOf(dates[dates.length-1]));
-								line = inputStream.readLine();
-								dates = line.split("-");
-								mediaDate2.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]) - 1,Integer.valueOf(dates[dates.length-1]));
-								period = new CalendarPeriod(mediaDate,mediaDate2);
-								mediaOnHold.put(cd.get(i),period);
-								mediaDate = Calendar.getInstance();
-							}
-						}
-					}
-					continue;
-				}
-				if (line.substring(0, 6).equals("Owned:")) {
-					while(!((line = inputStream.readLine()).contains("done"))) {
-						loadedTitle = line;
-						for (i = 0; i < cd.size(); i++) {
-							if (cd.get(i).getTitle().equals(loadedTitle)) {
-								line = inputStream.readLine();
-								dates = line.split("-");
-								mediaDate.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]) - 1,Integer.valueOf(dates[dates.length-1]));
-								mediaOwned.put(cd.get(i),mediaDate);
-								mediaDate = Calendar.getInstance();
-							}
-						}
-					}
-					continue;
-				}
-				if (line.substring(0, 8).equals("Address:")) {
-					loadedAddressNum = Integer.parseInt(inputStream.readLine());
-					for (i = 0; i < 4; i++) {
-						address[i] = inputStream.readLine();
-					}
-				    continue;
-					
-				}
-				if (line.substring(0, 9).equals("Phonenum:")) {
-				    loadedPhoneNum = line.substring(10, line.length());
-				}
-				if (line.substring(0, 10).equals("Birthdate:")) {
-				    dates = line.split(" ");
-				    loadedDate.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]) - 1,Integer.valueOf(dates[dates.length-1]));
-				}
-				if (line.substring(0, 13).equals("CustomerType:")) {
-					loadedType = line.substring(14, line.length());
-				}
-				else {continue;}
-			    }
-			}
-			catch(FileNotFoundException e) {
-			    System.out.println("Error opening file");
-			}
-			catch(IOException ioe) {
-			    System.out.println("Error reading file");
-			}
-		}
+		//String userDir = System.getProperty("user.dir");
+		//String fileName = userDir+"\\src\\DataStorage\\Customers.txt";
+		String fileName = "src/DataStorage/Customers.txt";
+		FileReader fr = null;
+		BufferedReader inputStream = null;
+		try {
+			fr = new FileReader(fileName);
+			inputStream = new BufferedReader(fr);	
+			Map<PhysicalMedia, Calendar> mediaOwned = new HashMap<PhysicalMedia, Calendar>();
+			Map<PhysicalMedia,Calendar> mediaReturned = new HashMap<PhysicalMedia, Calendar>(); 
+			Map<PhysicalMedia,CalendarPeriod> mediaOnHold = new HashMap<PhysicalMedia, CalendarPeriod>(); 
+		    Customer temp = null;
+		    String line = null;
+		    String loadedID = null;
+		    String loadedPhoneNum = null;
+		    String loadedType = null;
+		    String loadedTitle = null;
+		    double loadedFees = 0.0;
+		    int loadedAddressNum = 0;
+		    int i;
+		    String[] dates = null;
+		    String[] address = new String[4];
+		    String[] name = null;
+		    CalendarPeriod period = null;
+		    Calendar mediaDate = Calendar.getInstance();
+		    Calendar mediaDate2 = Calendar.getInstance();
+		    Calendar loadedDate = Calendar.getInstance();
 		
+		
+		    while((line = inputStream.readLine()) != null) {
+			if (line.length() <= 2) {continue;}
+			if (line.equals("Returned:")|| line.equals("done")) {continue;}
+			if (line.substring(0, 3).equals("ID:")) {
+			    loadedID = line.substring(4, line.length());
+			    continue;
+			}
+			if (line.substring(0, 3).equals("END")) {
+			    if (loadedType.equals("Student")) {
+			    	temp = new Student(loadedID,name[1] ,name[2] , loadedDate ,new Address 
+			(loadedAddressNum, address[0],address[1],address[2],address[3]),loadedPhoneNum, mediaOwned, mediaOnHold, mediaReturned, loadedFees);
+			    }
+			    if (loadedType.equals("Faculty")) {
+			    	temp = new Faculty(loadedID,name[1] ,name[2] , loadedDate ,new Address 
+			(loadedAddressNum, address[0],address[1],address[2],address[3]),loadedPhoneNum, mediaOwned, mediaOnHold, mediaReturned, loadedFees);
+			    }
+			    this.customers.add(temp);
+			    loadedDate = Calendar.getInstance();
+			    mediaOwned = new HashMap<PhysicalMedia, Calendar>();
+				mediaReturned = new HashMap<PhysicalMedia, Calendar>(); 
+				mediaOnHold = new HashMap<PhysicalMedia, CalendarPeriod>(); 
+			    continue;
+			}
+			if (line.substring(0, 5).equals("Fees:")) {
+				loadedFees = Double.valueOf(line.substring(6,line.length()));
+			    continue;
+			}
+			if (line.substring(0, 5).equals("Name:")) {
+				name = line.split(" ");
+			    continue;
+			}
+			if (line.substring(0, 5).equals("Held:")) {
+				while(!((line = inputStream.readLine()).contains("done"))) {
+					loadedTitle = inputStream.readLine();
+					for (i = 0; i < cd.size(); i++) {
+						if (cd.get(i).getTitle().equals(loadedTitle)) {
+							line = inputStream.readLine();
+							dates = line.split("-");
+							mediaDate.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]) - 1,Integer.valueOf(dates[dates.length-1]));
+							line = inputStream.readLine();
+							dates = line.split("-");
+							mediaDate2.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]) - 1,Integer.valueOf(dates[dates.length-1]));
+							period = new CalendarPeriod(mediaDate,mediaDate2);
+							mediaOnHold.put(cd.get(i),period);
+							mediaDate = Calendar.getInstance();
+						}
+					}
+				}
+				continue;
+			}
+			if (line.substring(0, 6).equals("Owned:")) {
+				while(!((line = inputStream.readLine()).contains("done"))) {
+					loadedTitle = line;
+					for (i = 0; i < cd.size(); i++) {
+						if (cd.get(i).getTitle().equals(loadedTitle)) {
+							line = inputStream.readLine();
+							dates = line.split("-");
+							mediaDate.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]) - 1,Integer.valueOf(dates[dates.length-1]));
+							mediaOwned.put(cd.get(i),mediaDate);
+							mediaDate = Calendar.getInstance();
+						}
+					}
+				}
+				continue;
+			}
+			if (line.substring(0, 8).equals("Address:")) {
+				loadedAddressNum = Integer.parseInt(inputStream.readLine());
+				for (i = 0; i < 4; i++) {
+					address[i] = inputStream.readLine();
+				}
+			    continue;
+				
+			}
+			if (line.substring(0, 9).equals("Phonenum:")) {
+			    loadedPhoneNum = line.substring(10, line.length());
+			}
+			if (line.substring(0, 10).equals("Birthdate:")) {
+			    dates = line.split(" ");
+			    loadedDate.set(Integer.valueOf(dates[dates.length-3]),Integer.valueOf(dates[dates.length-2]) - 1,Integer.valueOf(dates[dates.length-1]));
+			}
+			if (line.substring(0, 13).equals("CustomerType:")) {
+				loadedType = line.substring(14, line.length());
+			}
+			else {continue;}
+		    }
+		}
+		catch(FileNotFoundException e) {
+		    System.out.println("Error opening file (Cus)");
+		}
+		catch(IOException ioe) {
+		    System.out.println("Error reading file");
+		}
 	}
+	
+}
 

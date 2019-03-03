@@ -175,7 +175,7 @@ public class Shelf {
 	    }
 	}
 	catch(FileNotFoundException e) {
-	    System.out.println("Error opening file");
+	    System.out.println("Error opening file (CD)");
 	}
 	catch(IOException ioe) {
 	    System.out.println("Error reading file");
@@ -228,7 +228,7 @@ public class Shelf {
 	    }
 	}
 	catch(FileNotFoundException e) {
-	    System.out.println("Error opening file");
+	    System.out.println("Error opening file (dvd)");
 	}
 	catch(IOException ioe) {
 	    System.out.println("Error reading file");
@@ -280,7 +280,7 @@ public class Shelf {
 	    }
 	}
 	catch(FileNotFoundException e) {
-	    System.out.println("Error opening file");
+	    System.out.println("Error opening file (PM)");
 	}
 	catch(IOException ioe) {
 	    System.out.println("Error reading file");
