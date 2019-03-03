@@ -87,7 +87,7 @@ public class CustomersDatabase {
 		PrintWriter writer = null;
 		int i;
     	try {
-    	writer = new PrintWriter("src/DataStorage/Customers.txt");
+    	writer = new PrintWriter("C:\\Users\\amand\\Desktop\\SENG300AssignmentsAndProject\\SENG300LibrarySystem\\src\\DataStorage\\Customers.txt");
     	}
     	catch(Exception e) {System.out.println(e);}
     	writer.println("CUSTOMER STORAGE FILE\n");
@@ -149,7 +149,7 @@ public class CustomersDatabase {
 	}
 	
 	public void loadFile(ArrayList<CD> cd,ArrayList<DVD> dvd,ArrayList<PaperMedia> paperMedia) {
-			String fileName = "src/DataStorage/Customers.txt";
+			String fileName = "C:\\Users\\amand\\Desktop\\SENG300AssignmentsAndProject\\SENG300LibrarySystem\\src\\DataStorage\\Customers.txt";
 			FileReader fr = null;
 			BufferedReader inputStream = null;
 			try {
