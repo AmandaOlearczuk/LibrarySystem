@@ -125,8 +125,18 @@ public class Customer {
 		
 	}
 
+	/**
+	 * Removed media from customer's account (media owned array).
+	 * Postcondition : Sets status of media to available, media's customer is set to null
+	 * @param media
+	 */
 	public void removeMediaOwned(PhysicalMedia media) {
 		mediaOwned.remove(media);
+		media.setStatus(new Status("available"));
+		media.setCustomer(null);
+		
+		//TODO media.setCustomer(...) if theres a customer waiting in hold queue.
+		//TODO get that customer & add media to their HOLDS array 
 	}
 
 	public String getPhoneNumber() {

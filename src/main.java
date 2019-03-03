@@ -70,7 +70,7 @@ public class main {
 		
 		//Ann wants to be put in queue for same CD John got
 		Sophie.addMediaOwned(AnnLis, metallica, "hold"); 
-		Sophie.addMediaOwned(AnnLis, metallica, "hold"); 
+		//Sophie.addMediaOwned(AnnLis, metallica, "hold"); 
 		
 		
 		//Print books involved with customers
@@ -82,6 +82,7 @@ public class main {
 		
 		//Print items added on shelf
 		System.out.println(shelf.toString());
+		
 		
 
 

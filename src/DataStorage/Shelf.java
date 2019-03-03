@@ -131,7 +131,7 @@ public class Shelf {
     }
 
     public ArrayList<CD> readCDFile(ArrayList<CD> loadedList) {
-	String fileName = "src/DataStorage/CDs.txt";
+	String fileName = "C:\\Users\\amand\\Desktop\\SENG300AssignmentsAndProject\\SENG300LibrarySystem\\src\\DataStorage\\CDs.txt";
 	FileReader fr = null;
 	BufferedReader inputStream = null;
 	try {
@@ -184,7 +184,7 @@ public class Shelf {
     }
 	
     public ArrayList<DVD> readDVDFile(ArrayList<DVD> loadedList) {
-	String fileName = "src/DataStorage/DVDs.txt";
+	String fileName = "C:\\Users\\amand\\Desktop\\SENG300AssignmentsAndProject\\SENG300LibrarySystem\\src\\DataStorage\\DVDs.txt";
 	FileReader fr = null;
 	BufferedReader inputStream = null;
 	try {
@@ -237,7 +237,7 @@ public class Shelf {
     }
 	
     public ArrayList<PaperMedia> readPMFile(ArrayList<PaperMedia> loadedList) {
-	String fileName = "src/DataStorage/PaperMedia.txt";
+	String fileName = "C:\\Users\\amand\\Desktop\\SENG300AssignmentsAndProject\\SENG300LibrarySystem\\src\\DataStorage\\PaperMedia.txt";
 	FileReader fr = null;
 	BufferedReader inputStream = null;
 	try {
@@ -298,7 +298,7 @@ public class Shelf {
 		PrintWriter writer = null;
 		int i,j;
     	try {
-    	writer = new PrintWriter("src/DataStorage/CDs.txt");
+    	writer = new PrintWriter("C:\\Users\\amand\\Desktop\\SENG300AssignmentsAndProject\\SENG300LibrarySystem\\src\\DataStorage\\CDs.txt");
     	}
     	catch(Exception e) {System.out.println(e);}
     	writer.println("CD STORAGE FILE\n");
@@ -319,7 +319,7 @@ public class Shelf {
     	writer.close();
     	
     	try {
-        	writer = new PrintWriter("src/DataStorage/DVDs.txt");
+        	writer = new PrintWriter("C:\\Users\\amand\\Desktop\\SENG300AssignmentsAndProject\\SENG300LibrarySystem\\src\\DataStorage\\DVDs.txt");
         	}
         	catch(Exception e) {System.out.println(e);}
         	writer.println("DVD STORAGE FILE\n");
@@ -340,7 +340,7 @@ public class Shelf {
         	writer.close();
         	
         	try {
-            	writer = new PrintWriter("src/DataStorage/PaperMedia.txt");
+            	writer = new PrintWriter("C:\\Users\\amand\\Desktop\\SENG300AssignmentsAndProject\\SENG300LibrarySystem\\src\\DataStorage\\PaperMedia.txt");
             	}
             	catch(Exception e) {System.out.println(e);}
             	writer.println("PAPER MEDIA STORAGE FILE\n");

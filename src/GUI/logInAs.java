@@ -683,9 +683,11 @@ public class logInAs {
 								}
 								*/
 								
-								temp.setStatus(new Status("available"));
+								//temp.setStatus(new Status("available")); 
 								
 								iter.remove();
+								cust.removeMediaOwned(temp);
+								
 								// finished correctly pop up and return
 								JOptionPane.showMessageDialog(dialogMediaReturn, "Media Sucessfully Removed", "InfoBox", JOptionPane.WARNING_MESSAGE);
 								shelf.save();

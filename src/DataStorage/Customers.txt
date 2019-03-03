@@ -24,36 +24,9 @@ done
 Returned:
 
 Held:
-done
-
-Fees: 10.0
-
-END
-
-
-Name: Ann Lis
-
-ID: 102
-
-CustomerType: Student
-
-Birthdate: 1995 02 22
-
-Address: 
-100
-st king street
-t2y344
-calgary
-canada
-
-Phonenum: 4038724555
-
-Owned:
-done
-
-Returned:
-
-Held:
+...And Justice For All
+2019-03-03
+2019-03-10
 done
 
 Fees: 40.0
