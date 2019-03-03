@@ -29,7 +29,7 @@ public class Customer {
 
 
 	public Customer(String id,String fn,String ln,Calendar bd, Address address,String phonenum,
-			Map<PhysicalMedia, Calendar> mediaOwned,Map<PhysicalMedia, Calendar> mediaonHold,
+			Map<PhysicalMedia, Calendar> mediaOwned,Map<PhysicalMedia, CalendarPeriod> mediaonHold,
 			Map<PhysicalMedia, Calendar> mediaReturned,Double feesOwned) {
 		this.ID = id;
 		this.FirstName =fn;
@@ -109,6 +109,12 @@ public class Customer {
 
 	public Map<PhysicalMedia,Calendar> getMediaOwned() {
 		return mediaOwned;
+	}
+	public Map<PhysicalMedia, CalendarPeriod> getMediaOnHold() {
+		return mediaOnHold;
+	}
+	public Map<PhysicalMedia,Calendar> getMediaReturned() {
+		return mediaReturned;
 	}
 	public void setMediaOwned(Map<PhysicalMedia,Calendar> mediaOwned) {
 		this.mediaOwned = mediaOwned;

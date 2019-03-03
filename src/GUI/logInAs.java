@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
@@ -196,7 +198,7 @@ public class logInAs {
 		
 		//Load customers & media
 		shelf.loadMedia();
-		customerDtb.loadCustomers(); 
+		customerDtb.loadCustomers(shelf.getCds(),shelf.getDvds(),shelf.getPaperMedias()); 
 		
 		cl.setVgap(5);
 		cl.setHgap(5);
@@ -469,6 +471,7 @@ public class logInAs {
 		
 				list.setModel(dlm);
 				shelf.save();
+				customerDtb.save();
 				
 			}
 		});
@@ -667,6 +670,10 @@ public class logInAs {
 							
 							// if found, add to the correct shelf and remove it from the customer
 							if ( temp.getTitle().equals(medIDTextField.getText()) ) {
+								
+								//Note: need to change status rather than add new instance
+								
+								/*
 								if (temp instanceof CD) {
 									shelf.addCD((CD) temp);
 								} else if (temp instanceof DVD) {
@@ -674,10 +681,15 @@ public class logInAs {
 								} else if (temp instanceof PaperMedia) {
 									shelf.addPaperMedia((PaperMedia) temp);
 								}
+								*/
+								
+								temp.setStatus(new Status("available"));
 								
 								iter.remove();
 								// finished correctly pop up and return
 								JOptionPane.showMessageDialog(dialogMediaReturn, "Media Sucessfully Removed", "InfoBox", JOptionPane.WARNING_MESSAGE);
+								shelf.save();
+								customerDtb.save();
 							    return;
 							}
 							
@@ -723,6 +735,8 @@ public class logInAs {
 							String msg = Sophie.addMediaOwned(c,item,String.valueOf(holdOrTakeComboBox.getSelectedItem()));
 									
 							JOptionPane.showMessageDialog(dialogMediaBorrow, msg, "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+							shelf.save();
+							customerDtb.save();
 					
 						}
 					}

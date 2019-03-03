@@ -37,7 +37,7 @@ public class Faculty extends Customer {
 	 * @param isBL
 	 */
 	public Faculty(String id, String fn, String ln, Calendar bd, Utilities.Address address, String phonenum,
-			Map<PhysicalMedia, Calendar> mediaOwned, Map<PhysicalMedia, Calendar> mediaonHold,
+			Map<PhysicalMedia, Calendar> mediaOwned, Map<PhysicalMedia, CalendarPeriod> mediaonHold,
 			Map<PhysicalMedia, Calendar> mediaReturned, Double feesOwned) {
 		super(id, fn, ln, bd, address, phonenum, mediaOwned, mediaonHold, mediaReturned, feesOwned);
 		this.setMaxMedia(8);
