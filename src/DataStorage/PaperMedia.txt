@@ -10,3 +10,42 @@ Status: reserved
 
 END
 
+Title: To Kill a Mockingbird
+
+Creator: Harper Lee
+
+Date: 1960 07 11
+
+Status: available
+
+END
+
+Title: The Kite Runner
+
+Creator: Khaled Hosseini
+
+Date: 2003 05 29
+
+Status: available
+
+END
+
+Title: Death of a Salesman
+
+Creator: Arthur Miller
+
+Date: 1949 02 10
+
+Status: available
+
+END
+
+Title: The Cellist of Sarajevo
+
+Creator: Steven Galloway
+
+Date: 2008 04 04
+
+Status: available
+
+END
