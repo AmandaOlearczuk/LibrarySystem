@@ -44,7 +44,7 @@ public class CD extends PhysicalMedia {
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = format1.format(this.getDate().getTime());
 		return "CD Title: " + "'" + super.getTitle() + "'" + " | CD composer/s: " + c +" | Date: " + formatted 
-				+  " | Status: " + this.getStatus();
+				+  " | Status: " + this.getStatus() + " ";
 	}
 
 }

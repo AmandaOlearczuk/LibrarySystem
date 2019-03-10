@@ -83,6 +83,22 @@ public class PhysicalMedia  implements Serializable{
 		
 		return calendar;
 	}
+
+	/**
+	 * Updates queue if a spot has emptied for book
+	 */
+	public void moveQueue() {
+		
+		if (this.getLineUp().size()>0) { //If there's a queue for this media
+			
+			Customer nextCustomer = this.getLineUp().pop(); //remove customer from waiting list
+			System.out.println("Customer with ID :" + nextCustomer.getID() + " is on waiting queue for this book");
+			this.setCustomer(nextCustomer); //set active customer for the media
+			nextCustomer.addMediaOnHold(this); //add media to customer's holds for 1 week from now
+								
+		}
+		
+	}
 	
 
 	

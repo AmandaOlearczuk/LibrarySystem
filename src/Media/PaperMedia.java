@@ -40,6 +40,6 @@ public class PaperMedia extends PhysicalMedia {
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = format1.format(this.getDate().getTime());
 		return "Book/Magazine/Comic Title: " + "'" + super.getTitle() + "'" + " | Author/s: " + c +
-				" | Date: " + formatted + " | Status: " + this.getStatus().toString();
+				" | Date: " + formatted + " | Status: " + this.getStatus().toString() + " ";
 	}
 }

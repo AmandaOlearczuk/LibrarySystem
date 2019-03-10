@@ -37,6 +37,7 @@ import Media.DVD;
 import Media.PaperMedia;
 import Media.PhysicalMedia;
 import Utilities.Address;
+import Utilities.CalendarPeriod;
 import Utilities.LogIn;
 import Utilities.Status;
 
@@ -87,6 +88,7 @@ public class logInAs {
 	private final JPanel menu = new JPanel();
 	private final JPanel middle = new JPanel();
 	private final JPanel browse_media = new JPanel();
+	private final JPanel pickup_media = new JPanel();
 	private final JPanel return_media = new JPanel();
 	private final JPanel panel_3 = new JPanel();
 	private final JPanel panel_5 = new JPanel();
@@ -94,10 +96,13 @@ public class logInAs {
 	private final JPanel panel_6 = new JPanel();
 	private final JPanel panel_9 = new JPanel();
 	private final JPanel panel_7 = new JPanel();
+	private final JPanel panel_10 = new JPanel();
+	private final JPanel panel_11 = new JPanel();
 	
 	//For scrollable list
 	private JScrollPane scroll; 
 	private JScrollPane scrollCustomers; 
+	private JScrollPane scrollCustomerHolds;
 		
 	private JButton btnBack1 = new JButton("Back");
 	private JButton studentBtn = new JButton("Student");
@@ -113,6 +118,8 @@ public class logInAs {
 	private final JButton btnNewButton_3 = new JButton("Change Status");
 	private final JButton okButton1 = new JButton("Ok");
 	private final JButton returnBtn = new JButton("Return");
+	private final JButton pickupBtn = new JButton("Pick-up from Hold");
+	private final JButton okButtonPickup = new JButton("Ok");
 	
 	private CardLayout cl = new CardLayout();
 	private final CardLayout mid = new CardLayout(0,0);
@@ -129,6 +136,7 @@ public class logInAs {
 	private final JLabel lblNewLabel_9 = new JLabel("");
 	private final JLabel lblWelcome = new JLabel("Logged in as Librarian: ");
 	private final JLabel nameLabel = new JLabel("<name>");
+	private final JLabel lblNewLabel_5 = new JLabel("Customer ID:");
 	
 	private final JPasswordField passwordField = new JPasswordField();
 	
@@ -136,12 +144,15 @@ public class logInAs {
 	
 	private final JTextField emailTextField = new JTextField();
 	private JTextField custIDField;
+	private final JTextField custIDField2 = new JTextField();
 	
 	private final JList list = new JList();
-	private final JList customerList = new JList();
+	private final JList customerBorrowedList = new JList();
+	private final JList customerHoldsList = new JList();
 	
 	private final DefaultListModel dlm = new DefaultListModel();
 	private final DefaultListModel customerDLM = new DefaultListModel();
+	private final DefaultListModel customerHoldsDLM = new DefaultListModel();
 	
 	//Items for Pop up dialog for borrowing books 
     private JButton okButton = new JButton("Ok");
@@ -164,9 +175,10 @@ public class logInAs {
 	//Screen-size of current monitor screen
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
-	//Shelf and customer database initialization
-
+	//Database initialization
 	private Database dtb = new Database();
+	private final JButton pickupButton = new JButton("Pickup");
+
 	
 	/**
 	 * Launch the application.
@@ -188,6 +200,7 @@ public class logInAs {
 	 * Create the application.
 	 */
 	public logInAs() {
+
 		emailTextField.setHorizontalAlignment(SwingConstants.LEFT);
 		emailTextField.setColumns(10);
 		
@@ -212,11 +225,20 @@ public class logInAs {
 		panelCont.add(LogInAsSomeone,"2");
 		panelCont.add(panel_4, "name_88267641545600");
 		panelCont.add(LibrarianWindow,"LibrarianWindow");
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panel_10.add(lblNewLabel_5);
+		custIDField2.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		custIDField2.setColumns(10);
+		panel_10.add(custIDField2);
+		okButtonPickup.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panel_10.add(okButtonPickup);
 		
 		LibrarianWindow.setLayout(new BorderLayout(0, 0));
 		person.setBorder(new LineBorder(new Color(0, 0, 0)));
 		LibrarianWindow.add(person, BorderLayout.SOUTH);
 		person.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		
+		panel_10.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
 		person.add(lblWelcome);
@@ -234,13 +256,23 @@ public class logInAs {
 		menu.add(librarianReturnButton);
 		menu.add(librarianBrowseButton);
 		
+		menu.add(pickupBtn);
+		
 		middle.setBorder(new LineBorder(new Color(0, 0, 0)));
 		LibrarianWindow.add(middle, BorderLayout.CENTER);
 		middle.setLayout(mid);
 		middle.add(browse_media, "browse");
+		middle.add(pickup_media, "pickup");
+		pickup_media.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		pickup_media.add(panel_10);
+		
+		pickup_media.add(panel_11);
 		
 		browse_media.setLayout(new GridLayout(2, 1, 0, 0));
 		browse_media.add(panel_3);
+		
+				
 		panel_3.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		panel_3.add(comboBox);
 		
@@ -340,14 +372,26 @@ public class logInAs {
 		panel_5.add(scroll);
 		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.X_AXIS));
 		
-		//Scroll thingy 2 for customers
-		customerList.setModel(customerDLM);
-		customerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		customerList.setLayoutOrientation(JList.VERTICAL);
-		customerList.setVisibleRowCount(3);
-		scrollCustomers = new JScrollPane(customerList);
+		//Scroll thingy 2 for customer owned media
+		customerBorrowedList.setModel(customerDLM);
+		customerBorrowedList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		customerBorrowedList.setLayoutOrientation(JList.VERTICAL);
+		customerBorrowedList.setVisibleRowCount(3);
+		scrollCustomers = new JScrollPane(customerBorrowedList);
 		scrollCustomers.setPreferredSize(new Dimension(600, 90));
 		panel_7.add(scrollCustomers);
+		panel_11.setLayout(new BoxLayout(panel_11, BoxLayout.X_AXIS));
+		
+		//Scroll thingy 3 for customer held media
+		customerHoldsList.setModel(customerHoldsDLM);
+		customerHoldsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		customerHoldsList.setLayoutOrientation(JList.VERTICAL);
+		customerHoldsList.setVisibleRowCount(3);
+		scrollCustomerHolds = new JScrollPane(customerHoldsList);
+		scrollCustomerHolds.setPreferredSize(new Dimension(600, 90));
+		panel_11.add(scrollCustomerHolds);
+		
+		panel_11.add(pickupButton);
 		
 		panel_7.add(panel_9);
 		panel_9.setLayout(new GridLayout(0, 1, 0, 0));
@@ -531,6 +575,12 @@ public class logInAs {
 					}
 				});
 				
+				pickupBtn.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						mid.show(middle, "pickup");
+					}
+				});
+				
 				/**
 				 * Borrow button 
 				 */
@@ -611,11 +661,11 @@ public class logInAs {
 				returnBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						
-						if (customerList.getSelectedIndex() != -1) {
+						if (customerBorrowedList.getSelectedIndex() != -1) {
 							PhysicalMedia item = new PhysicalMedia();
-							try{item = (CD)customerList.getSelectedValue();}catch(Exception e) {
-								try {item = (DVD)customerList.getSelectedValue();}catch(Exception f) {
-									try {item = (PaperMedia)customerList.getSelectedValue();}catch(Exception g) {}}}
+							try{item = (CD)customerBorrowedList.getSelectedValue();}catch(Exception e) {
+								try {item = (DVD)customerBorrowedList.getSelectedValue();}catch(Exception f) {
+									try {item = (PaperMedia)customerBorrowedList.getSelectedValue();}catch(Exception g) {}}}
 						
 							JOptionPane.showMessageDialog(dialogMediaBorrow, "Media was removed from customer's : " + item.getCustomer().getID() + " account." , "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
 								
@@ -636,7 +686,6 @@ public class logInAs {
 						}
 					}
 				});
-				
 				
 				
 				/**
@@ -691,8 +740,80 @@ public class logInAs {
 						}
 					}
 				});
+
+				/**
+				 * Ok button in a pickup tab
+				 */
+				okButtonPickup.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						if ( !custIDField2.getText().isEmpty() ) {
+							
+							Customer c = dtb.searchByID(custIDField2.getText());
+							
+							if(c==null){
+								customerHoldsDLM.clear();
+								JOptionPane.showMessageDialog(dialogMediaBorrow, "No customer with such ID exists", "InfoBox ", JOptionPane.WARNING_MESSAGE);
+							} else {
+								
+								if (c.getMediaOnHold().size() == 0) {
+									JOptionPane.showMessageDialog(null, "Customer doesn't have any media on hold", "InfoBox", JOptionPane.INFORMATION_MESSAGE);
+									customerHoldsDLM.clear();
+								}else {
+									
+									customerHoldsDLM.clear();
+									for (Map.Entry<PhysicalMedia, CalendarPeriod> entry : c.getMediaOnHold().entrySet())
+									{
+										customerHoldsDLM.addElement(entry);
+										
+									}
+								}
+								
+							}
+							
+						}else {
+							JOptionPane.showMessageDialog(null, "Please fill in Customer ID", "ErrorBox", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+				});
 				
+				/**
+				 * Pickup button in pickup tab
+				 */
+				pickupButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						if (customerHoldsList.getSelectedIndex() != -1) {
+							PhysicalMedia item = new PhysicalMedia();
+							try{item = (CD)list.getSelectedValue();}catch(Exception e) {
+								try {item = (DVD)list.getSelectedValue();}catch(Exception f) {
+									try {item = (PaperMedia)list.getSelectedValue();}catch(Exception g) {}}}
+						} else {
+							JOptionPane.showMessageDialog(null, "Select item from a list", "InfoBox ", JOptionPane.WARNING_MESSAGE);
+						}
+							
+							
+							// TODO LATER
+						
+							//Sophie.removeFromHoldsToPickUp(item);
+							//JOptionPane.showMessageDialog(dialogMediaBorrow, msg, "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+							
+							//System.out.println(dtb.shelfString());
+							
+							//for (int i=0;i<dtb.getCustomers().size();i++) {
+								//System.out.println(dtb.getCustomers().get(i).toString());
+							//}
+
+							dtb.save();
+							
+							
+					
+						
+					}
+				});
+					
 				
+			
 			
 	}
 }

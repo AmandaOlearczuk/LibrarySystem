@@ -66,7 +66,10 @@ public class Librarian {
 	 */
 	public void returnMedia(PhysicalMedia media , Customer customer) {
 
-			customer.removeMediaOwned(media);
+			customer.removeMediaOwned(media); //removes media & updates media status & associated customer
+			
+			media.moveQueue(); //Possibly take someone from queue to hold the book for 1 week
+			
 		
 	}
 	
@@ -95,12 +98,8 @@ public class Librarian {
 				}
 				
 				if (holdOrTake.equals("hold")) {
-					Calendar now = Calendar.getInstance();
-					Calendar oneWeekFromNow = Calendar.getInstance();
-					oneWeekFromNow.add(Calendar.DAY_OF_YEAR, 7);	
-					CalendarPeriod calendarP = new CalendarPeriod(now,oneWeekFromNow);
-					customer.addMediaOnHold(media, calendarP); //add media to customer's holds & period
-					media.setStatus(new Status("in use"));
+					
+					customer.addMediaOnHold(media); //add media to customer's holds for 1 week from now
 									
 					return "Media is put on hold by customer: " + customer.getID();
 				}
@@ -130,6 +129,10 @@ public class Librarian {
 	 */
 	public void makeBlackListed(Faculty faculty) {
 		if (faculty.getFeesOwned() == 50.0) {faculty.setIsBlackListed(true);}
+	}
+	
+	public String removeFromHoldsToPickup(PhysicalMedia media, Customer customer) {
+		return customer.moveFromHoldToOwned(media);
 	}
 	
 	

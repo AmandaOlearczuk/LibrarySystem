@@ -1,6 +1,8 @@
 package Utilities;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * This class is for period of time from: to: as calendar dates
@@ -37,5 +39,8 @@ public class CalendarPeriod implements Serializable {
 			this.to = to;
 		}
 	    
+		public String toString() {
+			return " | Held until : " + to.getTime();
+		}
 	    
 }

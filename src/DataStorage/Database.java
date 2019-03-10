@@ -209,7 +209,10 @@ public class Database implements Serializable {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream("Data.bin"));
 			
 			try {
-				
+				customers.clear();
+				cds.clear();
+				dvds.clear();
+				paperMedias.clear();
 				while(true) {
 					Object obj = in.readObject();
 					if(obj instanceof Customer) customers.add((Customer)obj);

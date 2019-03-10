@@ -36,7 +36,7 @@ public class DVD extends PhysicalMedia{
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = format1.format(this.getDate().getTime());
 		return "DVD Title: " + "'" + super.getTitle() + "'" + " | DVD director/s: " +d + " | Date: " 
-				+ formatted + " | Status: " + this.getStatus();
+				+ formatted + " | Status: " + this.getStatus() + " ";
 	}
 }
 

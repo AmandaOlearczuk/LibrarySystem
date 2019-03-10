@@ -137,9 +137,7 @@ public class Customer implements Serializable {
 		media.getStatus().setStatus("available");
 		
 		mediaOwned.remove(media);	
-
-		//TODO media.setCustomer(...) if there's a customer waiting in hold queue.
-		//TODO get that customer & add media to their HOLDS array 
+		
 	}
 
 	public String getPhoneNumber() {
@@ -239,9 +237,41 @@ public class Customer implements Serializable {
 		return 0;
 	}
 
-	public void addMediaOnHold(PhysicalMedia media, CalendarPeriod period) {
-		mediaOnHold.put(media, period);
+	
+	/**
+	 * Adds media for customer with date one week from now
+	 * @param media
+	 */
+	public void addMediaOnHold(PhysicalMedia media) {
 		
+		if (this.getIsBlackListed() == false) {
+			Calendar now = Calendar.getInstance();
+			Calendar oneWeekFromNow = Calculations.getOneWeekFrom(now);
+		
+			CalendarPeriod calendarP = new CalendarPeriod(now,oneWeekFromNow);
+			this.getMediaOnHold().put(media, calendarP); //add media to customer's holds & period
+			media.setStatus(new Status("in use"));
+			media.setCustomer(this);
+		}
+	}
+	
+	
+	/** TODO
+	 * Move media from hold to owned items
+	 * Precondition: media is on hold list
+	 */
+	public String moveFromHoldToOwned(PhysicalMedia media) {
+		return "Not implemented yet";
+		//Here, it will make sure customer doeen't own max num of media already, is not blacklisted, and media statuses and active customer will be all changed. 
+		//TODO
+	}
+
+
+	/**
+	 * Removes expired holds from user's account
+	 */
+	public void removeExpiredHolds() {
+		//TODO
 	}
 	
 
