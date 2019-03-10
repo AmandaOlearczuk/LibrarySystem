@@ -1,5 +1,6 @@
 package Media;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,7 +13,7 @@ import Utilities.Status;
  * 
  *
  */
-public class PaperMedia extends PhysicalMedia{
+public class PaperMedia extends PhysicalMedia {
 	
 	private ArrayList<String> authors;
 	

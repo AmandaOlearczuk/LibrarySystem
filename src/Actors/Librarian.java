@@ -67,8 +67,7 @@ public class Librarian {
 	public void returnMedia(PhysicalMedia media , Customer customer) {
 
 			customer.removeMediaOwned(media);
-			
-
+		
 	}
 	
 	/**
@@ -86,12 +85,12 @@ public class Librarian {
 			if (media.getCustomer() == null && media.getLineUp().size() == 0) {
 				
 				media.setCustomer(customer); //set media to customer that will take it or hold it
-				
+								
 				if (holdOrTake.equals("take")) {
 					Calendar retDate = media.calcReturnDate(); //either 2 wks or 2h
 					customer.addMediaOwned(media, retDate); //add media to customer account & ret date
 					media.setStatus(new Status("in use")); //set new status to media
-					
+									
 					return "Media was issued to customer and added to customer's : " + customer.getID() + " account";
 				}
 				
@@ -102,7 +101,7 @@ public class Librarian {
 					CalendarPeriod calendarP = new CalendarPeriod(now,oneWeekFromNow);
 					customer.addMediaOnHold(media, calendarP); //add media to customer's holds & period
 					media.setStatus(new Status("in use"));
-					
+									
 					return "Media is put on hold by customer: " + customer.getID();
 				}
 				
@@ -113,7 +112,7 @@ public class Librarian {
 			//  multiple times
 			else if (media.getCustomer() != null && media.getCustomer() != customer && media.getLineUp().isInLine(customer) == false) {
 				
-				media.getLineUp().addToLine(customer); //customer added to queue for media
+				media.getLineUp().addToLine(customer); //customer added to queue for media			
 				
 				return "Customer " +  customer.getID() + " was put on queue in position: " + media.getLineUp().size();
 				

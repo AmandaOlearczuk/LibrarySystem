@@ -1,5 +1,6 @@
 package Utilities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -7,7 +8,7 @@ import java.util.Arrays;
  * This class deals with status of physical media - available, not available, available for hold, reserved
  *
  */
-public class Status {
+public class Status implements Serializable {
 
 	private ArrayList<String> statuses;
 	private String status;

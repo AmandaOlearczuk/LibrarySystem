@@ -1,5 +1,6 @@
 package Media;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,7 +14,7 @@ import Utilities.Status;
  * This class contains physical media such as Book, DVD, CD.
  * Each media has title eg. "Key to success" for book, "Titanic" for movie, "Metallica" for music.
  */
-public class PhysicalMedia {
+public class PhysicalMedia  implements Serializable{
 	private String title;
 	private Calendar date;
 	private Queue lineUp = new Queue();

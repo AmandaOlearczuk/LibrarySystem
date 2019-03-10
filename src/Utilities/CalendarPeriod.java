@@ -1,11 +1,12 @@
 package Utilities;
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  * This class is for period of time from: to: as calendar dates
  *
  */
-public class CalendarPeriod {
+public class CalendarPeriod implements Serializable {
 
 		private Calendar from;
 	    private Calendar to;

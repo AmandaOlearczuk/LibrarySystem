@@ -16,7 +16,7 @@ Creator: Harper Lee
 
 Date: 1960 07 11
 
-Status: available
+Status: in use
 
 END
 
@@ -26,7 +26,7 @@ Creator: Khaled Hosseini
 
 Date: 2003 05 29
 
-Status: available
+Status: in use
 
 END
 
@@ -36,7 +36,7 @@ Creator: Arthur Miller
 
 Date: 1949 02 10
 
-Status: available
+Status: in use
 
 END
 
@@ -46,6 +46,7 @@ Creator: Steven Galloway
 
 Date: 2008 04 04
 
-Status: available
+Status: in use
 
 END
+

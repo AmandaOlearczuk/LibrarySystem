@@ -1,4 +1,5 @@
 package Utilities;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Actors.Customer;
@@ -7,7 +8,7 @@ import Actors.Customer;
  * Queue implementation using array
 */
 
-public class Queue{
+public class Queue implements Serializable{
 	
 	ArrayList<Customer> Q ;
 	

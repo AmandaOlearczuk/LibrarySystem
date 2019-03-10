@@ -1,6 +1,8 @@
 package Utilities;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address  implements Serializable{
 	private int houseNum; //house or appt num
 	private String streetName;
 	private String zip;

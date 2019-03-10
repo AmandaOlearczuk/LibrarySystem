@@ -1,5 +1,6 @@
 package Utilities;
 
+import java.io.Serializable;
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Map;
@@ -7,7 +8,7 @@ import java.util.Map;
 import Actors.Customer;
 import Media.PhysicalMedia;
 
-public class FeeChargeSystem {
+public class FeeChargeSystem implements Serializable{
 	
 	public static final Double maxFee = 50.0;
 	

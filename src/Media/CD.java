@@ -1,5 +1,6 @@
 package Media;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,7 +12,7 @@ import Utilities.Status;
  * This class is for dealing with CD's in library
  *
  */
-public class CD extends PhysicalMedia{
+public class CD extends PhysicalMedia {
 	
 	private ArrayList<String> composers;
 	

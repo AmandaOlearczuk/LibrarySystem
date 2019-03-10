@@ -31,12 +31,11 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import Actors.Customer;
 import Actors.Librarian;
-import DataStorage.CustomersDatabase;
+import DataStorage.Database;
 import Media.CD;
 import Media.DVD;
 import Media.PaperMedia;
 import Media.PhysicalMedia;
-import DataStorage.Shelf;
 import Utilities.Address;
 import Utilities.LogIn;
 import Utilities.Status;
@@ -93,9 +92,12 @@ public class logInAs {
 	private final JPanel panel_5 = new JPanel();
 	private final JPanel borrow_media = new JPanel();
 	private final JPanel panel_6 = new JPanel();
+	private final JPanel panel_9 = new JPanel();
+	private final JPanel panel_7 = new JPanel();
 	
 	//For scrollable list
 	private JScrollPane scroll; 
+	private JScrollPane scrollCustomers; 
 		
 	private JButton btnBack1 = new JButton("Back");
 	private JButton studentBtn = new JButton("Student");
@@ -107,9 +109,10 @@ public class logInAs {
 	private final JButton librarianBrowseButton = new JButton("Browse media");
 	private final JButton browseBtn = new JButton("Browse");
 	private final JButton btnNewButton = new JButton("Log Out");
-	private final JButton borrow_button = new JButton("Borrow       ");
-	private final JButton btnNewButton_3 = new JButton("New button");
-	private final JButton btnReturn = new JButton("Return");
+	private final JButton borrow_button = new JButton("Borrow");
+	private final JButton btnNewButton_3 = new JButton("Change Status");
+	private final JButton okButton1 = new JButton("Ok");
+	private final JButton returnBtn = new JButton("Return");
 	
 	private CardLayout cl = new CardLayout();
 	private final CardLayout mid = new CardLayout(0,0);
@@ -132,11 +135,13 @@ public class logInAs {
 	private final JComboBox comboBox = new JComboBox();
 	
 	private final JTextField emailTextField = new JTextField();
+	private JTextField custIDField;
 	
 	private final JList list = new JList();
+	private final JList customerList = new JList();
 	
 	private final DefaultListModel dlm = new DefaultListModel();
-	
+	private final DefaultListModel customerDLM = new DefaultListModel();
 	
 	//Items for Pop up dialog for borrowing books 
     private JButton okButton = new JButton("Ok");
@@ -160,9 +165,8 @@ public class logInAs {
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	//Shelf and customer database initialization
-	private Shelf shelf = new Shelf();
-	private CustomersDatabase customerDtb = new CustomersDatabase();
-	private JTextField custIDField;
+
+	private Database dtb = new Database();
 	
 	/**
 	 * Launch the application.
@@ -195,10 +199,10 @@ public class logInAs {
 	 */
 	private void initialize() {
 		
-		
 		//Load customers & media
-		shelf.loadMedia();
-		customerDtb.loadCustomers(shelf.getCds(),shelf.getDvds(),shelf.getPaperMedias()); 
+		dtb.loadData(); 
+		
+		System.out.println(dtb.shelfString());
 		
 		cl.setVgap(5);
 		cl.setHgap(5);
@@ -247,26 +251,23 @@ public class logInAs {
 		browse_media.add(panel_5);
 		
 		middle.add(return_media, "return");
-		return_media.setLayout(null);
+		return_media.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		Panel panel_8 = new Panel();
-		panel_8.setBounds(0, 138, 843, 258);
 		return_media.add(panel_8);
-		panel_8.setLayout(null);
+		panel_8.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel label_1 = new JLabel("Customer ID:");
-		label_1.setBounds(160, 68, 101, 14);
 		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_8.add(label_1);
 		
 		custIDField = new JTextField();
-		custIDField.setBounds(304, 65, 149, 20);
 		custIDField.setColumns(10);
 		panel_8.add(custIDField);
 		
+		panel_8.add(okButton1);
 		
-		btnReturn.setBounds(499, 63, 117, 25);
-		panel_8.add(btnReturn);
+		return_media.add(panel_7);
 		
 		panelCont.add(StudentWindow,"StudentWindow");
 		panelCont.add(FacultyWindow,"FacultyWindow");
@@ -324,31 +325,41 @@ public class logInAs {
 		loginButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		panel_1.add(loginButton);
-		panel_5.setLayout(null);
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-		panel_5.add(list);
-		panel_6.setLocation(563, 61);
-		panel_6.setSize(100, 58);
-		
-		panel_5.add(panel_6);
-		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.Y_AXIS));
-		borrow_button.setAlignmentY(0.0f);
-		
-		panel_6.add(borrow_button);
-		panel_6.add(btnNewButton_3);
 		
 		middle.add(borrow_media, "name_49849626154600");
-
-		//Scroll thingy
-				list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				list.setLayoutOrientation(JList.VERTICAL);
-				list.setVisibleRowCount(3);
-				scroll = new JScrollPane(list);
-				scroll.setPreferredSize(new Dimension(600, 90));
-				scroll.setBounds(15, 15, 540, 140);
-				panel_5.add(scroll);
-				borrow_media.repaint();
+		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
+				
+		panel_5.add(list);
+				
+		//Scroll thingy 1 for media
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL);
+		list.setVisibleRowCount(3);
+		scroll = new JScrollPane(list);
+		scroll.setPreferredSize(new Dimension(600, 90));
+		panel_5.add(scroll);
+		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.X_AXIS));
+		
+		//Scroll thingy 2 for customers
+		customerList.setModel(customerDLM);
+		customerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		customerList.setLayoutOrientation(JList.VERTICAL);
+		customerList.setVisibleRowCount(3);
+		scrollCustomers = new JScrollPane(customerList);
+		scrollCustomers.setPreferredSize(new Dimension(600, 90));
+		panel_7.add(scrollCustomers);
+		
+		panel_7.add(panel_9);
+		panel_9.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		panel_9.add(returnBtn);
+				
+		panel_5.add(panel_6);
+		panel_6.setLayout(new GridLayout(2, 1, 0, 0));
+		borrow_button.setAlignmentY(0.0f);
+		panel_6.add(borrow_button);
+		panel_6.add(btnNewButton_3);
+		borrow_media.repaint();
 		
 		
 		/**
@@ -441,37 +452,35 @@ public class logInAs {
 				
 				String comboBoxValue = (String) comboBox.getSelectedItem();
 				
-				ArrayList<PaperMedia> papermedia = shelf.getPaperMedias();
-				ArrayList<CD> cds = shelf.getCds();
-				ArrayList<DVD> dvds = shelf.getDvds();
+				ArrayList<PaperMedia> papermedia = dtb.getPaperMedias();
+				ArrayList<CD> cds = dtb.getCds();
+				ArrayList<DVD> dvds = dtb.getDvds();
 				
 				if (comboBoxValue.equals("CDs")) 
 				{
 					dlm.clear();
-					for (int i=0; i<shelf.getCds().size();i++) {
-						dlm.addElement(shelf.getCds().get(i));
+					for (int i=0; i<cds.size();i++) {
+						dlm.addElement(dtb.getCds().get(i));
 					}
 				}
 				
 				if (comboBoxValue.equals("DVDs")) 
 				{
 					dlm.clear();
-					for (int i=0; i<shelf.getDvds().size();i++) {
-						dlm.addElement(shelf.getDvds().get(i));
+					for (int i=0; i<dvds.size();i++) {
+						dlm.addElement(dtb.getDvds().get(i));
 					}
 				}
 				
 				if (comboBoxValue.equals("Books/Magazines/Comics")) 
 				{
 					dlm.clear();
-					for (int i=0; i<shelf.getPaperMedias().size();i++) {
-						dlm.addElement(shelf.getPaperMedias().get(i));
+					for (int i=0; i<papermedia.size();i++) {
+						dlm.addElement(dtb.getPaperMedias().get(i));
 					}
 				}
 		
 				list.setModel(dlm);
-				shelf.save();
-				customerDtb.save();
 				
 			}
 		});
@@ -556,94 +565,38 @@ public class logInAs {
 							JOptionPane.showMessageDialog(null, "Please select media from the list", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
 						}
 						
-				// Add call to write storage	
-						//shelf.save();
 					}		
 						
 				});
 				
 				
-				/* 
-				 * Return button
+				/** 
+				 * Ok button for book return tab
 				 */
-				btnReturn.addActionListener(new ActionListener() {
+				okButton1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						
 						if ( !custIDField.getText().isEmpty() ) {
 							
-							Customer c = customerDtb.searchByID(custIDField.getText());
+							Customer c = dtb.searchByID(custIDField.getText());
 							
 							if(c==null){
+								customerDLM.clear();
 								JOptionPane.showMessageDialog(dialogMediaBorrow, "No customer with such ID exists", "InfoBox ", JOptionPane.WARNING_MESSAGE);
 							} else {
 								
-								//following is setting up layout of the Media Return Dialog Box
-								dialogMediaReturn.getContentPane().setLayout(new GridBagLayout());
-								GridBagConstraints g = new GridBagConstraints();
+								if (c.getMediaOwned().size() == 0) {
+									JOptionPane.showMessageDialog(null, "Customer doesn't own any media", "InfoBox", JOptionPane.INFORMATION_MESSAGE);
+								}else {
+									
+									customerDLM.clear();
+									for (Map.Entry<PhysicalMedia, Calendar> entry : c.getMediaOwned().entrySet())
+									{
+										customerDLM.addElement(entry.getKey());
+										
+									}
+								}
 								
-								g.fill = GridBagConstraints.HORIZONTAL;
-								
-								
-								dialogMediaReturn.setModalityType(ModalityType.TOOLKIT_MODAL);
-						
-								dialogMediaReturn.setBounds(0,0 ,screenSize.width/3, screenSize.height/3);
-								dialogMediaReturn.setLocationRelativeTo(null);
-						
-								userIDLab.setText("Customer ID: " + custIDField.getText());
-								
-								
-								g.weightx = 0.5;
-								
-								g.fill = GridBagConstraints.HORIZONTAL;
-								g.gridx = 0;
-								g.gridy = 0;
-								
-								dialogMediaReturn.getContentPane().add(userIDLab, g);
-								
-								userFeeLab.setText("Fees due: $" + c.getFeesOwned());
-								g.fill = GridBagConstraints.HORIZONTAL;
-								g.weightx = 0.5;
-								g.gridx = 2;
-								g.gridy = 0;
-								
-								dialogMediaReturn.getContentPane().add(userFeeLab,g);
-								
-								g.fill = GridBagConstraints.HORIZONTAL;
-								g.weightx = 0.5;
-								g.weighty = 0.5;
-								g.ipadx = 0;
-								g.gridx = 1;
-								g.gridy = 1;
-								
-								dialogMediaReturn.getContentPane().add(medIDTextField,g);
-								
-								g.ipadx = 0;
-								g.fill = GridBagConstraints.HORIZONTAL;
-								g.weightx = 0.5;
-								g.weighty = 0.5;
-								g.gridx = 0;
-								g.gridy = 1;
-								
-								dialogMediaReturn.getContentPane().add(medID,g);
-								
-								g.fill = GridBagConstraints.HORIZONTAL;
-								g.weightx = 0.5;
-								g.weighty = 0.5;
-								g.ipady = 40;
-								g.gridx = 2;
-								g.gridy = 1;
-								
-								dialogMediaReturn.getContentPane().add(rtnButton,g);
-								
-								g.fill = GridBagConstraints.HORIZONTAL;
-								g.weighty = 0.5;
-								g.anchor = GridBagConstraints.PAGE_END;
-								g.ipady = 40;
-								g.gridx = 2;
-								g.gridy = 2;
-								
-								dialogMediaReturn.getContentPane().add(closBut,g);
-							
-								dialogMediaReturn.setVisible(true);
 							}
 							
 						}else {
@@ -653,55 +606,38 @@ public class logInAs {
 				});
 				
 				/**
-				 * Return button within dialog
+				 * Return button in return tab
 				 */
-				
-				rtnButton.addActionListener(new ActionListener() {
+				returnBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						// get customer from ID (No error checking needed, done in the previous frame)
-						Customer cust = customerDtb.searchByID(custIDField.getText());
-
-						// get the customer's owned media and iterate to find the specified media
-						Map<PhysicalMedia,Calendar> owndMed = cust.getMediaOwned();
-						Iterator<Map.Entry<PhysicalMedia, Calendar>> iter = owndMed.entrySet().iterator();
-						while (iter.hasNext()) {							
-							Map.Entry<PhysicalMedia, Calendar> med = (Map.Entry<PhysicalMedia, Calendar>) iter.next();
-							PhysicalMedia temp = (PhysicalMedia) med.getKey();
+						
+						if (customerList.getSelectedIndex() != -1) {
+							PhysicalMedia item = new PhysicalMedia();
+							try{item = (CD)customerList.getSelectedValue();}catch(Exception e) {
+								try {item = (DVD)customerList.getSelectedValue();}catch(Exception f) {
+									try {item = (PaperMedia)customerList.getSelectedValue();}catch(Exception g) {}}}
+						
+							JOptionPane.showMessageDialog(dialogMediaBorrow, "Media was removed from customer's : " + item.getCustomer().getID() + " account." , "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+								
+							Sophie.returnMedia(item, item.getCustomer());
 							
-							// if found, add to the correct shelf and remove it from the customer
-							if ( temp.getTitle().equals(medIDTextField.getText()) ) {
-								
-								//Note: need to change status rather than add new instance
-								
-								/*
-								if (temp instanceof CD) {
-									shelf.addCD((CD) temp);
-								} else if (temp instanceof DVD) {
-									shelf.addDVD((DVD) temp);
-								} else if (temp instanceof PaperMedia) {
-									shelf.addPaperMedia((PaperMedia) temp);
-								}
-								*/
-								
-								//temp.setStatus(new Status("available")); 
-								
-								iter.remove();
-								cust.removeMediaOwned(temp);
-								
-								// finished correctly pop up and return
-								JOptionPane.showMessageDialog(dialogMediaReturn, "Media Sucessfully Removed", "InfoBox", JOptionPane.WARNING_MESSAGE);
-								shelf.save();
-								customerDtb.save();
-							    return;
+							for (int i=0;i<dtb.getCustomers().size();i++) {
+								System.out.println(dtb.getCustomers().get(i).toString());
 							}
 							
+							System.out.println(dtb.toString());
+							
+							dtb.save();
+							
+							customerDLM.clear();
+							
+						}else {
+							JOptionPane.showMessageDialog(null, "Please select media from the list", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
 						}
-						
-						// not found, state error
-						JOptionPane.showMessageDialog(dialogMediaReturn, "Media Not Found For This User", "Error", JOptionPane.WARNING_MESSAGE);
-						
 					}
 				});
+				
+				
 				
 				/**
 				 * Close button within dialog
@@ -715,14 +651,14 @@ public class logInAs {
 				});
 				
 				/**
-				 * Ok button within a dialog
+				 * Ok button within a borrow dialog
 				 */
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						
 						//Search customer by ID
 						
-						Customer c = customerDtb.searchByID(idTextField.getText());
+						Customer c = dtb.searchByID(idTextField.getText());
 						
 						
 						if (c == null) {
@@ -737,23 +673,26 @@ public class logInAs {
 							String msg = Sophie.addMediaOwned(c,item,String.valueOf(holdOrTakeComboBox.getSelectedItem()));
 									
 							JOptionPane.showMessageDialog(dialogMediaBorrow, msg, "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
-							shelf.save();
-							customerDtb.save();
+							
+							System.out.println(dtb.shelfString());
+							
+							for (int i=0;i<dtb.getCustomers().size();i++) {
+								System.out.println(dtb.getCustomers().get(i).toString());
+							}
+							
+							
+							
+							dtb.save();
+							
+							dialogMediaBorrow.setVisible(false);
+							dialogMediaBorrow.dispose();
+							dlm.clear();
 					
 						}
 					}
 				});
 				
-				/**
-				 * Cancel button
-				 */
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						
-						dialogMediaBorrow.dispose();
-					}
-				});
-		
 				
+			
 	}
 }

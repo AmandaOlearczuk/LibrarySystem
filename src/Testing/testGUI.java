@@ -1,3 +1,4 @@
+package Testing;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
@@ -7,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-public class test {
+public class testGUI {
 
 	private JFrame frame;
 
@@ -18,7 +19,7 @@ public class test {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					test window = new test();
+					testGUI window = new testGUI();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -30,7 +31,7 @@ public class test {
 	/**
 	 * Create the application.
 	 */
-	public test() {
+	public testGUI() {
 		initialize();
 	}
 

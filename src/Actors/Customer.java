@@ -1,5 +1,6 @@
 package Actors;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import Utilities.*;
  * Constructor
  *
  */
-public class Customer {
+public class Customer implements Serializable {
 	private String ID;
 	private String FirstName;
 	private String LastName;
@@ -127,13 +128,15 @@ public class Customer {
 
 	/**
 	 * Removed media from customer's account (media owned array).
-	 * Postcondition : Sets status of media to available, media's customer is set to null
+	 * Postcondition : Sets status of media to available, media's customer is set to null, 
 	 * @param media
 	 */
 	public void removeMediaOwned(PhysicalMedia media) {
-		mediaOwned.remove(media);
-		media.setStatus(new Status("available"));
+
 		media.setCustomer(null);
+		media.getStatus().setStatus("available");
+		
+		mediaOwned.remove(media);	
 
 		//TODO media.setCustomer(...) if there's a customer waiting in hold queue.
 		//TODO get that customer & add media to their HOLDS array 
@@ -240,6 +243,7 @@ public class Customer {
 		mediaOnHold.put(media, period);
 		
 	}
+	
 
 	
 	
