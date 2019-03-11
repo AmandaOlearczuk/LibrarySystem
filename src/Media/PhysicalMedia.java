@@ -30,11 +30,9 @@ public class PhysicalMedia  implements Serializable{
 		
 	}
 	
-	
-	public void setStatus(Status status) {
-		this.status = status;
+	protected void setStatus(Status s) {
+		this.status = s;
 	}
-	
 	public Status getStatus() {
 		return status;
 	}
@@ -72,9 +70,9 @@ public class PhysicalMedia  implements Serializable{
 		
 		Calendar calendar = Calendar.getInstance(); //current date
 		
-		if(this.getStatus().toString().equals("reserved")) {// adds 2h
+		if(this.getStatus().getCurrentStatus().equals("reserved")) {// adds 2h
 			calendar.add(Calendar.HOUR_OF_DAY, 2); 
-		}else {
+		}else { //status is "available" 
 			//Get date that's 2 weeks ahead
 			int noOfDays = 14; //i.e two weeks
 			calendar.setTime(new Date());            
@@ -85,7 +83,7 @@ public class PhysicalMedia  implements Serializable{
 	}
 
 	/**
-	 * Updates queue if a spot has emptied for book
+	 * Updates queue if a spot has emptied for book. 
 	 */
 	public void moveQueue() {
 		
@@ -96,6 +94,10 @@ public class PhysicalMedia  implements Serializable{
 			this.setCustomer(nextCustomer); //set active customer for the media
 			nextCustomer.addMediaOnHold(this); //add media to customer's holds for 1 week from now
 								
+		} else { //There's no line up for this media, so set customer to null
+			
+			this.setCustomer(null);
+			this.getStatus().setAvailable();
 		}
 		
 	}

@@ -10,10 +10,14 @@ import java.awt.Dimension;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
@@ -675,7 +679,6 @@ public class logInAs {
 								System.out.println(dtb.getCustomers().get(i).toString());
 							}
 							
-							System.out.println(dtb.toString());
 							
 							dtb.save();
 							
@@ -709,7 +712,6 @@ public class logInAs {
 						
 						Customer c = dtb.searchByID(idTextField.getText());
 						
-						
 						if (c == null) {
 							JOptionPane.showMessageDialog(dialogMediaBorrow, "No customer with such ID exists", "InfoBox ", JOptionPane.WARNING_MESSAGE);
 						} else {
@@ -728,9 +730,7 @@ public class logInAs {
 							for (int i=0;i<dtb.getCustomers().size();i++) {
 								System.out.println(dtb.getCustomers().get(i).toString());
 							}
-							
-							
-							
+
 							dtb.save();
 							
 							dialogMediaBorrow.setVisible(false);
@@ -784,31 +784,24 @@ public class logInAs {
 					public void actionPerformed(ActionEvent arg0) {
 						
 						if (customerHoldsList.getSelectedIndex() != -1) {
-							PhysicalMedia item = new PhysicalMedia();
-							try{item = (CD)list.getSelectedValue();}catch(Exception e) {
-								try {item = (DVD)list.getSelectedValue();}catch(Exception f) {
-									try {item = (PaperMedia)list.getSelectedValue();}catch(Exception g) {}}}
+							Map.Entry<PhysicalMedia,CalendarPeriod> item = 
+									new AbstractMap.SimpleEntry<PhysicalMedia, CalendarPeriod>(new PhysicalMedia(), new CalendarPeriod(Calendar.getInstance(),Calendar.getInstance()));
+							try{item = (Map.Entry<PhysicalMedia, CalendarPeriod>) customerHoldsList.getSelectedValue();}catch(Exception e) {
+								try {item = (Map.Entry<PhysicalMedia, CalendarPeriod>) customerHoldsList.getSelectedValue();}catch(Exception f) {
+									try {item =(Map.Entry<PhysicalMedia, CalendarPeriod>) customerHoldsList.getSelectedValue();}catch(Exception g) {}}}
+							
+							String msg = Sophie.removeFromHoldsToPickup(item.getKey(),item.getKey().getCustomer());
+							
+							
+							JOptionPane.showMessageDialog(dialogMediaBorrow, msg, "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+							customerHoldsDLM.clear();
+							
 						} else {
 							JOptionPane.showMessageDialog(null, "Select item from a list", "InfoBox ", JOptionPane.WARNING_MESSAGE);
 						}
-							
-							
-							// TODO LATER
-						
-							//Sophie.removeFromHoldsToPickUp(item);
-							//JOptionPane.showMessageDialog(dialogMediaBorrow, msg, "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
-							
-							//System.out.println(dtb.shelfString());
-							
-							//for (int i=0;i<dtb.getCustomers().size();i++) {
-								//System.out.println(dtb.getCustomers().get(i).toString());
-							//}
 
-							dtb.save();
-							
-							
-					
-						
+						dtb.save();
+				
 					}
 				});
 					

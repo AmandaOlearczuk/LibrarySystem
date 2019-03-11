@@ -92,7 +92,7 @@ public class Librarian {
 				if (holdOrTake.equals("take")) {
 					Calendar retDate = media.calcReturnDate(); //either 2 wks or 2h
 					customer.addMediaOwned(media, retDate); //add media to customer account & ret date
-					media.setStatus(new Status("in use")); //set new status to media
+					media.getStatus().setInUse(); //set new status to media
 									
 					return "Media was issued to customer and added to customer's : " + customer.getID() + " account";
 				}
@@ -131,6 +131,12 @@ public class Librarian {
 		if (faculty.getFeesOwned() == 50.0) {faculty.setIsBlackListed(true);}
 	}
 	
+	/**
+	 * moves media from holds to media borrowed by customer if conditions are satisfied.
+	 * @param media
+	 * @param customer
+	 * @return
+	 */
 	public String removeFromHoldsToPickup(PhysicalMedia media, Customer customer) {
 		return customer.moveFromHoldToOwned(media);
 	}

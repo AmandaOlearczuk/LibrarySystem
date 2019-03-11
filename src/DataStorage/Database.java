@@ -1,28 +1,20 @@
 package DataStorage;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Map;
-import java.util.HashMap;
 
 import Actors.*;
 import Media.CD;
 import Media.DVD;
 import Media.PaperMedia;
-import Media.PhysicalMedia;
 import Utilities.Address;
-import Utilities.CalendarPeriod;
 import Utilities.Status;
 
 public class Database implements Serializable {
@@ -166,6 +158,8 @@ public class Database implements Serializable {
 	 */
 	public void save() {
 		
+		this.filterHolds(); //removes expired holds
+		
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Data.bin",false));
 			
@@ -198,13 +192,16 @@ public class Database implements Serializable {
 
 	
 	/**
-     * Data is loaded from file and put into shelf
+     * Data is loaded from file and put into shelf. Expired holds are removed from customer's accounts with filterHolds()
      * 
      */
     public void loadData() {
     	
     	//this.createCustomerMediaBase();
     	//this.save();
+    	
+    	this.filterHolds(); //removes expired holds
+   
     	try {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream("Data.bin"));
 			
@@ -238,6 +235,17 @@ public class Database implements Serializable {
 		}	
     }
 	
+    
+    /**
+     * Filters holds if the date is expired
+     */
+    public void filterHolds() {
+    	
+    	for(int i=0 ; i<this.getCustomers().size() ; i++) {
+    		
+    		this.getCustomers().get(i).removeExpiredHolds();
+    	}
+    }
     /**
      * Prints virtual shelf to string
      */

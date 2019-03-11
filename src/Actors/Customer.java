@@ -23,7 +23,7 @@ public class Customer implements Serializable {
 
 	private Map<PhysicalMedia, Calendar> mediaOwned; //should be returned on date
 	private Map<PhysicalMedia,Calendar> mediaReturned; //returned on date
-	private Map<PhysicalMedia,CalendarPeriod> mediaOnHold; //held from: to:
+	private Map<PhysicalMedia,CalendarPeriod> mediaOnHold; //held from: to: , is filtered to remove expired holds with each load/store in Database class.
 	private String phoneNumber;
 	private Double feesOwned;
 	private Boolean IsBlackListed;
@@ -61,10 +61,6 @@ public class Customer implements Serializable {
 		return this.ID;
 	}
 	
-	public void setIsBlackListed(Boolean b) {
-		this.IsBlackListed = b;
-	}
-	
 	public Boolean getIsBlackListed() {
 		return this.IsBlackListed;
 	}
@@ -72,6 +68,14 @@ public class Customer implements Serializable {
 	
 	public Double getFeesOwned() {
 		return this.feesOwned;
+	}
+	
+	/**
+	 * This function 
+	 * @param b
+	 */
+	public void setIsBlackListed(Boolean b) {
+		this.IsBlackListed = b;
 	}
 	
 	/**
@@ -134,7 +138,7 @@ public class Customer implements Serializable {
 	public void removeMediaOwned(PhysicalMedia media) {
 
 		media.setCustomer(null);
-		media.getStatus().setStatus("available");
+		media.getStatus().setAvailable();
 		
 		mediaOwned.remove(media);	
 		
@@ -197,6 +201,7 @@ public class Customer implements Serializable {
 		
 	}
 	
+	
 	public String showMediaReturned() {
 		String returned = "";
 		
@@ -248,32 +253,72 @@ public class Customer implements Serializable {
 			Calendar now = Calendar.getInstance();
 			Calendar oneWeekFromNow = Calculations.getOneWeekFrom(now);
 		
-			CalendarPeriod calendarP = new CalendarPeriod(now,oneWeekFromNow);
+			CalendarPeriod calendarP = new CalendarPeriod(Calendar.getInstance(),oneWeekFromNow);
 			this.getMediaOnHold().put(media, calendarP); //add media to customer's holds & period
-			media.setStatus(new Status("in use"));
+			media.getStatus().setInUse();
 			media.setCustomer(this);
 		}
 	}
-	
 	
 	/** TODO
 	 * Move media from hold to owned items
 	 * Precondition: media is on hold list
 	 */
 	public String moveFromHoldToOwned(PhysicalMedia media) {
-		return "Not implemented yet";
-		//Here, it will make sure customer doeen't own max num of media already, is not blacklisted, and media statuses and active customer will be all changed. 
-		//TODO
+		
+		//Here, it will make sure customer doesn't own max num of media already, is not blacklisted, and media statuses and active customer will be all changed. 
+		
+		if(this.getIsBlackListed() == true) {
+			return "Customer is blacklisted";
+		}
+		else if(this.getMediaOwned().size() >= this.getMaxMedia()) { //If customer has 5 media already..
+			return "Customer can't borrow any more media";
+		} else {
+			this.addMediaOwned(media, media.calcReturnDate());
+			this.removeMediaFromHold(media);
+		}
+		
+		return "Customer was issued the media";
+		
 	}
+	
+	/**
+	 * removed media from hold & doesn't do any condition checking.
+	 * Used for moveFromHoldToOwned() function in this class.
+	 * @param media
+	 */
+	private void removeMediaFromHold(PhysicalMedia media) {
+		
+		for(Map.Entry<PhysicalMedia, CalendarPeriod> entry : mediaOnHold.entrySet())
+		{
+			if (entry.getKey() == media) {
+				
+				mediaOnHold.entrySet().remove(entry);
+			}
+		}
+	}
+	
 
 
 	/**
-	 * Removes expired holds from user's account
+	 * Removes expired holds from user's account & moves queue if there is one
 	 */
 	public void removeExpiredHolds() {
-		//TODO
+		for (Map.Entry<PhysicalMedia, CalendarPeriod> entry : this.getMediaOnHold().entrySet())
+		{
+		    Calendar heldUntil = entry.getValue().getTo();
+		    if(Calculations.checkExpired(heldUntil)) {
+		    	entry.getKey().moveQueue();
+		    	this.getMediaOnHold().remove(entry.getKey());
+		    	
+		    }
+		}
+		
+		
 	}
 	
+
+}
 
 	
 	
@@ -281,4 +326,4 @@ public class Customer implements Serializable {
 	
 	
 	
-}
+
