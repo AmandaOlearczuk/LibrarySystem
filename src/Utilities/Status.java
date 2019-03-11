@@ -57,6 +57,14 @@ public class Status implements Serializable {
 		this.setCurrentStatus(primaryStatus);
 	}
 	
+	public void setReserved() 
+	{
+		this.setPrimaryStatus("reserved");
+		if ( !this.getCurrentStatus().equals("in use") ){
+			this.setCurrentStatus("reserved");
+		}
+	}
+	
 	public String toString() {
 		return this.currentStatus;
 	}

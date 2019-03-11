@@ -119,7 +119,7 @@ public class logInAs {
 	private final JButton browseBtn = new JButton("Browse");
 	private final JButton btnNewButton = new JButton("Log Out");
 	private final JButton borrow_button = new JButton("Borrow");
-	private final JButton btnNewButton_3 = new JButton("Change Status");
+	private final JButton reserveButton = new JButton("Make Reserved");
 	private final JButton okButton1 = new JButton("Ok");
 	private final JButton returnBtn = new JButton("Return");
 	private final JButton pickupBtn = new JButton("Pick-up from Hold");
@@ -406,7 +406,8 @@ public class logInAs {
 		panel_6.setLayout(new GridLayout(2, 1, 0, 0));
 		borrow_button.setAlignmentY(0.0f);
 		panel_6.add(borrow_button);
-		panel_6.add(btnNewButton_3);
+		
+		panel_6.add(reserveButton);
 		borrow_media.repaint();
 		
 		
@@ -803,6 +804,20 @@ public class logInAs {
 						dtb.save();
 				
 					}
+				});
+				
+				/**
+				 * Change status button in browse tab
+				 */
+				reserveButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						if (list.getSelectedIndex() != -1) {
+							PhysicalMedia item = (PhysicalMedia) list.getSelectedValue();
+							item.getStatus().setReserved();
+							JOptionPane.showMessageDialog(null, "Status was set to reserved", "InfoBox ", JOptionPane.PLAIN_MESSAGE);
+						}
+					}
+					
 				});
 					
 				
