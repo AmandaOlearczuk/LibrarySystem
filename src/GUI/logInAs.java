@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.awt.event.ActionEvent;
@@ -176,12 +177,37 @@ public class logInAs {
 	private JLabel userIDLab = new JLabel();
 	private JLabel userFeeLab = new JLabel();
 	
+	//Items for search page
+	private JLabel custName = new JLabel();
+	private JLabel custEmail = new JLabel();
+	private JLabel custID = new JLabel();
+	private JLabel custBirth = new JLabel();
+	private JLabel custFees = new JLabel();
+	private JLabel custAddress1 = new JLabel();
+	private JLabel custAddress2 = new JLabel();
+	private JLabel custAddress3 = new JLabel();
+	private JLabel custPhone = new JLabel();
+	private JLabel custType = new JLabel();
+	
 	//Screen-size of current monitor screen
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	//Database initialization
 	private Database dtb = new Database();
 	private final JButton pickupButton = new JButton("Pickup");
+	private final JButton searchCustomerBtn = new JButton("Search Customer");
+	private final JPanel search_customer = new JPanel();
+	private final JPanel panel_12 = new JPanel();
+	private final JPanel panel_13 = new JPanel();
+	private final JLabel customerIDLab = new JLabel("Customer ID:");
+	private final JTextField custIDField3 = new JTextField();
+	private final JButton btnOk = new JButton("Ok");
+	private final JLabel lblName = new JLabel("Name:");
+	private final JPanel panel_15 = new JPanel();
+	private final JLabel lblNewLabel_12 = new JLabel("Birthdate:");
+	private final JLabel lblFeesDue = new JLabel("Fees Due:");
+	private final JLabel custBorrowed = new JLabel("Media Borrowed:");
+	private final JLabel custHeld = new JLabel("Media Held:");
 
 	
 	/**
@@ -204,6 +230,8 @@ public class logInAs {
 	 * Create the application.
 	 */
 	public logInAs() {
+		custIDField3.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		custIDField3.setColumns(10);
 
 		emailTextField.setHorizontalAlignment(SwingConstants.LEFT);
 		emailTextField.setColumns(10);
@@ -261,6 +289,7 @@ public class logInAs {
 		menu.add(librarianBrowseButton);
 		
 		menu.add(pickupBtn);
+		menu.add(searchCustomerBtn);
 		
 		middle.setBorder(new LineBorder(new Color(0, 0, 0)));
 		LibrarianWindow.add(middle, BorderLayout.CENTER);
@@ -294,12 +323,15 @@ public class logInAs {
 		panel_8.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel label_1 = new JLabel("Customer ID:");
+		label_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_8.add(label_1);
 		
 		custIDField = new JTextField();
+		custIDField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		custIDField.setColumns(10);
 		panel_8.add(custIDField);
+		okButton1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		panel_8.add(okButton1);
 		
@@ -408,6 +440,114 @@ public class logInAs {
 		panel_6.add(borrow_button);
 		
 		panel_6.add(reserveButton);
+		middle.add(search_customer, "search");
+		search_customer.setLayout(null);
+		panel_13.setBounds(0, 0, 827, 73);
+		
+		search_customer.add(panel_13);
+		customerIDLab.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		panel_13.add(customerIDLab);
+		
+		panel_13.add(custIDField3);
+		btnOk.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		panel_13.add(btnOk);
+		
+		JPanel panel_14 = new JPanel();
+		panel_14.setBounds(0, 72, 323, 394);
+		search_customer.add(panel_14);
+		panel_14.setLayout(null);
+		lblName.setBounds(31, 32, 96, 15);
+		lblName.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		panel_14.add(lblName);
+		
+		custName.setBounds(158, 32, 141, 15);
+		panel_14.add(custName);
+		
+		JLabel lblNewLabel_10 = new JLabel("Email:");
+		lblNewLabel_10.setBounds(31, 58, 96, 15);
+		lblNewLabel_10.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel_14.add(lblNewLabel_10);
+		
+		custEmail.setBounds(158, 58, 141, 15);
+		panel_14.add(custEmail);
+		
+		JLabel lblNewLabel_11 = new JLabel("User ID:");
+		lblNewLabel_11.setBounds(31, 84, 96, 15);
+		lblNewLabel_11.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel_14.add(lblNewLabel_11);
+		
+		custID.setBounds(158, 84, 141, 15);
+		panel_14.add(custID);
+		
+		JLabel lblAddress = new JLabel("Address:");
+		lblAddress.setBounds(31, 118, 96, 15);
+		lblAddress.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel_14.add(lblAddress);
+		
+		custAddress1.setBounds(158, 118, 141, 15);
+		panel_14.add(custAddress1);
+		custAddress2.setBounds(158, 138, 141, 15);
+		
+		panel_14.add(custAddress2);
+		custAddress3.setBounds(158, 158, 46, 14);
+		
+		panel_14.add(custAddress3);
+		
+		JLabel lblPhoneNumber = new JLabel("Phone Number:");
+		lblPhoneNumber.setBounds(31, 188, 96, 15);
+		lblPhoneNumber.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel_14.add(lblPhoneNumber);
+		
+		custPhone.setBounds(158, 188, 141, 15);
+		panel_14.add(custPhone);
+		
+		JLabel lblCustomerType = new JLabel("Max Media:");
+		lblCustomerType.setBounds(31, 214, 96, 15);
+		lblCustomerType.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel_14.add(lblCustomerType);
+		
+		custType.setBounds(158, 214, 141, 15);
+		panel_14.add(custType);
+		lblNewLabel_12.setBounds(31, 240, 96, 15);
+		lblNewLabel_12.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		panel_14.add(lblNewLabel_12);
+		custBirth.setBounds(158, 240, 141, 15);
+		
+		panel_14.add(custBirth);
+		lblFeesDue.setBounds(31, 266, 58, 15);
+		lblFeesDue.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		panel_14.add(lblFeesDue);
+		custFees.setBounds(158, 266, 141, 15);
+		
+		panel_14.add(custFees);
+		panel_15.setBounds(320, 72, 507, 394);
+		
+		search_customer.add(panel_15);
+		panel_15.setLayout(null);
+		custBorrowed.setFont(new Font("Tahoma", Font.BOLD, 12));
+		custBorrowed.setBounds(10, 11, 119, 14);
+		
+		panel_15.add(custBorrowed);
+		custHeld.setFont(new Font("Tahoma", Font.BOLD, 12));
+		custHeld.setBounds(10, 216, 119, 14);
+		
+		panel_15.add(custHeld);
+		
+		JTextArea textBorrowed = new JTextArea();
+		textBorrowed.setEditable(false);
+		textBorrowed.setBounds(20, 36, 458, 159);
+		panel_15.add(textBorrowed);
+		
+		JTextArea textHeld = new JTextArea();
+		textHeld.setEditable(false);
+		textHeld.setBounds(20, 241, 458, 142);
+		panel_15.add(textHeld);
+		
 		borrow_media.repaint();
 		
 		
@@ -583,6 +723,12 @@ public class logInAs {
 				pickupBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						mid.show(middle, "pickup");
+					}
+				});
+				
+				searchCustomerBtn.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						mid.show(middle, "search");
 					}
 				});
 				
@@ -818,6 +964,67 @@ public class logInAs {
 						}
 					}
 					
+				});
+				
+				/**
+				 * Ok button in search tab
+				 */
+				btnOk.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+
+						
+						if ( !custIDField3.getText().isEmpty() ) {
+							
+							Customer c = dtb.searchByID(custIDField3.getText());
+							
+							if(c==null){
+								customerDLM.clear();
+								custName.setText("");
+								//custEmail.setText("");
+								custID.setText("");
+								custPhone.setText("");
+								custAddress1.setText("");
+								custAddress2.setText("");
+								custAddress3.setText("");
+								custType.setText("");
+								custBirth.setText("");
+								custFees.setText("");
+								JOptionPane.showMessageDialog(dialogMediaBorrow, "No customer with such ID exists", "InfoBox ", JOptionPane.WARNING_MESSAGE);
+							} else {
+								Address adr = c.getAddress();
+								Calendar birth = c.getBirthDate();
+								
+								
+								custName.setText(c.getFirstName() + " " + c.getLastName());
+								//custEmail.setText();
+								custID.setText(c.getID());
+								custPhone.setText(c.getPhoneNumber());
+								
+								custAddress1.setText(adr.getHouseNum() + " " + adr.getStreetName());
+								custAddress2.setText(adr.getCity() + ", " + adr.getCountry());
+								custAddress3.setText(adr.getZip());
+								
+								custType.setText(c.getMaxMedia() + "");
+								custBirth.setText(birth.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH ) + " " + birth.get(Calendar.DATE) + ", " + birth.get(Calendar.YEAR) );
+								custFees.setText(c.getFeesOwned() + "");
+									
+								}
+							
+						}else {
+							custName.setText("");
+							//custEmail.setText("");
+							custID.setText("");
+							custPhone.setText("");
+							custAddress1.setText("");
+							custAddress2.setText("");
+							custAddress3.setText("");
+							custType.setText("");
+							custBirth.setText("");
+							custFees.setText("");
+							JOptionPane.showMessageDialog(null, "Please fill in Customer ID", "ErrorBox", JOptionPane.INFORMATION_MESSAGE);
+						}
+						
+					}
 				});
 					
 				
