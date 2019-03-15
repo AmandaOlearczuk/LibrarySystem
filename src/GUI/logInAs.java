@@ -216,6 +216,22 @@ public class logInAs {
 	private final JLabel lblFeesDue = new JLabel("Fees Due:");
 	private final JLabel custBorrowed = new JLabel("Media Borrowed:");
 	private final JLabel custHeld = new JLabel("Media Held:");
+	private final JPanel studentMenu = new JPanel();
+	private final JButton btnPlaceOnHold = new JButton("Place on Hold");
+	private final JPanel studentMiddle = new JPanel();
+	private final JPanel studentPerson = new JPanel();
+	private final JLabel lblLoggedInAs = new JLabel("Logged in as Student: ");
+	private final JLabel label_2 = new JLabel("<name>");
+	private final JButton button_4 = new JButton("Log Out");
+	private final JPanel panel_16 = new JPanel();
+	private final JPanel panel_17 = new JPanel();
+	private final JComboBox comboBox_studentHold = new JComboBox();
+	private final JButton button = new JButton("Browse");
+	private final JPanel panel_18 = new JPanel();
+	private final JPanel panel_19 = new JPanel();
+	private final JButton HoldBtnStudent = new JButton("Place on Hold");
+	private final JScrollPane scrollPane = new JScrollPane();
+	private final JList list_1 = new JList();
 
 	
 	/**
@@ -274,11 +290,11 @@ public class logInAs {
 		panel_10.add(okButtonPickup);
 		
 		LibrarianWindow.setLayout(new BorderLayout(0, 0));
+		
+		panel_10.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		person.setBorder(new LineBorder(new Color(0, 0, 0)));
 		LibrarianWindow.add(person, BorderLayout.SOUTH);
 		person.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
-		
-		panel_10.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
 		person.add(lblWelcome);
@@ -346,6 +362,137 @@ public class logInAs {
 		return_media.add(panel_7);
 		
 		panelCont.add(StudentWindow,"StudentWindow");
+		StudentWindow.setLayout(new BorderLayout(0, 0));
+		studentMenu.setBorder(null);
+		StudentWindow.add(studentMenu, BorderLayout.WEST);
+		studentMenu.setLayout(new GridLayout(5, 0, 0, 0));
+		
+		studentMenu.add(btnPlaceOnHold);
+		studentMiddle.setBorder(new LineBorder(new Color(0, 0, 0)));
+		
+		StudentWindow.add(studentMiddle, BorderLayout.CENTER);
+		studentMiddle.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		studentMiddle.add(panel_16);
+		comboBox_studentHold.setModel(new DefaultComboBoxModel(new String[] {"Books/Magazines/Comics", "CDs", "DVDs"}));
+		
+		panel_16.add(comboBox_studentHold);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String comboBoxValue = (String) comboBox_studentHold.getSelectedItem();
+				
+				ArrayList<PaperMedia> papermedia = dtb.getPaperMedias();
+				ArrayList<CD> cds = dtb.getCds();
+				ArrayList<DVD> dvds = dtb.getDvds();
+				
+				if (comboBoxValue.equals("CDs")) 
+				{
+					dlm.clear();
+					for (int i=0; i<cds.size();i++) {
+						dlm.addElement(dtb.getCds().get(i));
+					}
+				}
+				
+				if (comboBoxValue.equals("DVDs")) 
+				{
+					dlm.clear();
+					for (int i=0; i<dvds.size();i++) {
+						dlm.addElement(dtb.getDvds().get(i));
+					}
+				}
+				
+				if (comboBoxValue.equals("Books/Magazines/Comics")) 
+				{
+					dlm.clear();
+					for (int i=0; i<papermedia.size();i++) {
+						dlm.addElement(dtb.getPaperMedias().get(i));
+					}
+				}
+		
+				list_1.setModel(dlm);
+			}
+		});
+		
+		panel_16.add(button);
+		
+		studentMiddle.add(panel_17);
+		panel_17.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		panel_17.add(panel_18);
+		panel_18.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		panel_18.add(scrollPane);
+		
+		scrollPane.setViewportView(list_1);
+		
+		panel_17.add(panel_19);
+		panel_19.setLayout(new GridLayout(0, 1, 0, 0));
+		HoldBtnStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//comboBox_studentHold
+				if (list_1.getSelectedIndex() != -1) {
+					//Search customer by ID
+					Customer c = dtb.searchByID("101");
+					
+					if (c == null) {
+						JOptionPane.showMessageDialog(dialogMediaBorrow, "No customer with such ID exists", "InfoBox ", JOptionPane.WARNING_MESSAGE);
+					} else {
+						
+						PhysicalMedia item = new PhysicalMedia();
+						try{item = (CD)list_1.getSelectedValue();}catch(Exception e) {
+							try {item = (DVD)list_1.getSelectedValue();}catch(Exception f) {
+								try {item = (PaperMedia)list_1.getSelectedValue();}catch(Exception g) {}}}
+						
+						System.out.println(item.getCustomer());
+						
+						//No one has the media on hold (and obviously no one has it because customer just took it from shelf)
+						if (item.getCustomer() == null && item.getLineUp().size() == 0) {
+							
+							item.setCustomer(c); //set media to customer that will take it or hold it
+								
+							c.addMediaOnHold(item); //add media to customer's holds for 1 week from now
+												
+							JOptionPane.showMessageDialog(dialogMediaBorrow, "Media is put on hold by customer: " + c.getID(), "InfoBox ", JOptionPane.WARNING_MESSAGE);
+							
+						} else {
+							JOptionPane.showMessageDialog(dialogMediaBorrow, "Media is already in use", "InfoBox ", JOptionPane.WARNING_MESSAGE);
+						}
+							
+							
+						}
+						
+						System.out.println(dtb.shelfString());
+						
+						for (int i=0;i<dtb.getCustomers().size();i++) {
+							System.out.println(dtb.getCustomers().get(i).toString());
+						}
+
+						dtb.save();
+						
+						dialogMediaBorrow.setVisible(false);
+						dialogMediaBorrow.dispose();
+						dlm.clear();
+				
+				}else {
+					JOptionPane.showMessageDialog(null, "Please select media from the list", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		
+		panel_19.add(HoldBtnStudent);
+		studentPerson.setBorder(new LineBorder(new Color(0, 0, 0)));
+		
+		StudentWindow.add(studentPerson, BorderLayout.SOUTH);
+		studentPerson.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		lblLoggedInAs.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		studentPerson.add(lblLoggedInAs);
+		label_2.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		studentPerson.add(label_2);
+		button_4.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		
+		studentPerson.add(button_4);
 		panelCont.add(FacultyWindow,"FacultyWindow");
 		
 		cl.show(panelCont, "1");
@@ -466,6 +613,10 @@ public class logInAs {
 				
 		panel_5.add(panel_6);
 		panel_6.setLayout(new GridLayout(2, 1, 0, 0));
+		borrow_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		borrow_button.setAlignmentY(0.0f);
 		panel_6.add(borrow_button);
 		
