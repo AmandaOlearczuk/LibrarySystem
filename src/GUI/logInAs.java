@@ -108,6 +108,8 @@ public class logInAs {
 	private JScrollPane scroll; 
 	private JScrollPane scrollCustomers; 
 	private JScrollPane scrollCustomerHolds;
+	private JScrollPane scrollBorrowedSearch;
+	private JScrollPane scrollHeldSearch;
 		
 	private JButton btnBack1 = new JButton("Back");
 	private JButton studentBtn = new JButton("Student");
@@ -158,6 +160,8 @@ public class logInAs {
 	private final DefaultListModel dlm = new DefaultListModel();
 	private final DefaultListModel customerDLM = new DefaultListModel();
 	private final DefaultListModel customerHoldsDLM = new DefaultListModel();
+	private final DefaultListModel searchHoldsDLM = new DefaultListModel();
+	private final DefaultListModel searchBorrowDLM = new DefaultListModel();
 	
 	//Items for Pop up dialog for borrowing books 
     private JButton okButton = new JButton("Ok");
@@ -179,7 +183,7 @@ public class logInAs {
 	
 	//Items for search page
 	private JLabel custName = new JLabel();
-	private JLabel custEmail = new JLabel();
+	private JLabel custBlacklist = new JLabel();
 	private JLabel custID = new JLabel();
 	private JLabel custBirth = new JLabel();
 	private JLabel custFees = new JLabel();
@@ -188,6 +192,10 @@ public class logInAs {
 	private JLabel custAddress3 = new JLabel();
 	private JLabel custPhone = new JLabel();
 	private JLabel custType = new JLabel();
+	
+	private final JList searchBorrowList = new JList();
+	private final JList searchHoldList = new JList();
+
 	
 	//Screen-size of current monitor screen
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -429,6 +437,28 @@ public class logInAs {
 		
 		panel_11.add(pickupButton);
 		
+		//Scroll thingy 4 for search customer borrowed
+		searchBorrowList.setModel(searchBorrowDLM);
+		searchBorrowList.setLayoutOrientation(JList.VERTICAL);
+		//searchBorrowList.setBounds(20, 36, 458, 159);
+		searchBorrowList.setVisibleRowCount(3);
+		scrollBorrowedSearch = new JScrollPane(searchBorrowList);
+		scrollBorrowedSearch.setPreferredSize(new Dimension(458,159));
+		scrollBorrowedSearch.setBounds(20, 36, 458, 159);
+		panel_15.add(scrollBorrowedSearch);
+		
+		
+		//Scroll thingy 5 for search customer held
+		searchHoldList.setModel(searchHoldsDLM);
+		searchHoldList.setLayoutOrientation(JList.VERTICAL);
+		//searchHoldList.setBounds(20, 241, 458, 142);
+		searchHoldList.setVisibleRowCount(3);
+		scrollHeldSearch = new JScrollPane(searchHoldList);
+		scrollHeldSearch.setPreferredSize(new Dimension(458,142));
+		scrollHeldSearch.setBounds(20, 241, 458, 142);
+		panel_15.add(scrollHeldSearch);
+		
+		
 		panel_7.add(panel_9);
 		panel_9.setLayout(new GridLayout(0, 1, 0, 0));
 		
@@ -466,63 +496,63 @@ public class logInAs {
 		custName.setBounds(158, 32, 141, 15);
 		panel_14.add(custName);
 		
-		JLabel lblNewLabel_10 = new JLabel("Email:");
-		lblNewLabel_10.setBounds(31, 58, 96, 15);
+		JLabel lblNewLabel_10 = new JLabel("Blacklist?");
+		lblNewLabel_10.setBounds(31, 345, 96, 15);
 		lblNewLabel_10.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel_14.add(lblNewLabel_10);
 		
-		custEmail.setBounds(158, 58, 141, 15);
-		panel_14.add(custEmail);
+		custBlacklist.setBounds(158, 345, 141, 15);
+		panel_14.add(custBlacklist);
 		
 		JLabel lblNewLabel_11 = new JLabel("User ID:");
-		lblNewLabel_11.setBounds(31, 84, 96, 15);
+		lblNewLabel_11.setBounds(31, 58, 96, 15);
 		lblNewLabel_11.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel_14.add(lblNewLabel_11);
 		
-		custID.setBounds(158, 84, 141, 15);
+		custID.setBounds(158, 58, 141, 15);
 		panel_14.add(custID);
 		
 		JLabel lblAddress = new JLabel("Address:");
-		lblAddress.setBounds(31, 118, 96, 15);
+		lblAddress.setBounds(31, 92, 96, 15);
 		lblAddress.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel_14.add(lblAddress);
 		
-		custAddress1.setBounds(158, 118, 141, 15);
+		custAddress1.setBounds(158, 92, 141, 15);
 		panel_14.add(custAddress1);
-		custAddress2.setBounds(158, 138, 141, 15);
+		custAddress2.setBounds(158, 112, 141, 15);
 		
 		panel_14.add(custAddress2);
-		custAddress3.setBounds(158, 158, 46, 14);
+		custAddress3.setBounds(158, 132, 46, 14);
 		
 		panel_14.add(custAddress3);
 		
 		JLabel lblPhoneNumber = new JLabel("Phone Number:");
-		lblPhoneNumber.setBounds(31, 188, 96, 15);
+		lblPhoneNumber.setBounds(31, 162, 96, 15);
 		lblPhoneNumber.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel_14.add(lblPhoneNumber);
 		
-		custPhone.setBounds(158, 188, 141, 15);
+		custPhone.setBounds(158, 162, 141, 15);
 		panel_14.add(custPhone);
 		
 		JLabel lblCustomerType = new JLabel("Max Media:");
-		lblCustomerType.setBounds(31, 214, 96, 15);
+		lblCustomerType.setBounds(31, 188, 96, 15);
 		lblCustomerType.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel_14.add(lblCustomerType);
 		
-		custType.setBounds(158, 214, 141, 15);
+		custType.setBounds(158, 188, 141, 15);
 		panel_14.add(custType);
-		lblNewLabel_12.setBounds(31, 240, 96, 15);
+		lblNewLabel_12.setBounds(31, 214, 96, 15);
 		lblNewLabel_12.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		panel_14.add(lblNewLabel_12);
-		custBirth.setBounds(158, 240, 141, 15);
+		custBirth.setBounds(158, 214, 141, 15);
 		
 		panel_14.add(custBirth);
-		lblFeesDue.setBounds(31, 266, 58, 15);
+		lblFeesDue.setBounds(31, 240, 58, 15);
 		lblFeesDue.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		panel_14.add(lblFeesDue);
-		custFees.setBounds(158, 266, 141, 15);
+		custFees.setBounds(158, 240, 141, 15);
 		
 		panel_14.add(custFees);
 		panel_15.setBounds(320, 72, 507, 394);
@@ -537,16 +567,6 @@ public class logInAs {
 		custHeld.setBounds(10, 216, 119, 14);
 		
 		panel_15.add(custHeld);
-		
-		JTextArea textBorrowed = new JTextArea();
-		textBorrowed.setEditable(false);
-		textBorrowed.setBounds(20, 36, 458, 159);
-		panel_15.add(textBorrowed);
-		
-		JTextArea textHeld = new JTextArea();
-		textHeld.setEditable(false);
-		textHeld.setBounds(20, 241, 458, 142);
-		panel_15.add(textHeld);
 		
 		borrow_media.repaint();
 		
@@ -977,10 +997,15 @@ public class logInAs {
 							
 							Customer c = dtb.searchByID(custIDField3.getText());
 							
+							/*
+							 * customer does not exist
+							 */
 							if(c==null){
-								customerDLM.clear();
+								searchHoldsDLM.clear();
+								searchBorrowDLM.clear();
+								
 								custName.setText("");
-								//custEmail.setText("");
+								custBlacklist.setText("");
 								custID.setText("");
 								custPhone.setText("");
 								custAddress1.setText("");
@@ -990,13 +1015,23 @@ public class logInAs {
 								custBirth.setText("");
 								custFees.setText("");
 								JOptionPane.showMessageDialog(dialogMediaBorrow, "No customer with such ID exists", "InfoBox ", JOptionPane.WARNING_MESSAGE);
-							} else {
+							} 
+							/*
+							 * customer does exist
+							 */
+							else {
 								Address adr = c.getAddress();
 								Calendar birth = c.getBirthDate();
 								
 								
 								custName.setText(c.getFirstName() + " " + c.getLastName());
-								//custEmail.setText();
+								if(c.getIsBlackListed()) {
+									custBlacklist.setText("BLACKLISTED!");
+								}
+								else {
+									custBlacklist.setText("Not blacklisted.");
+								}
+								
 								custID.setText(c.getID());
 								custPhone.setText(c.getPhoneNumber());
 								
@@ -1007,12 +1042,28 @@ public class logInAs {
 								custType.setText(c.getMaxMedia() + "");
 								custBirth.setText(birth.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH ) + " " + birth.get(Calendar.DATE) + ", " + birth.get(Calendar.YEAR) );
 								custFees.setText(c.getFeesOwned() + "");
+								
+								searchHoldsDLM.clear();
+								searchBorrowDLM.clear();
+								for(Map.Entry<PhysicalMedia, Calendar> entry : c.getMediaOwned().entrySet())
+								{
+									searchBorrowDLM.addElement(entry.getKey());
+								}
+								
+								for(Map.Entry<PhysicalMedia, CalendarPeriod> entry : c.getMediaOnHold().entrySet())
+								{
+									searchHoldsDLM.addElement(entry.getKey());
+								}
 									
 								}
+						}
+						
+						else {
+							searchHoldsDLM.clear();
+							searchBorrowDLM.clear();
 							
-						}else {
 							custName.setText("");
-							//custEmail.setText("");
+							custBlacklist.setText("");
 							custID.setText("");
 							custPhone.setText("");
 							custAddress1.setText("");
