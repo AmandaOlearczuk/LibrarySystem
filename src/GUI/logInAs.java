@@ -427,6 +427,7 @@ public class logInAs {
 		
 		panel_17.add(panel_19);
 		panel_19.setLayout(new GridLayout(0, 1, 0, 0));
+		
 		HoldBtnStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//comboBox_studentHold
@@ -445,8 +446,8 @@ public class logInAs {
 						
 						System.out.println(item.getCustomer());
 						
-						//No one has the media on hold (and obviously no one has it because customer just took it from shelf)
-						if (item.getCustomer() == null && item.getLineUp().size() == 0) {
+						//No one has the media on hold/ or owns it, there's no line up to item and media status isn't unavailable
+						if (item.getCustomer() == null && item.getLineUp().size() == 0 && !item.getStatus().getCurrentStatus().equals("unavailable")) { //& book status isn't unavailable 
 							
 							item.setCustomer(c); //set media to customer that will take it or hold it
 								
@@ -454,8 +455,14 @@ public class logInAs {
 												
 							JOptionPane.showMessageDialog(dialogMediaBorrow, "Media is put on hold by customer: " + c.getID(), "InfoBox ", JOptionPane.WARNING_MESSAGE);
 							
-						} else {
-							JOptionPane.showMessageDialog(dialogMediaBorrow, "Media is already in use", "InfoBox ", JOptionPane.WARNING_MESSAGE);
+						//Media is helf or borrowed by someone already & customer isn't the one that holds that media and isn't already in line
+						} else if (item.getCustomer() != null && item.getCustomer() != c && item.getLineUp().isInLine(c) == false) {
+						    item.getLineUp().addToLine(c);
+							JOptionPane.showMessageDialog(dialogMediaBorrow,("You are put in queue in position: " + item.getLineUp().size()),
+									"InfoBox",JOptionPane.INFORMATION_MESSAGE);
+							
+						}else { //Customer already holds or has media borrowed
+							JOptionPane.showMessageDialog(dialogMediaBorrow, "You are already in queue/on hold or already own the media", "InfoBox ", JOptionPane.WARNING_MESSAGE);
 						}
 							
 							
