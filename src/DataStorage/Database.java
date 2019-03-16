@@ -83,6 +83,23 @@ public class Database implements Serializable {
 				return c;
 			}
 		}
+		return null;
+	}
+	
+	/**
+	 * This function searches customer by ID and returns that object
+	 * @param text
+	 * @return
+	 */
+	public Librarian searchLibrarianByID(String text) {
+		Librarian l ;
+		
+		for (int i = 0 ; i<librarians.size();i++) {
+			if (librarians.get(i).getID().equals(text)) {
+				l = librarians.get(i);
+				return l;
+			}
+		}
 		
 		return null;
 	}
@@ -237,6 +254,17 @@ public class Database implements Serializable {
 			System.out.println("Error loading File");
 			e.printStackTrace();
 		}	
+    	
+    	
+    	//until class loading bug is solved, librarian will be added here
+    	
+    	//Create a librarian
+		Calendar librarianSophieBirthDate = Calendar.getInstance();
+		librarianSophieBirthDate.set(1970,0,12);
+		Librarian Sophie = new Librarian("100","Sophie", "Lee", librarianSophieBirthDate, 
+				new Address(10,"St.Paul","AAAA33","Calgary","Canada"),"4035667080");
+		librarians.add(Sophie);
+		
     	System.out.println("\n^ Data load successful\n");
     }
 	

@@ -59,6 +59,12 @@ public class Librarian {
 	public void setLastName(String lastName) {
 		LastName = lastName;
 	}
+	public String getID() {
+		return this.ID;
+	}
+	public String getPassword() {
+		return this.password;
+	}
 
 
 	/**

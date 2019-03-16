@@ -679,17 +679,24 @@ public class logInAs {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
 				//Verify login
-				//Boolean verifyLogin = false;
-				//Customer temp = dtb.searchByID(emailTextField.getText());
-				//String tempPass = new String(passwordField.getPassword());
+				Boolean verifyLogin = false;
+				try {
+					Customer temp = dtb.searchByID(emailTextField.getText());
+					temp.getPassword();
+					String tempPass = new String(passwordField.getPassword());
+					if (tempPass.equals(temp.getPassword()))
+						verifyLogin = true;
+				}
+				catch (NullPointerException e) {
+					Librarian temp = dtb.searchLibrarianByID(emailTextField.getText());
+					String tempPass = new String(passwordField.getPassword());
+					if (tempPass.equals(temp.getPassword()))
+						verifyLogin = true;
+				}
 				
-				//if (tempPass.equals(temp.getPassword()))
-					//verifyLogin = true;
-				
-				LogIn enter = new LogIn();
-				Boolean verifyLogin = enter.verifyLogin(emailTextField.getText(), passwordField.getText());
+				//LogIn enter = new LogIn();
+				//Boolean verifyLogin = enter.verifyLogin(emailTextField.getText(), passwordField.getText());
 				
 				if (verifyLogin == true) {
 					
@@ -784,13 +791,14 @@ public class logInAs {
 		
 				//Load librarian's info based on ID from file TODO
 		
-				//Create a librarian
+				/*Create a librarian
 				Calendar librarianSophieBirthDate = Calendar.getInstance();
 				librarianSophieBirthDate.set(1970,0,12);
 				Librarian Sophie = new Librarian("100","Sophie", "Lee", librarianSophieBirthDate, 
 						new Address(10,"St.Paul","AAAA33","Calgary","Canada"),"4035667080");
-				
-				nameLabel.setText(Sophie.getFirstName() + " " + Sophie.getLastName());
+				*/
+				Librarian temp = dtb.searchLibrarianByID(ID);
+				nameLabel.setText(temp.getFirstName() + " " + temp.getLastName());
 				
 						
 				librarianBrowseButton.addActionListener(new ActionListener() {
@@ -908,7 +916,7 @@ public class logInAs {
 						
 							JOptionPane.showMessageDialog(dialogMediaBorrow, "Media was removed from customer's : " + item.getCustomer().getID() + " account." , "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
 								
-							Sophie.returnMedia(item, item.getCustomer());
+							temp.returnMedia(item, item.getCustomer());
 							
 							for (int i=0;i<dtb.getCustomers().size();i++) {
 								System.out.println(dtb.getCustomers().get(i).toString());
@@ -956,7 +964,7 @@ public class logInAs {
 								try {item = (DVD)list.getSelectedValue();}catch(Exception f) {
 									try {item = (PaperMedia)list.getSelectedValue();}catch(Exception g) {}}}
 							
-							String msg = Sophie.addMediaOwned(c,item,String.valueOf(holdOrTakeComboBox.getSelectedItem()));
+							String msg = temp.addMediaOwned(c,item,String.valueOf(holdOrTakeComboBox.getSelectedItem()));
 									
 							JOptionPane.showMessageDialog(dialogMediaBorrow, msg, "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
 							
@@ -1025,7 +1033,7 @@ public class logInAs {
 								try {item = (Map.Entry<PhysicalMedia, CalendarPeriod>) customerHoldsList.getSelectedValue();}catch(Exception f) {
 									try {item =(Map.Entry<PhysicalMedia, CalendarPeriod>) customerHoldsList.getSelectedValue();}catch(Exception g) {}}}
 							
-							String msg = Sophie.removeFromHoldsToPickup(item.getKey(),item.getKey().getCustomer());
+							String msg = temp.removeFromHoldsToPickup(item.getKey(),item.getKey().getCustomer());
 							
 							
 							JOptionPane.showMessageDialog(dialogMediaBorrow, msg, "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
