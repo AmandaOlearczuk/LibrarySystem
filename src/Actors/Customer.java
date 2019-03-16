@@ -20,6 +20,7 @@ public class Customer implements Serializable {
 	private String LastName;
 	private Calendar birthDate;
 	private Address Address;
+	private String password;
 
 	private Map<PhysicalMedia, Calendar> mediaOwned; //should be returned on date
 	private Map<PhysicalMedia,Calendar> mediaReturned; //returned on date
@@ -30,7 +31,7 @@ public class Customer implements Serializable {
 
 
 	public Customer(String id,String fn,String ln,Calendar bd, Address address,String phonenum,
-			Map<PhysicalMedia, Calendar> mediaOwned,Map<PhysicalMedia, CalendarPeriod> mediaonHold,
+			Map<PhysicalMedia, Calendar> mediaOwned,Map<PhysicalMedia, CalendarPeriod> mediaOnHold,
 			Map<PhysicalMedia, Calendar> mediaReturned,Double feesOwned) {
 		this.ID = id;
 		this.FirstName =fn;
@@ -38,6 +39,7 @@ public class Customer implements Serializable {
 		this.birthDate = bd;
 		this.Address = address;
 		this.phoneNumber = phonenum;
+		this.password = fn+ln;
 		
 		if (mediaOwned == null) {this.mediaOwned = new HashMap<PhysicalMedia,Calendar>();}
 		else {this.mediaOwned = mediaOwned;}
@@ -57,6 +59,12 @@ public class Customer implements Serializable {
 	}
 	
 	/**Getters & setters*/
+	public String getPassword() {
+		return this.password;
+	}
+	public void setPassword(String temp) {
+		this.password = temp;
+	}
 	public String getID() {
 		return this.ID;
 	}

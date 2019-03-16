@@ -681,6 +681,13 @@ public class logInAs {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				//Verify login
+				//Boolean verifyLogin = false;
+				//Customer temp = dtb.searchByID(emailTextField.getText());
+				//String tempPass = new String(passwordField.getPassword());
+				
+				//if (tempPass.equals(temp.getPassword()))
+					//verifyLogin = true;
+				
 				LogIn enter = new LogIn();
 				Boolean verifyLogin = enter.verifyLogin(emailTextField.getText(), passwordField.getText());
 				
@@ -780,7 +787,7 @@ public class logInAs {
 				//Create a librarian
 				Calendar librarianSophieBirthDate = Calendar.getInstance();
 				librarianSophieBirthDate.set(1970,0,12);
-				Librarian Sophie = new Librarian("101","Sophie", "L", librarianSophieBirthDate, 
+				Librarian Sophie = new Librarian("100","Sophie", "Lee", librarianSophieBirthDate, 
 						new Address(10,"St.Paul","AAAA33","Calgary","Canada"),"4035667080");
 				
 				nameLabel.setText(Sophie.getFirstName() + " " + Sophie.getLastName());

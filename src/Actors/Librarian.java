@@ -14,6 +14,7 @@ public class Librarian {
 	private Calendar birthDate;
 	private Address Address;
 	private String phoneNumber;
+	private String password;
 	
 	/**
 	 * Constructor
@@ -33,6 +34,7 @@ public class Librarian {
 		this.birthDate = birthDate;
 		Address = address;
 		this.phoneNumber = phoneNumber;
+		this.password = (firstName+lastName);
 	}
 
 

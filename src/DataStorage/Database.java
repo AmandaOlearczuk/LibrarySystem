@@ -24,7 +24,8 @@ public class Database implements Serializable {
 	private ArrayList<PaperMedia> paperMedias= new ArrayList<PaperMedia>();
 
 	private ArrayList<Customer> customers = new ArrayList<Customer>();
-	
+	private ArrayList<Librarian> librarians = new ArrayList<Librarian>();
+ 	
 	/**
 	 * Getters & setters
 	 * @return
@@ -166,6 +167,9 @@ public class Database implements Serializable {
 			for (int i=0;i<customers.size();i++) {
 				out.writeObject(customers.get(i));
 				}
+			for (int i=0;i<librarians.size();i++) {
+				out.writeObject(librarians.get(i));
+				}
 			for (int i=0;i<cds.size();i++) {
 				out.writeObject(cds.get(i));
 				}
@@ -230,9 +234,10 @@ public class Database implements Serializable {
 			System.out.println("File not found");
 			e.printStackTrace();
 		} catch (IOException e) {
-		
-			System.out.println("\n^ Data load successful\n");
+			System.out.println("Error loading File");
+			e.printStackTrace();
 		}	
+    	System.out.println("\n^ Data load successful\n");
     }
 	
     
