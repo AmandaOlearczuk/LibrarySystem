@@ -1,0 +1,52 @@
+CD STORAGE FILE
+
+Title: ...And Justice For All
+
+Creator: Metallica
+
+Date: 1988 09 25
+
+Status: in use
+
+END
+
+Title: Got Your Six
+
+Creator: Five Finger Death Punch
+
+Date: 2015 11 04
+
+Status: in use
+
+END
+
+Title: Christmas Music
+
+Creator: M.Buble
+
+Date: 2018 04 13
+
+Status: unavailable
+
+END
+
+Title: The Game
+
+Creator: Queen
+
+Date: 1980 06 30
+
+Status: available
+
+END
+
+Title: Big Ones
+
+Creator: Aerosmith
+
+Date: 1994 11 01
+
+Status: available
+
+END
+

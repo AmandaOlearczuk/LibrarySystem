@@ -1,0 +1,65 @@
+DVD STORAGE FILE
+
+Title: Titanic
+
+Creator: James Cameron
+Creator: james C.
+
+Date: 1997 11 18
+
+Status: unavailable
+
+END
+
+Title: Avatar
+
+Creator: James Cameron
+Creator: james C.
+
+Date: 2009 12 10
+
+Status: available
+
+END
+
+Title: Star Wars: The Force Awakens
+
+Creator: J. J. Abrams
+
+Date: 2015 12 14
+
+Status: available
+
+END
+
+Title: Jurassic World
+
+Creator: Colin Trevorrow
+
+Date: 2015 06 12
+
+Status: available
+
+END
+
+Title: Frozen
+
+Creator: Chris Buck
+Creator: Jennifer Lee
+
+Date: 2013 11 22
+
+Status: available
+
+END
+
+Title: Beauty and the Beast
+
+Creator: Bill Condon
+
+Date: 2017 03 17
+
+Status: available
+
+END
+

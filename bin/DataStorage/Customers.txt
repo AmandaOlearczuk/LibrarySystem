@@ -1,0 +1,64 @@
+CUSTOMER STORAGE FILE
+
+
+Name: John Smith
+
+ID: 101
+
+CustomerType: Student
+
+Birthdate: 1997 04 17
+
+Address: 
+100
+sesame street
+t2y344
+calgary
+canada
+
+Phonenum: 4039224555
+
+Owned:
+...And Justice For All
+2019-03-22
+done
+
+Returned:
+
+Held:
+done
+
+Fees: 10.0
+
+END
+
+
+Name: Ann Lis
+
+ID: 102
+
+CustomerType: Student
+
+Birthdate: 1995 02 22
+
+Address: 
+100
+st king street
+t2y344
+calgary
+canada
+
+Phonenum: 4038724555
+
+Owned:
+done
+
+Returned:
+
+Held:
+done
+
+Fees: 40.0
+
+END
+

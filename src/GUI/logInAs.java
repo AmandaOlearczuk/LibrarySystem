@@ -26,6 +26,7 @@ import java.awt.Label;
 import java.awt.Toolkit;
 import java.awt.CardLayout;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.FlowLayout;
@@ -74,6 +75,14 @@ import java.awt.Button;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import java.awt.Panel;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.MatteBorder;
 
 public class logInAs {
 
@@ -129,7 +138,7 @@ public class logInAs {
 	private final JButton okButtonPickup = new JButton("Ok");
 	
 	private CardLayout cl = new CardLayout();
-	private final CardLayout mid = new CardLayout(0,0);
+	private final CardLayout mid = new CardLayout(5,5);
 	
 	private final JLabel lblNewLabel = new JLabel("Log in as ..");
 	private final JLabel lblNewLabel_1 = new JLabel("");
@@ -137,10 +146,9 @@ public class logInAs {
 	private final JLabel lblNewLabel_3 = new JLabel("Email : ");
 	private final JLabel lblNewLabel_4 = new JLabel("Password : ");
 	private final JLabel who = new JLabel("Librarian");
+
 	private final JLabel lblNewLabel_6 = new JLabel("");
 	private final JLabel lblNewLabel_7 = new JLabel("");
-	private final JLabel lblNewLabel_8 = new JLabel("");
-	private final JLabel lblNewLabel_9 = new JLabel("");
 	private final JLabel lblWelcome = new JLabel("Logged in as Librarian: ");
 	private final JLabel nameLabel = new JLabel("<name>");
 	private final JLabel lblNewLabel_5 = new JLabel("Customer ID:");
@@ -232,6 +240,10 @@ public class logInAs {
 	private final JButton HoldBtnStudent = new JButton("Place on Hold");
 	private final JScrollPane scrollPane = new JScrollPane();
 	private final JList list_1 = new JList();
+	private final JPanel panel_20 = new JPanel();
+	private final JLabel label = new JLabel("");
+	private final JLabel label_3 = new JLabel("");
+	private final JPanel panel_21 = new JPanel();
 
 	
 	/**
@@ -241,6 +253,9 @@ public class logInAs {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
+					 UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); 
+					 
 					logInAs window = new logInAs();
 					window.frmLogin.setVisible(true);
 				} catch (Exception e) {
@@ -276,6 +291,7 @@ public class logInAs {
 		cl.setVgap(5);
 		cl.setHgap(5);
 		
+		who.setOpaque(true);
 		panelCont.setLayout(cl);
 		panelCont.add(LogInAs,"1");
 		panelCont.add(LogInAsSomeone,"2");
@@ -292,7 +308,7 @@ public class logInAs {
 		LibrarianWindow.setLayout(new BorderLayout(0, 0));
 		
 		panel_10.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		person.setBorder(new LineBorder(new Color(0, 0, 0)));
+		person.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		LibrarianWindow.add(person, BorderLayout.SOUTH);
 		person.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		
@@ -305,7 +321,7 @@ public class logInAs {
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		person.add(btnNewButton);
 		
-		menu.setBorder(null);
+		menu.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		LibrarianWindow.add(menu, BorderLayout.WEST);
 		menu.setLayout(new GridLayout(5, 0, 0, 0));
 		
@@ -315,7 +331,7 @@ public class logInAs {
 		menu.add(pickupBtn);
 		menu.add(searchCustomerBtn);
 		
-		middle.setBorder(new LineBorder(new Color(0, 0, 0)));
+		middle.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		LibrarianWindow.add(middle, BorderLayout.CENTER);
 		middle.setLayout(mid);
 		middle.add(browse_media, "browse");
@@ -366,57 +382,27 @@ public class logInAs {
 		studentMenu.setBorder(null);
 		StudentWindow.add(studentMenu, BorderLayout.WEST);
 		studentMenu.setLayout(new GridLayout(5, 0, 0, 0));
+		btnPlaceOnHold.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		
 		studentMenu.add(btnPlaceOnHold);
 		studentMiddle.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		StudentWindow.add(studentMiddle, BorderLayout.CENTER);
 		studentMiddle.setLayout(new GridLayout(0, 1, 0, 0));
+		FlowLayout flowLayout = (FlowLayout) panel_16.getLayout();
 		
 		studentMiddle.add(panel_16);
 		comboBox_studentHold.setModel(new DefaultComboBoxModel(new String[] {"Books/Magazines/Comics", "CDs", "DVDs"}));
 		
 		panel_16.add(comboBox_studentHold);
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String comboBoxValue = (String) comboBox_studentHold.getSelectedItem();
-				
-				ArrayList<PaperMedia> papermedia = dtb.getPaperMedias();
-				ArrayList<CD> cds = dtb.getCds();
-				ArrayList<DVD> dvds = dtb.getDvds();
-				
-				if (comboBoxValue.equals("CDs")) 
-				{
-					dlm.clear();
-					for (int i=0; i<cds.size();i++) {
-						dlm.addElement(dtb.getCds().get(i));
-					}
-				}
-				
-				if (comboBoxValue.equals("DVDs")) 
-				{
-					dlm.clear();
-					for (int i=0; i<dvds.size();i++) {
-						dlm.addElement(dtb.getDvds().get(i));
-					}
-				}
-				
-				if (comboBoxValue.equals("Books/Magazines/Comics")) 
-				{
-					dlm.clear();
-					for (int i=0; i<papermedia.size();i++) {
-						dlm.addElement(dtb.getPaperMedias().get(i));
-					}
-				}
-		
-				list_1.setModel(dlm);
-			}
-		});
 		
 		panel_16.add(button);
 		
 		studentMiddle.add(panel_17);
-		panel_17.setLayout(new GridLayout(1, 0, 0, 0));
+		panel_17.setLayout(new BoxLayout(panel_17, BoxLayout.X_AXIS));
 		
 		panel_17.add(panel_18);
 		panel_18.setLayout(new GridLayout(0, 1, 0, 0));
@@ -427,64 +413,6 @@ public class logInAs {
 		
 		panel_17.add(panel_19);
 		panel_19.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		HoldBtnStudent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//comboBox_studentHold
-				if (list_1.getSelectedIndex() != -1) {
-					//Search customer by ID
-					Customer c = dtb.searchByID("101");
-					
-					if (c == null) {
-						JOptionPane.showMessageDialog(dialogMediaBorrow, "No customer with such ID exists", "InfoBox ", JOptionPane.WARNING_MESSAGE);
-					} else {
-						
-						PhysicalMedia item = new PhysicalMedia();
-						try{item = (CD)list_1.getSelectedValue();}catch(Exception e) {
-							try {item = (DVD)list_1.getSelectedValue();}catch(Exception f) {
-								try {item = (PaperMedia)list_1.getSelectedValue();}catch(Exception g) {}}}
-						
-						System.out.println(item.getCustomer());
-						
-						//No one has the media on hold/ or owns it, there's no line up to item and media status isn't unavailable
-						if (item.getCustomer() == null && item.getLineUp().size() == 0 && !item.getStatus().getCurrentStatus().equals("unavailable")) { //& book status isn't unavailable 
-							
-							item.setCustomer(c); //set media to customer that will take it or hold it
-								
-							c.addMediaOnHold(item); //add media to customer's holds for 1 week from now
-												
-							JOptionPane.showMessageDialog(dialogMediaBorrow, "Media is put on hold by customer: " + c.getID(), "InfoBox ", JOptionPane.WARNING_MESSAGE);
-							
-						//Media is helf or borrowed by someone already & customer isn't the one that holds that media and isn't already in line
-						} else if (item.getCustomer() != null && item.getCustomer() != c && item.getLineUp().isInLine(c) == false) {
-						    item.getLineUp().addToLine(c);
-							JOptionPane.showMessageDialog(dialogMediaBorrow,("You are put in queue in position: " + item.getLineUp().size()),
-									"InfoBox",JOptionPane.INFORMATION_MESSAGE);
-							
-						}else { //Customer already holds or has media borrowed
-							JOptionPane.showMessageDialog(dialogMediaBorrow, "You are already in queue/on hold or already own the media", "InfoBox ", JOptionPane.WARNING_MESSAGE);
-						}
-							
-							
-						}
-						
-						System.out.println(dtb.shelfString());
-						
-						for (int i=0;i<dtb.getCustomers().size();i++) {
-							System.out.println(dtb.getCustomers().get(i).toString());
-						}
-
-						dtb.save();
-						
-						dialogMediaBorrow.setVisible(false);
-						dialogMediaBorrow.dispose();
-						dlm.clear();
-				
-				}else {
-					JOptionPane.showMessageDialog(null, "Please select media from the list", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
-				}
-			}
-		});
 		
 		panel_19.add(HoldBtnStudent);
 		studentPerson.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -523,32 +451,28 @@ public class logInAs {
 		btnBack1.setVerticalAlignment(SwingConstants.TOP);
 		panel_2.add(btnBack1);
 		btnBack1.setHorizontalAlignment(SwingConstants.LEFT);
-		who.setFont(new Font("Baskerville Old Face", Font.PLAIN, 30));
+		who.setFont(new Font("Yu Gothic Light", Font.PLAIN, 30));
 		who.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		LogInAsSomeone.add(who);
 		
 		LogInAsSomeone.add(panel);
-		panel.setLayout(new GridLayout(0, 4, 0, 5));
+		panel.setLayout(new GridLayout(0, 3, 0, 5));
 		
 		panel.add(lblNewLabel_6);
+		panel_21.setBorder(null);
+		
+		panel.add(panel_21);
+		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
+		passwordField.setHorizontalAlignment(SwingConstants.LEFT);
+		panel_21.setLayout(new GridLayout(0, 2, 0, 2));
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		panel.add(lblNewLabel_3);
-		
-		panel.add(emailTextField);
+		panel_21.add(lblNewLabel_3);
+		panel_21.add(emailTextField);
+		panel_21.add(lblNewLabel_4);
+		panel_21.add(passwordField);
 		
 		panel.add(lblNewLabel_7);
-		
-		panel.add(lblNewLabel_8);
-		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		panel.add(lblNewLabel_4);
-		passwordField.setHorizontalAlignment(SwingConstants.LEFT);
-		
-		panel.add(passwordField);
-		
-		panel.add(lblNewLabel_9);
 		
 		LogInAsSomeone.add(panel_1);
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 25));
@@ -591,27 +515,6 @@ public class logInAs {
 		
 		panel_11.add(pickupButton);
 		
-		//Scroll thingy 4 for search customer borrowed
-		searchBorrowList.setModel(searchBorrowDLM);
-		searchBorrowList.setLayoutOrientation(JList.VERTICAL);
-		//searchBorrowList.setBounds(20, 36, 458, 159);
-		searchBorrowList.setVisibleRowCount(3);
-		scrollBorrowedSearch = new JScrollPane(searchBorrowList);
-		scrollBorrowedSearch.setPreferredSize(new Dimension(458,159));
-		scrollBorrowedSearch.setBounds(20, 36, 458, 159);
-		panel_15.add(scrollBorrowedSearch);
-		
-		
-		//Scroll thingy 5 for search customer held
-		searchHoldList.setModel(searchHoldsDLM);
-		searchHoldList.setLayoutOrientation(JList.VERTICAL);
-		//searchHoldList.setBounds(20, 241, 458, 142);
-		searchHoldList.setVisibleRowCount(3);
-		scrollHeldSearch = new JScrollPane(searchHoldList);
-		scrollHeldSearch.setPreferredSize(new Dimension(458,142));
-		scrollHeldSearch.setBounds(20, 241, 458, 142);
-		panel_15.add(scrollHeldSearch);
-		
 		
 		panel_7.add(panel_9);
 		panel_9.setLayout(new GridLayout(0, 1, 0, 0));
@@ -629,10 +532,9 @@ public class logInAs {
 		
 		panel_6.add(reserveButton);
 		middle.add(search_customer, "search");
-		search_customer.setLayout(null);
-		panel_13.setBounds(0, 0, 827, 73);
+		search_customer.setLayout(new BorderLayout(0, 0));
 		
-		search_customer.add(panel_13);
+		search_customer.add(panel_13, BorderLayout.NORTH);
 		customerIDLab.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		panel_13.add(customerIDLab);
@@ -642,89 +544,86 @@ public class logInAs {
 		
 		panel_13.add(btnOk);
 		
+		search_customer.add(panel_20, BorderLayout.CENTER);
+		panel_20.setLayout(new GridLayout(0, 2, 0, 0));
+		
 		JPanel panel_14 = new JPanel();
-		panel_14.setBounds(0, 72, 323, 394);
-		search_customer.add(panel_14);
-		panel_14.setLayout(null);
-		lblName.setBounds(31, 32, 96, 15);
-		lblName.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel_20.add(panel_14);
+		panel_14.setLayout(new GridLayout(11, 2, 0, 0));
+		lblName.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		panel_14.add(lblName);
-		
-		custName.setBounds(158, 32, 141, 15);
 		panel_14.add(custName);
 		
-		JLabel lblNewLabel_10 = new JLabel("Blacklist?");
-		lblNewLabel_10.setBounds(31, 345, 96, 15);
-		lblNewLabel_10.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panel_14.add(lblNewLabel_10);
-		
-		custBlacklist.setBounds(158, 345, 141, 15);
-		panel_14.add(custBlacklist);
-		
 		JLabel lblNewLabel_11 = new JLabel("User ID:");
-		lblNewLabel_11.setBounds(31, 58, 96, 15);
-		lblNewLabel_11.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_11.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_14.add(lblNewLabel_11);
-		
-		custID.setBounds(158, 58, 141, 15);
 		panel_14.add(custID);
 		
 		JLabel lblAddress = new JLabel("Address:");
-		lblAddress.setBounds(31, 92, 96, 15);
-		lblAddress.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblAddress.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_14.add(lblAddress);
-		
-		custAddress1.setBounds(158, 92, 141, 15);
 		panel_14.add(custAddress1);
-		custAddress2.setBounds(158, 112, 141, 15);
+		
+		panel_14.add(label);
 		
 		panel_14.add(custAddress2);
-		custAddress3.setBounds(158, 132, 46, 14);
+		
+		panel_14.add(label_3);
 		
 		panel_14.add(custAddress3);
 		
 		JLabel lblPhoneNumber = new JLabel("Phone Number:");
-		lblPhoneNumber.setBounds(31, 162, 96, 15);
-		lblPhoneNumber.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblPhoneNumber.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_14.add(lblPhoneNumber);
-		
-		custPhone.setBounds(158, 162, 141, 15);
 		panel_14.add(custPhone);
 		
 		JLabel lblCustomerType = new JLabel("Max Media:");
-		lblCustomerType.setBounds(31, 188, 96, 15);
-		lblCustomerType.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCustomerType.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_14.add(lblCustomerType);
-		
-		custType.setBounds(158, 188, 141, 15);
 		panel_14.add(custType);
-		lblNewLabel_12.setBounds(31, 214, 96, 15);
-		lblNewLabel_12.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_12.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		panel_14.add(lblNewLabel_12);
-		custBirth.setBounds(158, 214, 141, 15);
 		
 		panel_14.add(custBirth);
-		lblFeesDue.setBounds(31, 240, 58, 15);
-		lblFeesDue.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblFeesDue.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		panel_14.add(lblFeesDue);
-		custFees.setBounds(158, 240, 141, 15);
 		
 		panel_14.add(custFees);
-		panel_15.setBounds(320, 72, 507, 394);
 		
-		search_customer.add(panel_15);
-		panel_15.setLayout(null);
-		custBorrowed.setFont(new Font("Tahoma", Font.BOLD, 12));
-		custBorrowed.setBounds(10, 11, 119, 14);
+		JLabel lblNewLabel_10 = new JLabel("Blacklist?");
+		lblNewLabel_10.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panel_14.add(lblNewLabel_10);
+		panel_14.add(custBlacklist);
+		
+		//Scroll thingy 4 for search customer borrowed
+		searchBorrowList.setModel(searchBorrowDLM);
+		searchBorrowList.setLayoutOrientation(JList.VERTICAL);
+		//searchBorrowList.setBounds(20, 36, 458, 159);
+		searchBorrowList.setVisibleRowCount(3);
+		scrollBorrowedSearch = new JScrollPane(searchBorrowList);
+		scrollBorrowedSearch.setPreferredSize(new Dimension(458,159));
+		panel_20.add(panel_15);
+		panel_15.setLayout(new GridLayout(0, 1, 0, 0));
+		custBorrowed.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		panel_15.add(custBorrowed);
-		custHeld.setFont(new Font("Tahoma", Font.BOLD, 12));
-		custHeld.setBounds(10, 216, 119, 14);
+		panel_15.add(scrollBorrowedSearch);
+		custHeld.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		panel_15.add(custHeld);
+		
+		
+		//Scroll thingy 5 for search customer held
+		searchHoldList.setModel(searchHoldsDLM);
+		searchHoldList.setLayoutOrientation(JList.VERTICAL);
+		//searchHoldList.setBounds(20, 241, 458, 142);
+		searchHoldList.setVisibleRowCount(3);
+		scrollHeldSearch = new JScrollPane(searchHoldList);
+		scrollHeldSearch.setPreferredSize(new Dimension(458,142));
+		panel_15.add(scrollHeldSearch);
 		
 		borrow_media.repaint();
 		
@@ -784,6 +683,7 @@ public class logInAs {
 				//Verify login
 				LogIn enter = new LogIn();
 				Boolean verifyLogin = enter.verifyLogin(emailTextField.getText(), passwordField.getText());
+				
 				if (verifyLogin == true) {
 					
 					JOptionPane.showMessageDialog(null, "Log in was successful", "InfoBox: " + "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -795,6 +695,9 @@ public class logInAs {
 					}
 			        if (who.getText().equals("Student")) {
 			        	cl.show(panelCont, "StudentWindow");
+			        	
+			        	StudentAndFacultyWindowActions(emailTextField.getText());
+			        	
 			        }
 			        
 			        if (who.getText().equals("Faculty")) {
@@ -1240,4 +1143,113 @@ public class logInAs {
 			
 			
 	}
+
+	public void StudentAndFacultyWindowActions(String ID) {
+		
+		/**
+		 * Button for Browsing media
+		 */
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String comboBoxValue = (String) comboBox_studentHold.getSelectedItem();
+				
+				ArrayList<PaperMedia> papermedia = dtb.getPaperMedias();
+				ArrayList<CD> cds = dtb.getCds();
+				ArrayList<DVD> dvds = dtb.getDvds();
+				
+				if (comboBoxValue.equals("CDs")) 
+				{
+					dlm.clear();
+					for (int i=0; i<cds.size();i++) {
+						dlm.addElement(dtb.getCds().get(i));
+					}
+				}
+				
+				if (comboBoxValue.equals("DVDs")) 
+				{
+					dlm.clear();
+					for (int i=0; i<dvds.size();i++) {
+						dlm.addElement(dtb.getDvds().get(i));
+					}
+				}
+				
+				if (comboBoxValue.equals("Books/Magazines/Comics")) 
+				{
+					dlm.clear();
+					for (int i=0; i<papermedia.size();i++) {
+						dlm.addElement(dtb.getPaperMedias().get(i));
+					}
+				}
+		
+				list_1.setModel(dlm);
+			}
+		});
+		
+		/**
+		 * Button to press for hold in student/faculty window
+		 */
+		HoldBtnStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//comboBox_studentHold
+				if (list_1.getSelectedIndex() != -1) {
+					//Search customer by ID
+					
+					Customer c = dtb.searchByID(ID);
+					
+					if (c == null) { //ok this will never execute because we verified the student in log-in section
+						JOptionPane.showMessageDialog(dialogMediaBorrow, "No customer with such ID exists", "InfoBox ", JOptionPane.WARNING_MESSAGE);
+					} else {
+						
+						PhysicalMedia item = new PhysicalMedia();
+						try{item = (CD)list_1.getSelectedValue();}catch(Exception e) {
+							try {item = (DVD)list_1.getSelectedValue();}catch(Exception f) {
+								try {item = (PaperMedia)list_1.getSelectedValue();}catch(Exception g) {}}}
+						
+						System.out.println(item.getCustomer());
+						
+						//No one has the media on hold/ or owns it, there's no line up to item and media status isn't unavailable
+						if (item.getCustomer() == null && item.getLineUp().size() == 0 && !item.getStatus().getCurrentStatus().equals("unavailable")) { //& book status isn't unavailable 
+							
+							item.setCustomer(c); //set media to customer that will take it or hold it
+								
+							c.addMediaOnHold(item); //add media to customer's holds for 1 week from now
+												
+							JOptionPane.showMessageDialog(dialogMediaBorrow, "Media is put on hold by customer: " + c.getID(), "InfoBox ", JOptionPane.WARNING_MESSAGE);
+							
+						//Media is helf or borrowed by someone already & customer isn't the one that holds that media and isn't already in line
+						} else if (item.getCustomer() != null && item.getCustomer() != c && item.getLineUp().isInLine(c) == false) {
+						    item.getLineUp().addToLine(c);
+							JOptionPane.showMessageDialog(dialogMediaBorrow,("You are put in queue in position: " + item.getLineUp().size()),
+									"InfoBox",JOptionPane.INFORMATION_MESSAGE);
+							
+						}else { //Customer already holds or has media borrowed
+							JOptionPane.showMessageDialog(dialogMediaBorrow, "You are already in queue/on hold or already own the media", "InfoBox ", JOptionPane.WARNING_MESSAGE);
+						}
+							
+							
+						}
+						
+						System.out.println(dtb.shelfString());
+						
+						for (int i=0;i<dtb.getCustomers().size();i++) {
+							System.out.println(dtb.getCustomers().get(i).toString());
+						}
+
+						dtb.save();
+						
+						dialogMediaBorrow.setVisible(false);
+						dialogMediaBorrow.dispose();
+						dlm.clear();
+				
+				}else {
+					JOptionPane.showMessageDialog(null, "Please select media from the list", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+	}
+
+
 }
+
+	
