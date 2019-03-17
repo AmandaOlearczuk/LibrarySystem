@@ -9,10 +9,10 @@ ID : 100
 Password: SophieLee
 
 + To log in as a student, enter the following log-in information
-ID: 100
+ID: 101
 Password: JohnSmith
 
 OR
 
-ID: 101
+ID: 102
 Password: AnnLis
