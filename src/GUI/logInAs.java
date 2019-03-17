@@ -143,7 +143,7 @@ public class logInAs {
 	private final JLabel lblNewLabel = new JLabel("Log in as ..");
 	private final JLabel lblNewLabel_1 = new JLabel("");
 	private final JLabel lblNewLabel_2 = new JLabel("");
-	private final JLabel lblNewLabel_3 = new JLabel("Email : ");
+	private final JLabel lblNewLabel_3 = new JLabel("ID:");
 	private final JLabel lblNewLabel_4 = new JLabel("Password : ");
 	private final JLabel who = new JLabel("Librarian");
 
@@ -157,7 +157,7 @@ public class logInAs {
 	
 	private final JComboBox comboBox = new JComboBox();
 	
-	private final JTextField emailTextField = new JTextField();
+	private final JTextField idTxtField = new JTextField();
 	private JTextField custIDField;
 	private final JTextField custIDField2 = new JTextField();
 	
@@ -229,7 +229,7 @@ public class logInAs {
 	private final JPanel studentMiddle = new JPanel();
 	private final JPanel studentPerson = new JPanel();
 	private final JLabel lblLoggedInAs = new JLabel("Logged in as Student: ");
-	private final JLabel label_2 = new JLabel("<name>");
+	private final JLabel customerNameLabel = new JLabel("<name>");
 	private final JButton button_4 = new JButton("Log Out");
 	private final JPanel panel_16 = new JPanel();
 	private final JPanel panel_17 = new JPanel();
@@ -272,8 +272,8 @@ public class logInAs {
 		custIDField3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		custIDField3.setColumns(10);
 
-		emailTextField.setHorizontalAlignment(SwingConstants.LEFT);
-		emailTextField.setColumns(10);
+		idTxtField.setHorizontalAlignment(SwingConstants.LEFT);
+		idTxtField.setColumns(10);
 		
 		initialize();
 	}
@@ -422,9 +422,9 @@ public class logInAs {
 		lblLoggedInAs.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		studentPerson.add(lblLoggedInAs);
-		label_2.setHorizontalAlignment(SwingConstants.CENTER);
+		customerNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		studentPerson.add(label_2);
+		studentPerson.add(customerNameLabel);
 		button_4.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		
 		studentPerson.add(button_4);
@@ -468,7 +468,7 @@ public class logInAs {
 		panel_21.setLayout(new GridLayout(0, 2, 0, 2));
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_21.add(lblNewLabel_3);
-		panel_21.add(emailTextField);
+		panel_21.add(idTxtField);
 		panel_21.add(lblNewLabel_4);
 		panel_21.add(passwordField);
 		
@@ -682,19 +682,26 @@ public class logInAs {
 				//Verify login
 				Boolean verifyLogin = false;
 				try {
-					Customer temp = dtb.searchByID(emailTextField.getText());
+					Customer temp = dtb.searchByID(idTxtField.getText());
 					temp.getPassword();
 					String tempPass = new String(passwordField.getPassword());
 					if (tempPass.equals(temp.getPassword()))
-						verifyLogin = true;
+					verifyLogin = true;
+						
 				}
 				catch (NullPointerException e) {
-					Librarian temp = dtb.searchLibrarianByID(emailTextField.getText());
+
+					Librarian temp = dtb.searchLibrarianByID(idTxtField.getText());
 					String tempPass = new String(passwordField.getPassword());
-					if (tempPass.equals(temp.getPassword()))
+					
+					try { 
+						if (tempPass.equals(temp.getPassword()))
 						verifyLogin = true;
+					}catch(NullPointerException f) {
+						//nothing
+					}
 				}
-				
+
 				//LogIn enter = new LogIn();
 				//Boolean verifyLogin = enter.verifyLogin(emailTextField.getText(), passwordField.getText());
 				
@@ -704,13 +711,13 @@ public class logInAs {
 					if (who.getText().equals("Librarian")){
 						cl.show(panelCont, "LibrarianWindow");
 						
-						librarianWindowActions(emailTextField.getText());
+						librarianWindowActions(idTxtField.getText());
 					
 					}
 			        if (who.getText().equals("Student")) {
 			        	cl.show(panelCont, "StudentWindow");
 			        	
-			        	StudentAndFacultyWindowActions(emailTextField.getText());
+			        	StudentAndFacultyWindowActions(idTxtField.getText());
 			        	
 			        }
 			        
@@ -789,14 +796,6 @@ public class logInAs {
 	
 	public void librarianWindowActions(String ID) {
 		
-				//Load librarian's info based on ID from file TODO
-		
-				/*Create a librarian
-				Calendar librarianSophieBirthDate = Calendar.getInstance();
-				librarianSophieBirthDate.set(1970,0,12);
-				Librarian Sophie = new Librarian("100","Sophie", "Lee", librarianSophieBirthDate, 
-						new Address(10,"St.Paul","AAAA33","Calgary","Canada"),"4035667080");
-				*/
 				Librarian temp = dtb.searchLibrarianByID(ID);
 				nameLabel.setText(temp.getFirstName() + " " + temp.getLastName());
 				
@@ -1161,12 +1160,16 @@ public class logInAs {
 
 	public void StudentAndFacultyWindowActions(String ID) {
 		
+		Customer c = dtb.searchByID(ID);
+		customerNameLabel.setText(c.getFirstName() + " " + c.getLastName());
+		
 		/**
 		 * Button for Browsing media
 		 */
 		
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				String comboBoxValue = (String) comboBox_studentHold.getSelectedItem();
 				
 				ArrayList<PaperMedia> papermedia = dtb.getPaperMedias();

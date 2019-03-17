@@ -1,12 +1,13 @@
 package Actors;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import Media.PhysicalMedia;
 import Utilities.*;
 
 
-public class Librarian {
+public class Librarian implements Serializable{
 
 	private String ID;
 	private String FirstName;

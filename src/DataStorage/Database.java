@@ -1,5 +1,6 @@
 package DataStorage;
 
+import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -124,6 +125,13 @@ public class Database implements Serializable {
 		customers.add(JohnSmith);
 		customers.add(AnnLis);
 		
+		//Create a librarian
+		Calendar librarianSophieBirthDate = Calendar.getInstance();
+		librarianSophieBirthDate.set(1970,0,12);
+		Librarian Sophie = new Librarian("100","Sophie", "Lee", librarianSophieBirthDate, 
+				new Address(10,"St.Paul","AAAA33","Calgary","Canada"),"4035667080");
+		librarians.add(Sophie);
+		
 		//Create metallica CD
 		ArrayList<String> metallicaComposers = new ArrayList<String>();
 		metallicaComposers.add("Metallica");
@@ -218,6 +226,7 @@ public class Database implements Serializable {
      */
     public void loadData() {
     	
+    	//The two lines below can be uncommented and the rest of function commented out if we want to reset database basically
     	//this.createCustomerMediaBase();
     	//this.save();
     	
@@ -228,12 +237,14 @@ public class Database implements Serializable {
 			
 			try {
 				customers.clear();
+				librarians.clear();
 				cds.clear();
 				dvds.clear();
 				paperMedias.clear();
 				while(true) {
 					Object obj = in.readObject();
 					if(obj instanceof Customer) customers.add((Customer)obj);
+					if(obj instanceof Librarian) librarians.add((Librarian)obj);
 					if(obj instanceof CD) cds.add((CD)obj);{}
 					if(obj instanceof DVD) dvds.add((DVD)obj);{}
 					if(obj instanceof PaperMedia) paperMedias.add((PaperMedia)obj);
@@ -244,6 +255,9 @@ public class Database implements Serializable {
 				System.out.println("Class in file wasn't found");
 				
 			}
+			catch (EOFException e) {
+	    		System.out.println("End of file reached");
+	    	}
 		
 			in.close();
 			
@@ -255,15 +269,6 @@ public class Database implements Serializable {
 			e.printStackTrace();
 		}	
     	
-    	
-    	//until class loading bug is solved, librarian will be added here
-    	
-    	//Create a librarian
-		Calendar librarianSophieBirthDate = Calendar.getInstance();
-		librarianSophieBirthDate.set(1970,0,12);
-		Librarian Sophie = new Librarian("100","Sophie", "Lee", librarianSophieBirthDate, 
-				new Address(10,"St.Paul","AAAA33","Calgary","Canada"),"4035667080");
-		librarians.add(Sophie);
 		
     	System.out.println("\n^ Data load successful\n");
     }
