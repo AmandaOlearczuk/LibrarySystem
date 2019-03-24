@@ -31,6 +31,7 @@ public class Database implements Serializable {
 
 	private ArrayList<Customer> customers = new ArrayList<Customer>();
 	private ArrayList<Librarian> librarians = new ArrayList<Librarian>();
+	
  	
 	/**
 	 * Getters & setters
@@ -209,6 +210,7 @@ public class Database implements Serializable {
 			for (int i=0;i<paperMedias.size();i++) {
 				out.writeObject(paperMedias.get(i));
 				}
+
 			
 			out.close();
 			

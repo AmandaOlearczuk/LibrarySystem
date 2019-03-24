@@ -111,6 +111,20 @@ public class logInAs {
 	private final JPanel panel_7 = new JPanel();
 	private final JPanel panel_10 = new JPanel();
 	private final JPanel panel_11 = new JPanel();
+	private final JPanel search_customer = new JPanel();
+	private final JPanel panel_12 = new JPanel();
+	private final JPanel panel_13 = new JPanel();
+	private final JPanel panel_15 = new JPanel();
+	private final JPanel panel_16 = new JPanel();
+	private final JPanel panel_17 = new JPanel();
+	private final JPanel panel_20 = new JPanel();
+	private final JPanel panel_21 = new JPanel();
+	private final JPanel panel_18 = new JPanel();
+	private final JPanel panel_19 = new JPanel();
+	private final JPanel studentMiddle = new JPanel();
+	private final JPanel studentPerson = new JPanel();
+	private final JPanel studentMenu = new JPanel();
+	private Panel panel_8 = new Panel();
 	
 	//For scrollable list
 	private JScrollPane scroll; 
@@ -118,6 +132,7 @@ public class logInAs {
 	private JScrollPane scrollCustomerHolds;
 	private JScrollPane scrollBorrowedSearch;
 	private JScrollPane scrollHeldSearch;
+	private final JScrollPane scrollPane = new JScrollPane();
 		
 	private JButton btnBack1 = new JButton("Back");
 	private JButton studentBtn = new JButton("Student");
@@ -128,13 +143,20 @@ public class logInAs {
 	private final JButton btnNewButton_1 = new JButton("Add media");
 	private final JButton librarianBrowseButton = new JButton("Browse media");
 	private final JButton browseBtn = new JButton("Browse");
-	private final JButton btnNewButton = new JButton("Log Out");
+	private final JButton logOutBtn = new JButton("Log Out");
 	private final JButton borrow_button = new JButton("Borrow");
 	private final JButton reserveButton = new JButton("Make Reserved");
 	private final JButton okButton1 = new JButton("Ok");
 	private final JButton returnBtn = new JButton("Return");
 	private final JButton pickupBtn = new JButton("Pick-up from Hold");
 	private final JButton okButtonPickup = new JButton("Ok");
+	private final JButton pickupButton = new JButton("Pickup");
+	private final JButton searchCustomerBtn = new JButton("Search Customer");
+	private final JButton HoldBtnStudent = new JButton("Hold");
+	private final JButton logOutBtn2 = new JButton("Log Out");
+	private final JButton btnPlaceOnHold = new JButton("Place on Hold");
+	private final JButton btnOk = new JButton("Ok");
+	private final JButton button = new JButton("Browse");
 	
 	private CardLayout cl = new CardLayout();
 	private final CardLayout mid = new CardLayout(5,5);
@@ -145,24 +167,38 @@ public class logInAs {
 	private final JLabel lblNewLabel_3 = new JLabel("ID:");
 	private final JLabel lblNewLabel_4 = new JLabel("Password : ");
 	private final JLabel who = new JLabel("Librarian");
-
 	private final JLabel lblNewLabel_6 = new JLabel("");
 	private final JLabel lblNewLabel_7 = new JLabel("");
 	private final JLabel lblWelcome = new JLabel("Logged in as Librarian: ");
 	private final JLabel nameLabel = new JLabel("<name>");
 	private final JLabel lblNewLabel_5 = new JLabel("Customer ID:");
+	private final JLabel lblNewLabel_12 = new JLabel("Birthdate:");
+	private final JLabel lblFeesDue = new JLabel("Fees Due:");
+	private final JLabel custBorrowed = new JLabel("Media Borrowed:");
+	private final JLabel custHeld = new JLabel("Media Held:");
+	private final JLabel lblLoggedInAs = new JLabel("Logged in as Student: ");
+	private final JLabel customerNameLabel = new JLabel("<name>");
+	private final JLabel customerIDLab = new JLabel("Customer ID:");
+	private final JLabel lblName = new JLabel("Name:");
+	private final JLabel label = new JLabel("");
+	private final JLabel label_3 = new JLabel("");
+	private JLabel label_1 = new JLabel("Customer ID:");
+
 	
 	private final JPasswordField passwordField = new JPasswordField();
 	
 	private final JComboBox comboBox = new JComboBox();
+	private final JComboBox comboBox_studentHold = new JComboBox();
 	
 	private final JTextField idTxtField = new JTextField();
 	private JTextField custIDField;
 	private final JTextField custIDField2 = new JTextField();
+	private final JTextField custIDField3 = new JTextField();
 	
 	private final JList list = new JList();
 	private final JList customerBorrowedList = new JList();
 	private final JList customerHoldsList = new JList();
+	private final JList list_1 = new JList();
 	
 	private final DefaultListModel dlm = new DefaultListModel();
 	private final DefaultListModel customerDLM = new DefaultListModel();
@@ -200,6 +236,7 @@ public class logInAs {
 	private JLabel custPhone = new JLabel();
 	private JLabel custType = new JLabel();
 	
+	
 	private final JList searchBorrowList = new JList();
 	private final JList searchHoldList = new JList();
 
@@ -209,41 +246,6 @@ public class logInAs {
 	
 	//Database initialization
 	private Database dtb = new Database();
-	private final JButton pickupButton = new JButton("Pickup");
-	private final JButton searchCustomerBtn = new JButton("Search Customer");
-	private final JPanel search_customer = new JPanel();
-	private final JPanel panel_12 = new JPanel();
-	private final JPanel panel_13 = new JPanel();
-	private final JLabel customerIDLab = new JLabel("Customer ID:");
-	private final JTextField custIDField3 = new JTextField();
-	private final JButton btnOk = new JButton("Ok");
-	private final JLabel lblName = new JLabel("Name:");
-	private final JPanel panel_15 = new JPanel();
-	private final JLabel lblNewLabel_12 = new JLabel("Birthdate:");
-	private final JLabel lblFeesDue = new JLabel("Fees Due:");
-	private final JLabel custBorrowed = new JLabel("Media Borrowed:");
-	private final JLabel custHeld = new JLabel("Media Held:");
-	private final JPanel studentMenu = new JPanel();
-	private final JButton btnPlaceOnHold = new JButton("Place on Hold");
-	private final JPanel studentMiddle = new JPanel();
-	private final JPanel studentPerson = new JPanel();
-	private final JLabel lblLoggedInAs = new JLabel("Logged in as Student: ");
-	private final JLabel customerNameLabel = new JLabel("<name>");
-	private final JButton button_4 = new JButton("Log Out");
-	private final JPanel panel_16 = new JPanel();
-	private final JPanel panel_17 = new JPanel();
-	private final JComboBox comboBox_studentHold = new JComboBox();
-	private final JButton button = new JButton("Browse");
-	private final JPanel panel_18 = new JPanel();
-	private final JPanel panel_19 = new JPanel();
-	private final JButton HoldBtnStudent = new JButton("Place on Hold");
-	private final JScrollPane scrollPane = new JScrollPane();
-	private final JList list_1 = new JList();
-	private final JPanel panel_20 = new JPanel();
-	private final JLabel label = new JLabel("");
-	private final JLabel label_3 = new JLabel("");
-	private final JPanel panel_21 = new JPanel();
-
 	
 	/**
 	 * Launch the application.
@@ -285,7 +287,7 @@ public class logInAs {
 		//Load customers & media
 		dtb.loadData(); 
 		
-		System.out.println(dtb.shelfString());
+		//System.out.println(dtb.shelfString());
 		
 		cl.setVgap(5);
 		cl.setHgap(5);
@@ -303,140 +305,90 @@ public class logInAs {
 		panel_10.add(custIDField2);
 		okButtonPickup.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_10.add(okButtonPickup);
-		
 		LibrarianWindow.setLayout(new BorderLayout(0, 0));
-		
 		panel_10.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		person.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		LibrarianWindow.add(person, BorderLayout.SOUTH);
 		person.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
-		
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
 		person.add(lblWelcome);
-		
 		nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		person.add(nameLabel);
-		
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		person.add(btnNewButton);
-		
+		logOutBtn.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		person.add(logOutBtn);
 		menu.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		LibrarianWindow.add(menu, BorderLayout.WEST);
 		menu.setLayout(new GridLayout(5, 0, 0, 0));
-		
 		menu.add(librarianReturnButton);
 		menu.add(librarianBrowseButton);
-		
 		menu.add(pickupBtn);
 		menu.add(searchCustomerBtn);
-		
 		middle.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		LibrarianWindow.add(middle, BorderLayout.CENTER);
 		middle.setLayout(mid);
 		middle.add(browse_media, "browse");
 		middle.add(pickup_media, "pickup");
 		pickup_media.setLayout(new GridLayout(0, 1, 0, 0));
-		
 		pickup_media.add(panel_10);
-		
 		pickup_media.add(panel_11);
-		
 		browse_media.setLayout(new GridLayout(2, 1, 0, 0));
-		browse_media.add(panel_3);
-		
-				
+		browse_media.add(panel_3);	
 		panel_3.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		panel_3.add(comboBox);
-		
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Books/Magazines/Comics", "CDs", "DVDs"}));
-	
 		panel_3.add(browseBtn);
-		
 		browse_media.add(panel_5);
-		
 		middle.add(return_media, "return");
 		return_media.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		Panel panel_8 = new Panel();
 		return_media.add(panel_8);
 		panel_8.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JLabel label_1 = new JLabel("Customer ID:");
 		label_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_8.add(label_1);
-		
 		custIDField = new JTextField();
 		custIDField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		custIDField.setColumns(10);
 		panel_8.add(custIDField);
 		okButton1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		
 		panel_8.add(okButton1);
-		
 		return_media.add(panel_7);
-		
 		panelCont.add(StudentWindow,"StudentWindow");
 		StudentWindow.setLayout(new BorderLayout(0, 0));
 		studentMenu.setBorder(null);
 		StudentWindow.add(studentMenu, BorderLayout.WEST);
 		studentMenu.setLayout(new GridLayout(5, 0, 0, 0));
-		btnPlaceOnHold.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		
 		studentMenu.add(btnPlaceOnHold);
 		studentMiddle.setBorder(new LineBorder(new Color(0, 0, 0)));
-		
 		StudentWindow.add(studentMiddle, BorderLayout.CENTER);
 		studentMiddle.setLayout(new GridLayout(0, 1, 0, 0));
-		FlowLayout flowLayout = (FlowLayout) panel_16.getLayout();
-		
 		studentMiddle.add(panel_16);
 		comboBox_studentHold.setModel(new DefaultComboBoxModel(new String[] {"Books/Magazines/Comics", "CDs", "DVDs"}));
-		
 		panel_16.add(comboBox_studentHold);
-		
 		panel_16.add(button);
-		
 		studentMiddle.add(panel_17);
 		panel_17.setLayout(new BoxLayout(panel_17, BoxLayout.X_AXIS));
-		
 		panel_17.add(panel_18);
 		panel_18.setLayout(new GridLayout(0, 1, 0, 0));
-		
 		panel_18.add(scrollPane);
-		
 		scrollPane.setViewportView(list_1);
-		
 		panel_17.add(panel_19);
 		panel_19.setLayout(new GridLayout(0, 1, 0, 0));
-		
 		panel_19.add(HoldBtnStudent);
 		studentPerson.setBorder(new LineBorder(new Color(0, 0, 0)));
-		
 		StudentWindow.add(studentPerson, BorderLayout.SOUTH);
 		studentPerson.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		lblLoggedInAs.setHorizontalAlignment(SwingConstants.CENTER);
-		
 		studentPerson.add(lblLoggedInAs);
 		customerNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		
 		studentPerson.add(customerNameLabel);
-		button_4.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		
-		studentPerson.add(button_4);
+		logOutBtn2.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		studentPerson.add(logOutBtn2);
 		panelCont.add(FacultyWindow,"FacultyWindow");
-		
 		cl.show(panelCont, "1");
-		
 		GridLayout gl_LogInAs = new GridLayout(7, 1);
 		LogInAs.setLayout(gl_LogInAs);
-		
 		LogInAs.add(lblNewLabel_2);
 		LogInAs.add(lblNewLabel);
-		
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		LogInAs.add(studentBtn);
 		LogInAs.add(facultyBtn);
@@ -452,15 +404,11 @@ public class logInAs {
 		btnBack1.setHorizontalAlignment(SwingConstants.LEFT);
 		who.setFont(new Font("Yu Gothic Light", Font.PLAIN, 30));
 		who.setHorizontalAlignment(SwingConstants.CENTER);
-		
 		LogInAsSomeone.add(who);
-		
 		LogInAsSomeone.add(panel);
 		panel.setLayout(new GridLayout(0, 3, 0, 5));
-		
 		panel.add(lblNewLabel_6);
 		panel_21.setBorder(null);
-		
 		panel.add(panel_21);
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
 		passwordField.setHorizontalAlignment(SwingConstants.LEFT);
@@ -470,18 +418,13 @@ public class logInAs {
 		panel_21.add(idTxtField);
 		panel_21.add(lblNewLabel_4);
 		panel_21.add(passwordField);
-		
 		panel.add(lblNewLabel_7);
-		
 		LogInAsSomeone.add(panel_1);
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 25));
 		loginButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		
 		panel_1.add(loginButton);
-		
 		middle.add(borrow_media, "name_49849626154600");
-		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
-				
+		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));	
 		panel_5.add(list);
 				
 		//Scroll thingy 1 for media
@@ -513,85 +456,56 @@ public class logInAs {
 		panel_11.add(scrollCustomerHolds);
 		
 		panel_11.add(pickupButton);
-		
-		
 		panel_7.add(panel_9);
 		panel_9.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		panel_9.add(returnBtn);
-				
+		panel_9.add(returnBtn);	
 		panel_5.add(panel_6);
 		panel_6.setLayout(new GridLayout(2, 1, 0, 0));
-		borrow_button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		borrow_button.setAlignmentY(0.0f);
 		panel_6.add(borrow_button);
-		
 		panel_6.add(reserveButton);
 		middle.add(search_customer, "search");
 		search_customer.setLayout(new BorderLayout(0, 0));
-		
 		search_customer.add(panel_13, BorderLayout.NORTH);
 		customerIDLab.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		
 		panel_13.add(customerIDLab);
-		
 		panel_13.add(custIDField3);
 		btnOk.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		
 		panel_13.add(btnOk);
-		
 		search_customer.add(panel_20, BorderLayout.CENTER);
 		panel_20.setLayout(new GridLayout(0, 2, 0, 0));
-		
 		JPanel panel_14 = new JPanel();
 		panel_20.add(panel_14);
 		panel_14.setLayout(new GridLayout(11, 2, 0, 0));
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		
 		panel_14.add(lblName);
 		panel_14.add(custName);
-		
 		JLabel lblNewLabel_11 = new JLabel("User ID:");
 		lblNewLabel_11.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_14.add(lblNewLabel_11);
 		panel_14.add(custID);
-		
 		JLabel lblAddress = new JLabel("Address:");
 		lblAddress.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_14.add(lblAddress);
 		panel_14.add(custAddress1);
-		
 		panel_14.add(label);
-		
 		panel_14.add(custAddress2);
-		
 		panel_14.add(label_3);
-		
 		panel_14.add(custAddress3);
-		
 		JLabel lblPhoneNumber = new JLabel("Phone Number:");
 		lblPhoneNumber.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_14.add(lblPhoneNumber);
 		panel_14.add(custPhone);
-		
 		JLabel lblCustomerType = new JLabel("Max Media:");
 		lblCustomerType.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_14.add(lblCustomerType);
 		panel_14.add(custType);
 		lblNewLabel_12.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		
 		panel_14.add(lblNewLabel_12);
-		
 		panel_14.add(custBirth);
 		lblFeesDue.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		
 		panel_14.add(lblFeesDue);
-		
 		panel_14.add(custFees);
-		
 		JLabel lblNewLabel_10 = new JLabel("Blacklist?");
 		lblNewLabel_10.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_14.add(lblNewLabel_10);
@@ -611,7 +525,6 @@ public class logInAs {
 		panel_15.add(custBorrowed);
 		panel_15.add(scrollBorrowedSearch);
 		custHeld.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		
 		panel_15.add(custHeld);
 		
 		
@@ -635,6 +548,8 @@ public class logInAs {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				cl.show(panelCont, "1");
+				idTxtField.setText("");
+				passwordField.setText("");
 			}
 		});
 			
@@ -729,7 +644,8 @@ public class logInAs {
 					cl.show(panelCont, "2");
 				}
 				
-		        
+		    idTxtField.setText("");
+		    passwordField.setText("");
 			}
 		});
 	        
@@ -737,7 +653,7 @@ public class logInAs {
 	   /**
 	    * Click on BROWSE button to browse CD,DVD or book/magazine/comics
 	    */
-	   browseBtn.addActionListener(new ActionListener() {
+ 	   browseBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				String comboBoxValue = (String) comboBox.getSelectedItem();
@@ -775,6 +691,20 @@ public class logInAs {
 			}
 		});
 	   
+	   /**
+	    * Click log-out buttons
+	    */
+	   logOutBtn.addActionListener(new ActionListener() {
+		   public void actionPerformed(ActionEvent arg0) {
+			   cl.show(panelCont, "1");
+		   }});
+	   
+	   logOutBtn2.addActionListener(new ActionListener() {
+		   public void actionPerformed(ActionEvent arg0) {
+			   cl.show(panelCont, "1");
+		   }});
+	   
+	   
 	    /**
 	     * Window settings
 	     */
@@ -791,8 +721,12 @@ public class logInAs {
 		frmLogin.setVisible(true);
 	}
 	
-	//////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	/**
+	 * Put all actions for librarian into the following function
+	 * @param ID
+	 */
 	public void librarianWindowActions(String ID) {
 		
 				Librarian temp = dtb.searchLibrarianByID(ID);
@@ -804,6 +738,8 @@ public class logInAs {
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
 							mid.show(middle,"browse");
+							dlm.clear();
+							
 							
 						}
 					});
@@ -811,18 +747,38 @@ public class logInAs {
 				librarianReturnButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						mid.show(middle, "return");
+						customerDLM.clear();
 					}
 				});
 				
 				pickupBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						mid.show(middle, "pickup");
+						customerHoldsDLM.clear();
+						custIDField2.setText("");
+						
 					}
 				});
 				
 				searchCustomerBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						searchHoldsDLM.clear();
+						searchBorrowDLM.clear();
+						
+						custIDField3.setText("");
+						custName.setText("");
+						custBlacklist.setText("");
+						custID.setText("");
+						custPhone.setText("");
+						custAddress1.setText("");
+						custAddress2.setText("");
+						custAddress3.setText("");
+						custType.setText("");
+						custBirth.setText("");
+						custFees.setText("");
+						
 						mid.show(middle, "search");
+						
 					}
 				});
 				
@@ -933,13 +889,13 @@ public class logInAs {
 				
 				
 				/**
-				 * Close button within dialog
+				 * Cancel button within dialog
 				 */
 				
-				closBut.addActionListener(new ActionListener() {
+				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						dialogMediaReturn.setVisible(false);
-						dialogMediaReturn.dispose();
+						dialogMediaBorrow.setVisible(false);
+						dialogMediaBorrow.dispose();
 					}
 				});
 				
@@ -1157,6 +1113,10 @@ public class logInAs {
 			
 	}
 
+	/**
+	 * Actions for student and faculty
+	 * @param ID
+	 */
 	public void StudentAndFacultyWindowActions(String ID) {
 		
 		Customer c = dtb.searchByID(ID);
