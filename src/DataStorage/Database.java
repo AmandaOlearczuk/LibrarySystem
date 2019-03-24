@@ -16,8 +16,13 @@ import Media.CD;
 import Media.DVD;
 import Media.PaperMedia;
 import Utilities.Address;
+import Utilities.FeeChargeSystem;
 import Utilities.Status;
 
+/**
+ * This class is responsible for loading and storing data about customers, and library to and from .bin file.
+ *
+ */
 public class Database implements Serializable {
 	
 	private ArrayList<CD> cds = new ArrayList<CD>();
@@ -29,7 +34,6 @@ public class Database implements Serializable {
  	
 	/**
 	 * Getters & setters
-	 * @return
 	 */
 	public ArrayList<CD> getCds() {
 		return cds;
@@ -72,8 +76,8 @@ public class Database implements Serializable {
 
 	/**
 	 * This function searches customer by ID and returns that object
-	 * @param text
-	 * @return
+	 * @param text - String as a numeric ID
+	 * @return Customer - if found by the ID
 	 */
 	public Customer searchByID(String text) {
 		Customer c ;
@@ -89,8 +93,8 @@ public class Database implements Serializable {
 	
 	/**
 	 * This function searches customer by ID and returns that object
-	 * @param text
-	 * @return
+	 * @param text - String which is an ID
+	 * @return Librarian - if found by ID
 	 */
 	public Librarian searchLibrarianByID(String text) {
 		Librarian l ;
@@ -180,11 +184,12 @@ public class Database implements Serializable {
 	}
 	
 	/**
-	 * Saves data info to file
+	 * Saves library info to file. Expired holds are filtered, overdue fees calculated.
 	 */
 	public void save() {
 		
 		this.filterHolds(); //removes expired holds
+    	this.calculateOverdueFees(); //calculates customer's owned books fees if return date is expired
 		
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Data.bin",false));
@@ -221,8 +226,7 @@ public class Database implements Serializable {
 
 	
 	/**
-     * Data is loaded from file and put into shelf. Expired holds are removed from customer's accounts with filterHolds()
-     * 
+     * Data of library is loaded. Expired holds are filtered, overdue fees calculated.
      */
     public void loadData() {
     	
@@ -231,6 +235,7 @@ public class Database implements Serializable {
     	//this.save();
     	
     	this.filterHolds(); //removes expired holds
+    	this.calculateOverdueFees(); //calculates customer's owned books fees if return date is expired
    
     	try {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream("Data.bin"));
@@ -284,6 +289,19 @@ public class Database implements Serializable {
     		this.getCustomers().get(i).removeExpiredHolds();
     	}
     }
+    
+    /**
+     * Calculates customer's overdue fees based on return dates for owned media.
+     */
+    public void calculateOverdueFees() {
+    	
+    	for(int i=0;i<this.getCustomers().size();i++) {
+    		
+    		FeeChargeSystem feeCalc = new FeeChargeSystem();
+    		feeCalc.calculateAndApplyOverdueFees(this.getCustomers().get(i));
+    	}
+    }
+    
     /**
      * Prints virtual shelf to string
      */

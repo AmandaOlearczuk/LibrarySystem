@@ -23,7 +23,6 @@ public class Customer implements Serializable {
 	private String password;
 
 	private Map<PhysicalMedia, Calendar> mediaOwned; //should be returned on date
-	private Map<PhysicalMedia,Calendar> mediaReturned; //returned on date
 	private Map<PhysicalMedia,CalendarPeriod> mediaOnHold; //held from: to: , is filtered to remove expired holds with each load/store in Database class.
 	private String phoneNumber;
 	private Double feesOwned;
@@ -46,10 +45,7 @@ public class Customer implements Serializable {
 		
 		if (mediaOnHold == null) {this.mediaOnHold = new HashMap<PhysicalMedia,CalendarPeriod>();}
 		else {this.mediaOnHold = mediaOnHold;}
-		
-		if (mediaReturned == null) {this.mediaReturned = new HashMap<PhysicalMedia,Calendar>();}
-		else {this.mediaReturned = mediaReturned;}
-		
+
 		this.setFeesOwned(feesOwned);
 		
 		if(feesOwned >= 50.0) {this.setIsBlackListed(true);}else {this.setIsBlackListed(false);}
@@ -126,9 +122,9 @@ public class Customer implements Serializable {
 	public Map<PhysicalMedia, CalendarPeriod> getMediaOnHold() {
 		return mediaOnHold;
 	}
-	public Map<PhysicalMedia,Calendar> getMediaReturned() {
-		return mediaReturned;
-	}
+	//public Map<PhysicalMedia,Calendar> getMediaReturned() {
+		//return mediaReturned;
+	//}
 	public void setMediaOwned(Map<PhysicalMedia,Calendar> mediaOwned) {
 		this.mediaOwned = mediaOwned;
 	}
@@ -175,8 +171,7 @@ public class Customer implements Serializable {
 	 */
 	public String showMedia() {
 		
-		return "\nOwned media : \n" + this.showMediaOwned() + "\nMedia on hold: \n" + this.showMediaOnHold()
-		+ "\nReturned media: \n" + this.showMediaReturned();
+		return "\nOwned media : \n" + this.showMediaOwned() + "\nMedia on hold: \n" + this.showMediaOnHold();
 	}
 	
 	public String showMediaOwned() {
@@ -209,21 +204,6 @@ public class Customer implements Serializable {
 		
 	}
 	
-	
-	public String showMediaReturned() {
-		String returned = "";
-		
-		//Media returned
-		if (this.mediaReturned.size() != 0 ) {
-			for(Map.Entry<PhysicalMedia, Calendar> e : mediaReturned.entrySet())
-			{
-				returned = returned + (e.getKey().toString() +" ; Returned on : "+e.getValue().getTime()) + "\n";
-			}
-		} else {
-			returned = "No media was returned by " + this.FirstName + " " + this.LastName;
-		}
-		return returned;
-	}
 
 	/**
 	 * Does nothing - is here just for customer.updateBlackListStatus() function that's needed for FeeChargeSystem
