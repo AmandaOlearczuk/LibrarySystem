@@ -2,12 +2,17 @@ package Utilities;
 
 import java.util.Calendar;
 
+/**
+ * This class is responsible for calculating dates such as calculating date one week from now or checking if
+ * date is expired based on provided date.
+ *
+ */
 public class Calculations {
 
 	/**
 	 * returns a date one week from some date
-	 * @param d
-	 * @return date -which is a Calendar one week from d
+	 * @param d - Calendar date provided
+	 * @return Calendar -which is a date one week from d
 	 */
 	public static Calendar getOneWeekFrom(Calendar d) {
 		
@@ -21,11 +26,13 @@ public class Calculations {
 	
 	/**
 	 * Checks if date is expired based on date right now 
+	 * @param d - Calendar date
+	 * @return Boolean - if the date is expired or not based on d
 	 */
-	public static Boolean checkExpired(Calendar date) {
+	public static Boolean checkExpired(Calendar d) {
 		
 		Calendar now = Calendar.getInstance();
-		Calendar retDate = date;
+		Calendar retDate = d;
 		
 		return (now.after(retDate));
 	}

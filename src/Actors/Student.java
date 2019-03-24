@@ -10,6 +10,7 @@ import Media.PhysicalMedia;
 import Utilities.*;
 
 /**
+ * This class is responsible for the student
 Student: 
 
 -Each student will have a unique ID  
@@ -58,6 +59,9 @@ public class Student extends Customer{
 		
 	}
 
+	/**
+	 * Getters & setters
+	 */
 	public int getMaxMedia() {
 		return maxMedia;
 	}

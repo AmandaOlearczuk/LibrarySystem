@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import Actors.Customer;
 
-/*
+/**
  * Queue implementation using array
 */
 
@@ -12,13 +12,16 @@ public class Queue implements Serializable{
 	
 	ArrayList<Customer> Q ;
 	
+	/**
+	 * Constructor
+	 */
 	public Queue() {
 		this.Q = new ArrayList<Customer>();
 	}
 	
 	/**
 	 * Adds customer to end of line
-	 * @param c
+	 * @param c -  Customer to be added to line
 	 */
 	public void addToLine(Customer c) {
 		Q.add(c);
@@ -26,7 +29,7 @@ public class Queue implements Serializable{
 	
 	/**
 	 * Removes first person in line & returns that person. If no person is in line, null returned
-	 * @return
+	 * @return Customer - customer removed from front of the line
 	 */
 	public Customer pop() {
 		if(Q.size() == 0) {
@@ -38,12 +41,17 @@ public class Queue implements Serializable{
 		}
 	}
 
+	/**
+	 * Returns size of queue
+	 * @return int - size of queue
+	 */
 	public int size() {
 		return Q.size();
 	}
 	
 	/**
-	 * Prints queue as a nice string
+	 * Returns String 
+	 * @return String - nice format for queue 
 	 */
 	public String toString() {
 		String s= "\nFront Of Queue : \n";
@@ -55,6 +63,11 @@ public class Queue implements Serializable{
 		
 	}
 	
+	/**
+	 * Checks if customer is in line
+	 * @param c - Customer to check
+	 * @return Boolean - depending if customer is in line
+	 */
 	public Boolean isInLine(Customer c) {
 		if (Q.contains(c)) {return true;}else {return false;}
 	}

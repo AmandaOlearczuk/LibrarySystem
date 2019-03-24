@@ -6,14 +6,16 @@ import java.util.Calendar;
 
 import Utilities.Status;
 
-//import Utilities.Date;
+/**
+ * This class deals with the DVD
+ */
 
 public class DVD extends PhysicalMedia{
 	
 	private ArrayList<String> directors;
 	
 	/**
-	 * Constructor that sets title,director/s of DVD and year of release
+	 * Constructor
 	 */
 	
 	public DVD(String title, ArrayList<String> directors,Calendar date,Status status) {
@@ -23,6 +25,10 @@ public class DVD extends PhysicalMedia{
 		this.setDirectors(directors);
 		
 	}
+	
+	/**
+	 * getters & setters
+	 */
 	public ArrayList<String> getDirectors() {
 		return directors;
 	}
@@ -31,6 +37,10 @@ public class DVD extends PhysicalMedia{
 		this.directors = directors;
 	}
 	
+	/**
+	 * Used to print DVD in a nice format
+	 * @return String - nice format
+	 */
 	public String toString() {
 		String d = String.join(", ", this.getDirectors());
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");

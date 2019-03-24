@@ -10,7 +10,10 @@ import Actors.Student;
 import Media.*;
 import DataStorage.Database;
 import Utilities.*;
-
+/**
+ * Class for testing various things about library system
+ *
+ */
 public class main {
 
 	public static void main(String[] args) {

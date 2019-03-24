@@ -9,11 +9,10 @@ import java.util.Map;
 import Media.PhysicalMedia;
 import Utilities.*;
 
-
 /**
- * Constructor
- *
+ * This class is responsible for keeping information about a customer
  */
+
 public class Customer implements Serializable {
 	private String ID;
 	private String FirstName;
@@ -29,6 +28,9 @@ public class Customer implements Serializable {
 	private Boolean IsBlackListed;
 
 
+	/**
+	 * Constructor
+	 */
 	public Customer(String id,String fn,String ln,Calendar bd, Address address,String phonenum,
 			Map<PhysicalMedia, Calendar> mediaOwned,Map<PhysicalMedia, CalendarPeriod> mediaOnHold,
 			Map<PhysicalMedia, Calendar> mediaReturned,Double feesOwned) {
@@ -74,17 +76,13 @@ public class Customer implements Serializable {
 		return this.feesOwned;
 	}
 	
-	/**
-	 * This function 
-	 * @param b
-	 */
 	public void setIsBlackListed(Boolean b) {
 		this.IsBlackListed = b;
 	}
 	
 	/**
 	 * Owned fee must be in range 0.0-50.0
-	 * @param fees
+	 * @param fees - Double which is a fee to be set
 	 */
 	public void setFeesOwned(Double fees) {
 		if(fees <= 50.0 && fees >= 0.0) {this.feesOwned = fees;}
@@ -122,9 +120,7 @@ public class Customer implements Serializable {
 	public Map<PhysicalMedia, CalendarPeriod> getMediaOnHold() {
 		return mediaOnHold;
 	}
-	//public Map<PhysicalMedia,Calendar> getMediaReturned() {
-		//return mediaReturned;
-	//}
+
 	public void setMediaOwned(Map<PhysicalMedia,Calendar> mediaOwned) {
 		this.mediaOwned = mediaOwned;
 	}
@@ -137,7 +133,7 @@ public class Customer implements Serializable {
 	/**
 	 * Removed media from customer's account (media owned array).
 	 * Postcondition : Sets status of media to available, media's customer is set to null, 
-	 * @param media
+	 * @param media - media to be removed
 	 */
 	public void removeMediaOwned(PhysicalMedia media) {
 
@@ -156,6 +152,10 @@ public class Customer implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 	
+	/**
+	 * This function prints customer as a string
+	 * @return String - string with a nice format
+	 */
 	public String toString() {
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = format1.format(this.getBirthDate().getTime());
@@ -167,13 +167,17 @@ public class Customer implements Serializable {
 	
 	/**
 	 * This function prints current media involved with a person
-	 * @return String - media owned
+	 * @return String - media owned and on hold
 	 */
 	public String showMedia() {
 		
 		return "\nOwned media : \n" + this.showMediaOwned() + "\nMedia on hold: \n" + this.showMediaOnHold();
 	}
 	
+	/**
+	 * This function returns a string with a nice format for printing the information about media owned
+	 * @return String - nice format 
+	 */
 	public String showMediaOwned() {
 		String owned = "";
 		//Media owned
@@ -188,6 +192,10 @@ public class Customer implements Serializable {
 		return owned;
 	}
 	
+	/**
+	 * This function returns a string with a nice format for printing the information about media on hold
+	 * @return String - nice format 
+	 */
 	public String showMediaOnHold() {
 		String onHold = "";
 		//Media on hold
@@ -206,15 +214,15 @@ public class Customer implements Serializable {
 	
 
 	/**
-	 * Does nothing - is here just for customer.updateBlackListStatus() function that's needed for FeeChargeSystem
+	 * Does nothing - is here so the children can overload it
 	 */
 	public void updateBlackListStatus() {
 
-	}
+    }
 
 	/**
 	 * This function counts number of media currently in possession of a customer
-	 * @return
+	 * @return int - num of media owned
 	 */
 	public int getNumMediaOwned() {
 		
@@ -223,7 +231,7 @@ public class Customer implements Serializable {
 
 	/**
 	 * Does nothing. Is an overridden method by children classes
-	 * @return
+	 * @return int 
 	 */
 	public int getMaxMedia() {
 		
@@ -233,7 +241,7 @@ public class Customer implements Serializable {
 	
 	/**
 	 * Adds media for customer with date one week from now
-	 * @param media
+	 * @param media - media to be added
 	 */
 	public void addMediaOnHold(PhysicalMedia media) {
 		
@@ -248,9 +256,11 @@ public class Customer implements Serializable {
 		}
 	}
 	
-	/** TODO
+	/** 
 	 * Move media from hold to owned items
 	 * Precondition: media is on hold list
+	 * @param media - media to be moved
+	 * @return String - message to display
 	 */
 	public String moveFromHoldToOwned(PhysicalMedia media) {
 		
@@ -271,9 +281,9 @@ public class Customer implements Serializable {
 	}
 	
 	/**
-	 * removed media from hold & doesn't do any condition checking.
+	 * Removes media from hold but doesn't do any condition checking.
 	 * Used for moveFromHoldToOwned() function in this class.
-	 * @param media
+	 * @param media - media to be removed
 	 */
 	private void removeMediaFromHold(PhysicalMedia media) {
 		

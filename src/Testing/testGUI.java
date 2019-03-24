@@ -8,6 +8,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
+/**
+ * Class for experimenting with the gui
+ *
+ */
 public class testGUI {
 
 	private JFrame frame;

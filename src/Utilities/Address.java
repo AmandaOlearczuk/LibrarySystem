@@ -1,7 +1,10 @@
 package Utilities;
 
 import java.io.Serializable;
-
+/**
+ * This class contains information about address
+ *
+ */
 public class Address  implements Serializable{
 	private int houseNum; //house or appt num
 	private String streetName;
@@ -24,6 +27,10 @@ public class Address  implements Serializable{
 		this.city = city;
 		this.country = country;
 	}
+	
+	/**
+	 * getters & setters
+	 */
 	public String getZip() {
 		return this.zip;
 	}
@@ -56,6 +63,10 @@ public class Address  implements Serializable{
 		this.country = country;
 	}
 	
+	/**
+	 * Generates string to show address nicely
+	 * @retun String - a nice format for address
+	 */
 	public String toString() {
 		return "House Num: " + Integer.toString(this.getHouseNum()) + " Street: " + this.getStreetName() 
 		+ " ZIP: " + this.getZip() + " City: " + this.getCity() + " Country: " + this.getCountry();

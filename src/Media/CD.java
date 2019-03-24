@@ -7,7 +7,6 @@ import java.util.Calendar;
 
 import Utilities.Status;
 
-//import Utilities.Date;
 /**
  * This class is for dealing with CD's in library
  *
@@ -17,7 +16,7 @@ public class CD extends PhysicalMedia {
 	private ArrayList<String> composers;
 	
 	/**
-	 * Constructor that sets title,composer/s of CD and year of release
+	 * Constructor
 	 */
 	public CD(String title, ArrayList<String> composers, Calendar date,Status status) {
 		
@@ -27,6 +26,9 @@ public class CD extends PhysicalMedia {
 		this.setComposers(composers);
 	}
 	
+	/**
+	 * getters & setters
+	 */
 	public ArrayList<String> getComposers() {
 		return composers;
 	}
@@ -39,6 +41,10 @@ public class CD extends PhysicalMedia {
 		this.composers.add(c);
 	}
 	
+	/**
+	 * Prints CD in a nice format
+	 * @return String - nice format
+	 */
 	public String toString() {
 		String c = String.join(", ", this.getComposers());
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");

@@ -21,6 +21,9 @@ public class PhysicalMedia  implements Serializable{
 	private Customer customerInvolved; //customer that owns book or has it on hold
 	private Status status; //Status of media if available,available for hold,reserved,unavailable
 
+	/**
+	 * Getters & setters
+	 */
 	public Customer getCustomer() {
 		return customerInvolved;
 	}

@@ -6,7 +6,10 @@ import java.util.Calendar;
 import Media.PhysicalMedia;
 import Utilities.*;
 
-
+/**
+ * This class deals with the librarian and stores all the information about them.
+ *
+ */
 public class Librarian implements Serializable{
 
 	private String ID;
@@ -63,6 +66,7 @@ public class Librarian implements Serializable{
 	public String getID() {
 		return this.ID;
 	}
+	
 	public String getPassword() {
 		return this.password;
 	}
@@ -70,8 +74,8 @@ public class Librarian implements Serializable{
 
 	/**
 	 * This function returns media for customer
-	 * @param media
-	 * @param customer
+	 * @param media - media to be returned
+	 * @param customer - customer to remove the media from
 	 */
 	public void returnMedia(PhysicalMedia media , Customer customer) {
 
@@ -144,7 +148,7 @@ public class Librarian implements Serializable{
 	 * moves media from holds to media borrowed by customer if conditions are satisfied.
 	 * @param media
 	 * @param customer
-	 * @return
+	 * @return String - message
 	 */
 	public String removeFromHoldsToPickup(PhysicalMedia media, Customer customer) {
 		return customer.moveFromHoldToOwned(media);

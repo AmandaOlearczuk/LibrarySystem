@@ -15,8 +15,18 @@ import Utilities.Address;
 import Utilities.FeeChargeSystem;
 import Utilities.Status;
 
+/**
+ * This class is for Testing FeeChargeSystem.java class
+ *
+ */
 public class FeeChargeSystemUnitTesting {
 
+	/**
+	 * Test that creates artificial return dates & calculates the overdue Fees that should be $20 for john smith
+	 * WARNING!!!: Adjust the fee in Assert statement in line 69 depending for the day today !
+	 * Created on March 24th, 2019. - so the overdue fees should be 20.0, however as time passes, fees will grow so 
+	 * line 69 needs to be changed.
+	 */
 	@Test
 	public void chargeTwentyDollars(){
 		
@@ -48,7 +58,7 @@ public class FeeChargeSystemUnitTesting {
 		mediaDate.atTime(mediaRetDate.get(Calendar.HOUR_OF_DAY), mediaRetDate.get(Calendar.MINUTE), 
 				mediaRetDate.get(Calendar.SECOND));	
 		
-		//Add media to John's account with that expired date of one month
+		//Add media to John's account with that expired date 
 		JohnSmith.addMediaOwned(metallica, mediaRetDate);
 		JohnSmith.addMediaOwned(theGameCd,mediaRetDate);
 		

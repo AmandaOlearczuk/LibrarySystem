@@ -9,16 +9,15 @@ import java.util.Calendar;
 import Utilities.Status;
 
 /**
- * Book includes Book,Magazine,Comics
- * 
- *
+ * This class deals with paper medias.
+ * Note: Book includes Book,Magazine,Comics
  */
 public class PaperMedia extends PhysicalMedia {
 	
 	private ArrayList<String> authors;
 	
 	/**
-	 * Constructor sets title, author/s and year of release
+	 * Constructor 
 	 */
 	public PaperMedia(String title,ArrayList<String> authors,Calendar date,Status status) {
 		super.setTitle(title);
@@ -26,7 +25,10 @@ public class PaperMedia extends PhysicalMedia {
 		super.setStatus(status);
 		this.setAuthors(authors);
 	}
-
+	
+    /**
+     * Getters & setters
+      */
 	public ArrayList<String> getAuthors() {
 		return authors;
 	}
@@ -34,7 +36,10 @@ public class PaperMedia extends PhysicalMedia {
 	public void setAuthors(ArrayList<String> authors) {
 		this.authors = authors;
 	}
-
+    /**
+    * Prints paper media as a nice string
+    * @return String - nice format
+     */
 	public String toString() {
 		String c = String.join(", ", this.getAuthors());
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");

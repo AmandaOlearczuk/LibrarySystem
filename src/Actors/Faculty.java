@@ -8,6 +8,7 @@ import Media.PhysicalMedia;
 import Utilities.*;
 
 /** 
+ * This class is responsible for the faculty
 Faculty: 
 
 Each faculty member will have a unique ID 
@@ -53,6 +54,9 @@ public class Faculty extends Customer {
 			};
 	}
 
+	/**
+	 * Getters & setters
+	 */
 	public int getMaxMedia() {
 		return maxMedia;
 	}
