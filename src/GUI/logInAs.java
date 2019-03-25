@@ -27,7 +27,6 @@ import java.awt.Toolkit;
 import java.awt.CardLayout;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
 
 import java.awt.FlowLayout;
 import com.jgoodies.forms.layout.FormLayout;
@@ -57,6 +56,7 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JSplitPane;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Component;
 import java.awt.Dialog.ModalityType;
 
@@ -68,6 +68,8 @@ import javax.swing.JDialog;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.AbstractListModel;
+import javax.swing.BorderFactory;
+
 import java.awt.List;
 import javax.swing.JScrollBar;
 import java.awt.Button;
@@ -79,14 +81,14 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.MatteBorder;
+import net.miginfocom.swing.MigLayout;
 
 public class logInAs {
 
 	private JFrame frmLogin = new JFrame();
-	
+
 	private JPanel panelCont = new JPanel();
 	private JPanel LogInAs= new JPanel();
 	private JPanel LogInAsSomeone = new JPanel();
@@ -145,7 +147,7 @@ public class logInAs {
 	private final JButton browseBtn = new JButton("Browse");
 	private final JButton logOutBtn = new JButton("Log Out");
 	private final JButton borrow_button = new JButton("Borrow");
-	private final JButton reserveButton = new JButton("Make Reserved");
+	private final JButton changeStatusButton = new JButton("Change status");
 	private final JButton okButton1 = new JButton("Ok");
 	private final JButton returnBtn = new JButton("Return");
 	private final JButton pickupBtn = new JButton("Pick-up from Hold");
@@ -157,13 +159,13 @@ public class logInAs {
 	private final JButton btnPlaceOnHold = new JButton("Place on Hold");
 	private final JButton btnOk = new JButton("Ok");
 	private final JButton button = new JButton("Browse");
+	private final JButton changeStatusOKButton = new JButton("Ok");
+	private final JButton changeStatusCancelButton = new JButton("Cancel");
 	
 	private CardLayout cl = new CardLayout();
 	private final CardLayout mid = new CardLayout(5,5);
 	
 	private final JLabel lblNewLabel = new JLabel("Log in as ..");
-	private final JLabel lblNewLabel_1 = new JLabel("");
-	private final JLabel lblNewLabel_2 = new JLabel("");
 	private final JLabel lblNewLabel_3 = new JLabel("ID:");
 	private final JLabel lblNewLabel_4 = new JLabel("Password : ");
 	private final JLabel who = new JLabel("Librarian");
@@ -183,12 +185,12 @@ public class logInAs {
 	private final JLabel label = new JLabel("");
 	private final JLabel label_3 = new JLabel("");
 	private JLabel label_1 = new JLabel("Customer ID:");
-
 	
 	private final JPasswordField passwordField = new JPasswordField();
 	
 	private final JComboBox comboBox = new JComboBox();
 	private final JComboBox comboBox_studentHold = new JComboBox();
+	private final JComboBox statusComboBox = new JComboBox();
 	
 	private final JTextField idTxtField = new JTextField();
 	private JTextField custIDField;
@@ -236,6 +238,9 @@ public class logInAs {
 	private JLabel custPhone = new JLabel();
 	private JLabel custType = new JLabel();
 	
+	//Pop-up window items for librarian's "change status" 
+	private JDialog dialogChangeStatus = new JDialog();
+	
 	
 	private final JList searchBorrowList = new JList();
 	private final JList searchHoldList = new JList();
@@ -246,6 +251,8 @@ public class logInAs {
 	
 	//Database initialization
 	private Database dtb = new Database();
+	
+	
 	
 	/**
 	 * Launch the application.
@@ -270,6 +277,7 @@ public class logInAs {
 	 * Create the application.
 	 */
 	public logInAs() {
+
 		custIDField3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		custIDField3.setColumns(10);
 
@@ -278,6 +286,8 @@ public class logInAs {
 		
 		initialize();
 	}
+	
+	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -294,6 +304,7 @@ public class logInAs {
 		
 		who.setOpaque(true);
 		panelCont.setLayout(cl);
+		LogInAs.setOpaque(true);
 		panelCont.add(LogInAs,"1");
 		panelCont.add(LogInAsSomeone,"2");
 		panelCont.add(panel_4, "name_88267641545600");
@@ -385,15 +396,24 @@ public class logInAs {
 		studentPerson.add(logOutBtn2);
 		panelCont.add(FacultyWindow,"FacultyWindow");
 		cl.show(panelCont, "1");
-		GridLayout gl_LogInAs = new GridLayout(7, 1);
-		LogInAs.setLayout(gl_LogInAs);
-		LogInAs.add(lblNewLabel_2);
+		LogInAs.setLayout(new GridLayout(5, 1, 0, 0));
+		lblNewLabel.setBackground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblNewLabel.setForeground(Color.BLACK);
 		LogInAs.add(lblNewLabel);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		LogInAs.add(studentBtn);
 		LogInAs.add(facultyBtn);
 		LogInAs.add(librarianBtn);
-		LogInAs.add(lblNewLabel_1);
+		
+		librarianBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+		        cl.show(panelCont, "2");
+		        who.setText("Librarian");
+			}
+		});
 		LogInAsSomeone.setLayout(new GridLayout(5, 3, 0, 0));
 		LogInAsSomeone.add(panel_2);
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS));
@@ -463,7 +483,7 @@ public class logInAs {
 		panel_6.setLayout(new GridLayout(2, 1, 0, 0));
 		borrow_button.setAlignmentY(0.0f);
 		panel_6.add(borrow_button);
-		panel_6.add(reserveButton);
+		panel_6.add(changeStatusButton);
 		middle.add(search_customer, "search");
 		search_customer.setLayout(new BorderLayout(0, 0));
 		search_customer.add(panel_13, BorderLayout.NORTH);
@@ -572,15 +592,6 @@ public class logInAs {
 			public void actionPerformed(ActionEvent arg0) {
 		        cl.show(panelCont, "2");
 		        who.setText("Faculty");
-			}
-		});
-	   
-	   librarianBtn.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-		        cl.show(panelCont, "2");
-		        who.setText("Librarian");
 			}
 		});
 	   
@@ -708,6 +719,7 @@ public class logInAs {
 	    /**
 	     * Window settings
 	     */
+		frmLogin.setIconImage(Toolkit.getDefaultToolkit().getImage(logInAs.class.getResource("icon.png")));
 	   
 		frmLogin.setResizable(false);
 
@@ -794,7 +806,7 @@ public class logInAs {
 							dialogMediaBorrow.getContentPane().setLayout(new GridLayout(6,1,5,5));
 							dialogMediaBorrow.setModalityType(ModalityType.TOOLKIT_MODAL);
 						
-							dialogMediaBorrow.setBounds(0,0 ,screenSize.width/3, screenSize.height/3);
+							dialogMediaBorrow.setBounds(0,0 ,screenSize.width/5, screenSize.height/4);
 							dialogMediaBorrow.setLocationRelativeTo(null);
 						
 							
@@ -889,7 +901,7 @@ public class logInAs {
 				
 				
 				/**
-				 * Cancel button within dialog
+				 * Cancel button within  borrow dialog
 				 */
 				
 				cancelButton.addActionListener(new ActionListener() {
@@ -1005,15 +1017,87 @@ public class logInAs {
 				/**
 				 * Change status button in browse tab
 				 */
-				reserveButton.addActionListener(new ActionListener() {
+				changeStatusButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						if (list.getSelectedIndex() != -1) {
-							PhysicalMedia item = (PhysicalMedia) list.getSelectedValue();
-							item.getStatus().setReserved();
-							JOptionPane.showMessageDialog(null, "Status was set to reserved", "InfoBox ", JOptionPane.PLAIN_MESSAGE);
+
+							dialogChangeStatus.getContentPane().setLayout(new GridLayout(3,1,5,5));
+							dialogChangeStatus.setModalityType(ModalityType.TOOLKIT_MODAL);
+						
+							dialogChangeStatus.setBounds(0,0 ,screenSize.width/5, screenSize.height/5);
+							dialogChangeStatus.setLocationRelativeTo(null);
+							
+							statusComboBox.setBackground(Color.white);
+							statusComboBox.setModel(new DefaultComboBoxModel(new String[] {"available" , "reserved","unavailable"}));
+							
+							dialogChangeStatus.getContentPane().add(statusComboBox);
+							dialogChangeStatus.getContentPane().add(changeStatusOKButton);
+							dialogChangeStatus.getContentPane().add(changeStatusCancelButton);
+							
+							dialogChangeStatus.setVisible(true);
+							
+							dialogChangeStatus.setAlwaysOnTop(true);
+										
+						} else {
+							JOptionPane.showMessageDialog(null, "Select an item from a list", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 					
+				});
+				
+				/**
+				 * Ok button within change status dialog
+				 */
+				changeStatusOKButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						PhysicalMedia item = (PhysicalMedia) list.getSelectedValue();
+						
+						String action = String.valueOf(statusComboBox.getSelectedItem());
+						
+						if (action.equals("available")){
+							item.getStatus().setPrimaryStatus("available"); 
+							if (!item.getStatus().getCurrentStatus().equals("in use")) {
+								item.getStatus().setCurrentStatus("available");}
+							}
+						
+						else if (action.equals("reserved")){
+							item.getStatus().setReserved();
+							if (!item.getStatus().getCurrentStatus().equals("in use")) {
+								item.getStatus().setCurrentStatus("reserved");
+							}
+						}
+						
+						else {
+							item.getStatus().setPrimaryStatus("unavailable");
+							if (!item.getStatus().getCurrentStatus().equals("in use")) {
+								item.getStatus().setCurrentStatus("unavailable");}
+						}
+						
+						dialogChangeStatus.setVisible(false);
+						dialogChangeStatus.dispose();
+						dtb.save();
+						
+						System.out.println("Primary status : " + item.getStatus().getPrimaryStatus());
+						System.out.println("Current status : " + item.getStatus().getCurrentStatus());
+						
+						JOptionPane.showMessageDialog(dialogMediaBorrow, "Status was set to : " + item.getStatus().getPrimaryStatus(), "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+						
+						dlm.clear();
+						
+						
+					}});
+				
+				/**
+				 * Cancel button within change status dialog
+				 */
+				changeStatusCancelButton.addActionListener(new ActionListener() {
+					
+					public void actionPerformed(ActionEvent arg0) {
+						
+						dialogChangeStatus.setVisible(false);
+						dialogChangeStatus.dispose();
+					}
 				});
 				
 				/**
@@ -1225,8 +1309,6 @@ public class logInAs {
 			}
 		});
 	}
-
-
 }
 
 	

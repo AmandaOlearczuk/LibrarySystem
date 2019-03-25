@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public class CalendarPeriod implements Serializable {
 
+		private static final long serialVersionUID = 4198278505004819421L;
 		private Calendar from;
 	    private Calendar to;
 	    

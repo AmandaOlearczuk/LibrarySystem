@@ -10,6 +10,7 @@ import Actors.Customer;
 
 public class Queue implements Serializable{
 	
+	private static final long serialVersionUID = -2939228882897825556L;
 	ArrayList<Customer> Q ;
 	
 	/**

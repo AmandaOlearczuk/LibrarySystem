@@ -12,6 +12,7 @@ import Utilities.Status;
 
 public class DVD extends PhysicalMedia{
 	
+	private static final long serialVersionUID = 5564244526248912265L;
 	private ArrayList<String> directors;
 	
 	/**

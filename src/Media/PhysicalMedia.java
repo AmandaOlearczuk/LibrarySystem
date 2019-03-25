@@ -15,11 +15,13 @@ import Utilities.Status;
  * Each media has title eg. "Key to success" for book, "Titanic" for movie, "Metallica" for music.
  */
 public class PhysicalMedia  implements Serializable{
+
+	private static final long serialVersionUID = 2371167415672914845L;
 	private String title;
 	private Calendar date;
 	private Queue lineUp = new Queue();
 	private Customer customerInvolved; //customer that owns book or has it on hold
-	private Status status; //Status of media if available,available for hold,reserved,unavailable
+	private Status status = new Status("available"); //Status of media if available,available for hold,reserved,unavailable
 
 	/**
 	 * Getters & setters

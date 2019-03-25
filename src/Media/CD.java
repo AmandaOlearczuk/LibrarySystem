@@ -13,6 +13,7 @@ import Utilities.Status;
  */
 public class CD extends PhysicalMedia {
 	
+	private static final long serialVersionUID = -3172051425845331509L;
 	private ArrayList<String> composers;
 	
 	/**

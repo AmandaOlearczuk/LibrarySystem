@@ -18,6 +18,7 @@ import Media.PhysicalMedia;
  */
 public class FeeChargeSystem implements Serializable{
 	
+	private static final long serialVersionUID = 6242319529747964641L;
 	public static final Double maxFee = 50.0;
 	
 	/**

@@ -14,6 +14,8 @@ import Utilities.*;
  */
 
 public class Customer implements Serializable {
+
+	private static final long serialVersionUID = -8857768574176880879L;
 	private String ID;
 	private String FirstName;
 	private String LastName;

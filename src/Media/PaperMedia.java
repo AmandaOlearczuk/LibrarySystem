@@ -14,6 +14,7 @@ import Utilities.Status;
  */
 public class PaperMedia extends PhysicalMedia {
 	
+	private static final long serialVersionUID = 8399886307255026826L;
 	private ArrayList<String> authors;
 	
 	/**

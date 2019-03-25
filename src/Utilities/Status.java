@@ -10,6 +10,7 @@ import java.util.Arrays;
  */
 public class Status implements Serializable {
 
+	private static final long serialVersionUID = -4282712274151844233L;
 	private ArrayList<String> statuses;
 	private String currentStatus;
 	private String primaryStatus;
@@ -33,17 +34,25 @@ public class Status implements Serializable {
 		return this.currentStatus;
 	}
 	
-	private void setCurrentStatus(String s) {
-		if (statuses.indexOf(s) != (-1)) {
+	/**
+	 * This function sets current status to desired
+	 * @param s - a status as a String
+	 */
+	public void setCurrentStatus(String s) {
+		if (statuses.indexOf(s) != (-1)) 
+		{
 			this.currentStatus = s; //if status set is correct
-	    }else {
-	    	this.currentStatus = statuses.get(1); //status = unavailable by default 
-	    	} 
+		}
 	}
 	
-	private void setPrimaryStatus(String status) {
+	public void setPrimaryStatus(String status) {
 		this.primaryStatus = status;
 	}
+	
+	public String getPrimaryStatus() {
+		return primaryStatus;
+	}
+	
 	/**
 	 * sets status to "in use"
 	 */
@@ -64,6 +73,7 @@ public class Status implements Serializable {
 			this.setCurrentStatus("reserved");
 		}
 	}
+	
 	
 	public String toString() {
 		return this.currentStatus;

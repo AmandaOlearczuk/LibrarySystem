@@ -6,6 +6,8 @@ import java.io.Serializable;
  *
  */
 public class Address  implements Serializable{
+
+	private static final long serialVersionUID = -2078405323208062870L;
 	private int houseNum; //house or appt num
 	private String streetName;
 	private String zip;
