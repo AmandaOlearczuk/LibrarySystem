@@ -83,7 +83,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import net.miginfocom.swing.MigLayout;
+import javax.swing.JDesktopPane;
+//import net.miginfocom.swing.MigLayout;
 
 public class logInAs {
 
@@ -251,6 +252,8 @@ public class logInAs {
 	
 	//Database initialization
 	private Database dtb = new Database();
+	private final JLabel label_2 = new JLabel("");
+	private final JButton btnPayFees = new JButton("Pay Fees");
 	
 	
 	
@@ -523,13 +526,19 @@ public class logInAs {
 		lblNewLabel_12.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_14.add(lblNewLabel_12);
 		panel_14.add(custBirth);
-		lblFeesDue.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		panel_14.add(lblFeesDue);
-		panel_14.add(custFees);
 		JLabel lblNewLabel_10 = new JLabel("Blacklist?");
 		lblNewLabel_10.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_14.add(lblNewLabel_10);
 		panel_14.add(custBlacklist);
+		lblFeesDue.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panel_14.add(lblFeesDue);
+		custFees.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel_14.add(custFees);
+		
+		panel_14.add(label_2);
+		btnPayFees.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		panel_14.add(btnPayFees);
 		
 		//Scroll thingy 4 for search customer borrowed
 		searchBorrowList.setModel(searchBorrowDLM);
