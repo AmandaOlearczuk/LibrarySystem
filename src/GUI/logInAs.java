@@ -222,7 +222,7 @@ public class logInAs {
 	private JTextField mediaDateTextField_m = new JTextField();
 	private JLabel mediaDateLabel_d = new JLabel(" Day of Creation: ");
 	private JTextField mediaDateTextField_d = new JTextField();
-	private JButton orderMediaOkBtn = new JButton("Ok");
+	private JButton orderMediaOkBtn = new JButton("Send");
 
 	
 	//Items for Pop up dialog for borrowing books 
@@ -720,9 +720,11 @@ public class logInAs {
 				
 				System.out.println(dtb.shelfString());
 				
-				dtb.save();
+				//dtb.save();
 				dialogMediaBorrow.setVisible(false);
 				dialogMediaBorrow.dispose();
+				JOptionPane.showMessageDialog(null, "Media Successfully Ordered", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+
 			}
 		});
 		
