@@ -209,6 +209,22 @@ public class logInAs {
 	private final DefaultListModel searchHoldsDLM = new DefaultListModel();
 	private final DefaultListModel searchBorrowDLM = new DefaultListModel();
 	
+	//Items for Ordering Media Pop-up
+	private JLabel mediaTypeLabel = new JLabel(" Media Type: ");
+	private JComboBox mediaTypeComboBox = new JComboBox();
+	private JLabel mediaNameLabel = new JLabel(" Name of Media: ");
+	private JTextField mediaNameTextField = new JTextField();
+	private JLabel mediaAuthorLabel = new JLabel(" Author of Media: ");
+	private JTextField mediaAuthorTextField = new JTextField();
+	private JLabel mediaDateLabel_y = new JLabel(" Year of Creation: ");
+	private JTextField mediaDateTextField_y = new JTextField();
+	private JLabel mediaDateLabel_m = new JLabel(" Month of Creation: ");
+	private JTextField mediaDateTextField_m = new JTextField();
+	private JLabel mediaDateLabel_d = new JLabel(" Day of Creation: ");
+	private JTextField mediaDateTextField_d = new JTextField();
+	private JButton orderMediaOkBtn = new JButton("Ok");
+
+	
 	//Items for Pop up dialog for borrowing books 
     private JButton okButton = new JButton("Ok");
     private JLabel customerID = new JLabel("Customer ID: ");
@@ -263,7 +279,6 @@ public class logInAs {
 	private final JScrollPane scrollPane_1 = new JScrollPane();
 	private final JList listMediaOrders = new JList();
 	private final JButton btnCreateNewOrder = new JButton("Create New Order");
-	private final JButton btnCreateOrder = new JButton("Create Order");
 	
 	
 	
@@ -622,12 +637,92 @@ public class logInAs {
 		scrollPane_1.setViewportView(listMediaOrders);
 		
 		panel_23.add(panel_25);
-		panel_25.setLayout(new GridLayout(2, 1, 0, 0));
-		
-		panel_25.add(btnCreateOrder);
+		panel_25.setLayout(new GridLayout(1, 1, 0, 0));
 		btnCreateNewOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Create popup and save the new media to the database
+				// case where nothing is selected
+				if (listMediaOrders.getSelectedIndex() != -1) {
+					JOptionPane.showMessageDialog(null, "Need to finish this part!", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+				}	
+				
+				// case where something is selected
+				dialogMediaBorrow.getContentPane().setLayout(new GridLayout(0,2,5,5));
+				dialogMediaBorrow.setModalityType(ModalityType.TOOLKIT_MODAL);
+				
+				dialogMediaBorrow.setBounds(0,0 ,screenSize.width/3, screenSize.height/2);
+				dialogMediaBorrow.setLocationRelativeTo(null);
+				
+					
+				mediaTypeComboBox.setBackground(Color.white);
+				mediaTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"CDs" , "DVDs", "Books/Magazines/Comics"}));
+					
+				
+					
+				dialogMediaBorrow.getContentPane().add(mediaTypeLabel);
+				dialogMediaBorrow.getContentPane().add(mediaTypeComboBox);
+				dialogMediaBorrow.getContentPane().add(mediaNameLabel);
+				dialogMediaBorrow.getContentPane().add(mediaNameTextField);
+				dialogMediaBorrow.getContentPane().add(mediaAuthorLabel);
+				dialogMediaBorrow.getContentPane().add(mediaAuthorTextField);
+				dialogMediaBorrow.getContentPane().add(mediaDateLabel_y);
+				dialogMediaBorrow.getContentPane().add(mediaDateTextField_y);
+				dialogMediaBorrow.getContentPane().add(mediaDateLabel_m);
+				dialogMediaBorrow.getContentPane().add(mediaDateTextField_m);
+				dialogMediaBorrow.getContentPane().add(mediaDateLabel_d);
+				dialogMediaBorrow.getContentPane().add(mediaDateTextField_d);
+					
+					
+					
+				dialogMediaBorrow.getContentPane().add(orderMediaOkBtn);
+				dialogMediaBorrow.getContentPane().add(cancelButton);
+					
+				dialogMediaBorrow.setVisible(true);
+				
+			}
+		});
+		
+		/**
+		 * Ok Button for the ordering media pop-up window
+		 */
+		orderMediaOkBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int year;
+				int month;
+				int day;
+				
+				try {
+					year = Integer.parseInt(mediaDateTextField_y.getText());
+					month = Integer.parseInt(mediaDateTextField_m.getText());
+					day = Integer.parseInt(mediaDateTextField_d.getText());
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Please Enter a Valid Date", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				
+				ArrayList<String> composers = new ArrayList<String>();
+				composers.add(mediaAuthorTextField.getText());
+				Calendar medDate = Calendar.getInstance();
+				medDate.set(year, month, day);
+				
+				if (mediaTypeComboBox.getSelectedItem().equals("CDs")) {
+					CD nCD = new CD (mediaNameTextField.getText(), composers, medDate, new Status("available"));
+					dtb.getCds().add(nCD);
+					
+				} else if (mediaTypeComboBox.getSelectedItem().equals("DVDs")) {
+					DVD nDVD = new DVD (mediaNameTextField.getText(), composers, medDate, new Status("available"));
+					dtb.getDvds().add(nDVD);
+					
+				} else if (mediaTypeComboBox.getSelectedItem().equals("Books/Magazines/Comics")) {
+					PaperMedia nPM = new PaperMedia (mediaNameTextField.getText(), composers, medDate, new Status("available"));
+					dtb.getPaperMedias().add(nPM);
+					
+				}
+				
+				System.out.println(dtb.shelfString());
+				
+				dtb.save();
+				dialogMediaBorrow.setVisible(false);
+				dialogMediaBorrow.dispose();
 			}
 		});
 		
