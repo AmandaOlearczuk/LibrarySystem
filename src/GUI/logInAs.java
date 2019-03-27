@@ -223,6 +223,11 @@ public class logInAs {
 	private JLabel mediaDateLabel_d = new JLabel(" Day of Creation: ");
 	private JTextField mediaDateTextField_d = new JTextField();
 	private JButton orderMediaOkBtn = new JButton("Send");
+	
+	//Items for the pop up for current Media Orders
+	private final JList currentOrdersList = new JList();
+    private JLabel currMedOrdersLabel = new JLabel("Current Media Orders: ");
+
 
 	
 	//Items for Pop up dialog for borrowing books 
@@ -279,6 +284,9 @@ public class logInAs {
 	private final JScrollPane scrollPane_1 = new JScrollPane();
 	private final JList listMediaOrders = new JList();
 	private final JButton btnCreateNewOrder = new JButton("Create New Order");
+	private final JLabel lblNewLabel_1 = new JLabel("Media Order Requests:");
+	private final JButton btnViewMediaOrders = new JButton("Current Media Orders");
+	private final JLabel label_empty = new JLabel("");
 	
 	
 	
@@ -614,12 +622,37 @@ public class logInAs {
 		gbc_panel_22.gridx = 0;
 		gbc_panel_22.gridy = 0;
 		order_media.add(panel_22, gbc_panel_22);
-		GridBagLayout gbl_panel_22 = new GridBagLayout();
-		gbl_panel_22.columnWidths = new int[]{0};
-		gbl_panel_22.rowHeights = new int[]{0};
-		gbl_panel_22.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_panel_22.rowWeights = new double[]{Double.MIN_VALUE};
-		panel_22.setLayout(gbl_panel_22);
+		panel_22.setLayout(new GridLayout(3, 6, 0, 0));
+		
+		/**
+		 * Lists the current orders to be filled
+		 */
+		btnViewMediaOrders.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dialogMediaBorrow.getContentPane().setLayout(new GridLayout(3,1,5,5));
+				dialogMediaBorrow.setModalityType(ModalityType.TOOLKIT_MODAL);
+				
+				dialogMediaBorrow.setBounds(0,0 ,screenSize.width/3, screenSize.height/2);
+				dialogMediaBorrow.setLocationRelativeTo(null);
+				
+				dialogMediaBorrow.getContentPane().add(currMedOrdersLabel);
+				dialogMediaBorrow.getContentPane().add(currentOrdersList);
+				dialogMediaBorrow.getContentPane().add(cancelButton);
+
+				dlm.clear();
+				dlm.addElement(dtb.listOrders());
+				currentOrdersList.setModel(dlm);
+					
+				dialogMediaBorrow.setVisible(true);
+			}
+		});
+		
+		panel_22.add(btnViewMediaOrders);
+		
+		panel_22.add(label_empty);
+		lblNewLabel_1.setVerticalAlignment(SwingConstants.BOTTOM);
+		
+		panel_22.add(lblNewLabel_1);
 		
 		GridBagConstraints gbc_panel_23 = new GridBagConstraints();
 		gbc_panel_23.anchor = GridBagConstraints.SOUTH;
@@ -686,44 +719,15 @@ public class logInAs {
 		 */
 		orderMediaOkBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int year;
-				int month;
-				int day;
+				dtb.addOrder("101", (String)mediaTypeComboBox.getSelectedItem(), mediaNameTextField.getText(), mediaAuthorTextField.getText(), 
+						mediaDateTextField_y.getText(), mediaDateTextField_m.getText(), mediaDateTextField_d.getText());
 				
-				try {
-					year = Integer.parseInt(mediaDateTextField_y.getText());
-					month = Integer.parseInt(mediaDateTextField_m.getText());
-					day = Integer.parseInt(mediaDateTextField_d.getText());
-				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "Please Enter a Valid Date", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				
-				ArrayList<String> composers = new ArrayList<String>();
-				composers.add(mediaAuthorTextField.getText());
-				Calendar medDate = Calendar.getInstance();
-				medDate.set(year, month, day);
-				
-				if (mediaTypeComboBox.getSelectedItem().equals("CDs")) {
-					CD nCD = new CD (mediaNameTextField.getText(), composers, medDate, new Status("available"));
-					dtb.getCds().add(nCD);
-					
-				} else if (mediaTypeComboBox.getSelectedItem().equals("DVDs")) {
-					DVD nDVD = new DVD (mediaNameTextField.getText(), composers, medDate, new Status("available"));
-					dtb.getDvds().add(nDVD);
-					
-				} else if (mediaTypeComboBox.getSelectedItem().equals("Books/Magazines/Comics")) {
-					PaperMedia nPM = new PaperMedia (mediaNameTextField.getText(), composers, medDate, new Status("available"));
-					dtb.getPaperMedias().add(nPM);
-					
-				}
-				
-				System.out.println(dtb.shelfString());
-				
-				//dtb.save();
 				dialogMediaBorrow.setVisible(false);
 				dialogMediaBorrow.dispose();
+				dlm.clear();
 				JOptionPane.showMessageDialog(null, "Media Successfully Ordered", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+				
+				System.out.println(dtb.listOrders());
 
 			}
 		});

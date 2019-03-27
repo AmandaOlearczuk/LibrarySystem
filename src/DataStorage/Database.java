@@ -31,8 +31,9 @@ public class Database implements Serializable {
 	private ArrayList<PaperMedia> paperMedias= new ArrayList<PaperMedia>();
 
 	private ArrayList<Customer> customers = new ArrayList<Customer>();
-	private ArrayList<Librarian> librarians = new ArrayList<Librarian>();
+	private ArrayList<Librarian> librarians = new ArrayList<Librarian>();	
 	
+	private ArrayList<Order> orders = new ArrayList<Order>();
  	
 	/**
 	 * Getters & setters
@@ -335,6 +336,20 @@ public class Database implements Serializable {
     	    a + "\n------ DVDS --------\n" + b + "\n------ PAPER MEDIA ------\n" +c + "\n------------------------------------------";
     				
         }
+    
+    /**
+     * Adds a media order to the order file
+     */
+    public void addOrder(String who, String medType, String name, String creator, String year, String month, String day) {
+    	orders.add(new Order(who, medType, name, creator, year, month, day));
+    }
+    
+    public String listOrders() {
+    	String temp = "";
+    	for (int i = 0; i < orders.size(); i++)
+    		temp = temp + orders.get(i).showOrder();
+    	return temp;
+    }
 }
 
 
