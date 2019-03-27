@@ -254,6 +254,16 @@ public class logInAs {
 	private Database dtb = new Database();
 	private final JLabel label_2 = new JLabel("");
 	private final JButton btnPayFees = new JButton("Pay Fees");
+	private final JButton btnOrderMedia = new JButton("Order Media");
+	private final JPanel order_media = new JPanel();
+	private final JPanel panel_22 = new JPanel();
+	private final JPanel panel_23 = new JPanel();
+	private final JPanel panel_24 = new JPanel();
+	private final JPanel panel_25 = new JPanel();
+	private final JScrollPane scrollPane_1 = new JScrollPane();
+	private final JList listMediaOrders = new JList();
+	private final JButton btnCreateNewOrder = new JButton("Create New Order");
+	private final JButton btnCreateOrder = new JButton("Create Order");
 	
 	
 	
@@ -337,6 +347,14 @@ public class logInAs {
 		menu.add(librarianBrowseButton);
 		menu.add(pickupBtn);
 		menu.add(searchCustomerBtn);
+		btnOrderMedia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mid.show(middle, "order");
+				customerDLM.clear();
+			}
+		});
+		
+		menu.add(btnOrderMedia);
 		middle.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		LibrarianWindow.add(middle, BorderLayout.CENTER);
 		middle.setLayout(mid);
@@ -565,6 +583,55 @@ public class logInAs {
 		scrollHeldSearch = new JScrollPane(searchHoldList);
 		scrollHeldSearch.setPreferredSize(new Dimension(458,142));
 		panel_15.add(scrollHeldSearch);
+		
+		middle.add(order_media, "order");
+		GridBagLayout gbl_order_media = new GridBagLayout();
+		gbl_order_media.columnWidths = new int[]{0, 0};
+		gbl_order_media.rowHeights = new int[]{0, 0, 0};
+		gbl_order_media.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_order_media.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		order_media.setLayout(gbl_order_media);
+		
+		GridBagConstraints gbc_panel_22 = new GridBagConstraints();
+		gbc_panel_22.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_22.anchor = GridBagConstraints.NORTH;
+		gbc_panel_22.fill = GridBagConstraints.BOTH;
+		gbc_panel_22.gridx = 0;
+		gbc_panel_22.gridy = 0;
+		order_media.add(panel_22, gbc_panel_22);
+		GridBagLayout gbl_panel_22 = new GridBagLayout();
+		gbl_panel_22.columnWidths = new int[]{0};
+		gbl_panel_22.rowHeights = new int[]{0};
+		gbl_panel_22.columnWeights = new double[]{Double.MIN_VALUE};
+		gbl_panel_22.rowWeights = new double[]{Double.MIN_VALUE};
+		panel_22.setLayout(gbl_panel_22);
+		
+		GridBagConstraints gbc_panel_23 = new GridBagConstraints();
+		gbc_panel_23.anchor = GridBagConstraints.SOUTH;
+		gbc_panel_23.fill = GridBagConstraints.BOTH;
+		gbc_panel_23.gridx = 0;
+		gbc_panel_23.gridy = 1;
+		order_media.add(panel_23, gbc_panel_23);
+		panel_23.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		panel_23.add(panel_24);
+		panel_24.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		panel_24.add(scrollPane_1);
+		
+		scrollPane_1.setViewportView(listMediaOrders);
+		
+		panel_23.add(panel_25);
+		panel_25.setLayout(new GridLayout(2, 1, 0, 0));
+		
+		panel_25.add(btnCreateOrder);
+		btnCreateNewOrder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO: Create popup and save the new media to the database
+			}
+		});
+		
+		panel_25.add(btnCreateNewOrder);
 		
 		borrow_media.repaint();
 		
