@@ -1,38 +1,47 @@
 package GUI;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.JPasswordField;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
-
-import javax.swing.JButton;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Panel;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextPane;
-import javax.swing.JTextArea;
-import java.awt.Label;
-import java.awt.Toolkit;
-import java.awt.CardLayout;
+
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-
-import java.awt.FlowLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.SoftBevelBorder;
 
 import Actors.Customer;
 import Actors.Librarian;
@@ -43,47 +52,6 @@ import Media.PaperMedia;
 import Media.PhysicalMedia;
 import Utilities.Address;
 import Utilities.CalendarPeriod;
-import Utilities.Status;
-
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JTextField;
-import javax.swing.JSplitPane;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Component;
-import java.awt.Dialog.ModalityType;
-
-import javax.swing.JSeparator;
-import javax.swing.border.LineBorder;
-import javax.swing.JList;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.AbstractListModel;
-import javax.swing.BorderFactory;
-
-import java.awt.List;
-import javax.swing.JScrollBar;
-import java.awt.Button;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import java.awt.Panel;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JDesktopPane;
 //import net.miginfocom.swing.MigLayout;
 
 public class logInAs {
@@ -454,13 +422,37 @@ public class logInAs {
 				String author = mediaAuthorTextField.getText();
 				
 				if (name.equals("") || author.equals("")) {
-					JOptionPane.showMessageDialog(null, "Please Enter all Fields", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Please Enter all Fields", "InfoBox ", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				
 				// Add the functionality here
 				// need to save this data to a file through the Database.java file
-				
+				if (type.equals("Books/Magazines/Comics")) {
+					for (PaperMedia media : dtb.getPaperMedias()) {
+						if (!media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+							JOptionPane.showMessageDialog(null, "No paper media exists with name: \""+name+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+				} else if (type.equals("CDs")) {
+					for (CD media : dtb.getCds()) {
+						if (!media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+							JOptionPane.showMessageDialog(null, "No CD exists with name: \""+name+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+				} else if (type.equals("DVDs")) {
+					for (DVD media : dtb.getDvds()) {
+						if (!media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+							JOptionPane.showMessageDialog(null, "No DVD exists with name: \""+name+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+				} else {
+					// This should never get run, but just in case
+					JOptionPane.showMessageDialog(null, "Unknown media type: \""+type+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+				}
 				dialogMediaBorrow.setVisible(false);
 				dialogMediaBorrow.dispose();
 				JOptionPane.showMessageDialog(null, "Media Sucessfully Placed on Hold", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
