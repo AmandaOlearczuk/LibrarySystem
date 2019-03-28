@@ -25,6 +25,7 @@ import Utilities.Status;
  */
 public class Database implements Serializable {
 	
+	
 	private static final long serialVersionUID = 888845311545762296L;
 	private ArrayList<CD> cds = new ArrayList<CD>();
 	private ArrayList<DVD> dvds = new ArrayList<DVD>();

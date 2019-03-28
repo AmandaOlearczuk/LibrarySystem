@@ -42,10 +42,13 @@ public class PaperMedia extends PhysicalMedia {
     * @return String - nice format
      */
 	public String toString() {
+		String owner = "None";
+		if (this.getStatus().getCurrentStatus().equals("in use"))
+			owner = this.getCustomer().getID();
 		String c = String.join(", ", this.getAuthors());
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = format1.format(this.getDate().getTime());
 		return "Book/Magazine/Comic Title: " + "'" + super.getTitle() + "'" + " | Author/s: " + c +
-				" | Date: " + formatted + " | Status: " + this.getStatus().toString() + " ";
+				" | Date: " + formatted + " | Status: " + this.getStatus().toString() + " " + " | Owner: " + owner + " ";
 	}
 }

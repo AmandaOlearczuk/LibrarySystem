@@ -47,11 +47,14 @@ public class CD extends PhysicalMedia {
 	 * @return String - nice format
 	 */
 	public String toString() {
+		String owner = "None";
+		if (this.getStatus().getCurrentStatus().equals("in use"))
+			owner = this.getCustomer().getID();
 		String c = String.join(", ", this.getComposers());
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = format1.format(this.getDate().getTime());
 		return "CD Title: " + "'" + super.getTitle() + "'" + " | CD composer/s: " + c +" | Date: " + formatted 
-				+  " | Status: " + this.getStatus() + " ";
+				+  " | Status: " + this.getStatus() + " " + " | Owner: " + owner + " ";
 	}
 
 }

@@ -43,11 +43,14 @@ public class DVD extends PhysicalMedia{
 	 * @return String - nice format
 	 */
 	public String toString() {
+		String owner = "None";
+		if (this.getStatus().getCurrentStatus().equals("in use"))
+			owner = this.getCustomer().getID();
 		String d = String.join(", ", this.getDirectors());
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = format1.format(this.getDate().getTime());
 		return "DVD Title: " + "'" + super.getTitle() + "'" + " | DVD director/s: " +d + " | Date: " 
-				+ formatted + " | Status: " + this.getStatus() + " ";
+				+ formatted + " | Status: " + this.getStatus() + " " + " | Owner: " + owner + " ";
 	}
 }
 
