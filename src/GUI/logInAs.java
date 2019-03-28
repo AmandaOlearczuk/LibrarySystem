@@ -157,7 +157,7 @@ public class logInAs {
 	private final JButton searchCustomerBtn = new JButton("Search Customer");
 	private final JButton HoldBtnStudent = new JButton("Hold");
 	private final JButton logOutBtn2 = new JButton("Log Out");
-	private final JButton btnPlaceOnHold = new JButton("Place on Hold");
+	private final JButton btnPlaceOnHold = new JButton("Browse Media");
 	private final JButton btnOk = new JButton("Ok");
 	private final JButton button = new JButton("Browse");
 	private final JButton changeStatusOKButton = new JButton("Ok");
@@ -224,6 +224,9 @@ public class logInAs {
 	private JTextField mediaDateTextField_d = new JTextField();
 	private JButton orderMediaOkBtn = new JButton("Send");
 	
+	//Items for Student Media Order Requests
+	private JButton btnRequestMediaSend = new JButton("Send");
+	
 	//Items for the pop up for current Media Orders
 	private final JList currentOrdersList = new JList();
     private JLabel currMedOrdersLabel = new JLabel("Current Media Orders: ");
@@ -287,6 +290,8 @@ public class logInAs {
 	private final JLabel lblNewLabel_1 = new JLabel("Media Order Requests:");
 	private final JButton btnViewMediaOrders = new JButton("Current Media Orders");
 	private final JLabel label_empty = new JLabel("");
+	private final JButton btnRequestMedia = new JButton("Request Media");
+	private final JPanel panel_26 = new JPanel();
 	
 	
 	
@@ -413,14 +418,68 @@ public class logInAs {
 		StudentWindow.add(studentMenu, BorderLayout.WEST);
 		studentMenu.setLayout(new GridLayout(5, 0, 0, 0));
 		studentMenu.add(btnPlaceOnHold);
+		btnRequestMedia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//weeh
+				dialogMediaBorrow.getContentPane().setLayout(new GridLayout(0,2,5,5));
+				dialogMediaBorrow.setModalityType(ModalityType.TOOLKIT_MODAL);
+				
+				dialogMediaBorrow.setBounds(0,0 ,screenSize.width/3, screenSize.height/2);
+				dialogMediaBorrow.setLocationRelativeTo(null);
+				
+					
+				mediaTypeComboBox.setBackground(Color.white);
+				mediaTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"CDs" , "DVDs", "Books/Magazines/Comics"}));
+					
+				
+					
+				dialogMediaBorrow.getContentPane().add(mediaTypeLabel);
+				dialogMediaBorrow.getContentPane().add(mediaTypeComboBox);
+				dialogMediaBorrow.getContentPane().add(mediaNameLabel);
+				dialogMediaBorrow.getContentPane().add(mediaNameTextField);
+				dialogMediaBorrow.getContentPane().add(mediaAuthorLabel);
+				dialogMediaBorrow.getContentPane().add(mediaAuthorTextField);
+					
+				dialogMediaBorrow.getContentPane().add(btnRequestMediaSend);
+				dialogMediaBorrow.getContentPane().add(cancelButton);
+					
+				dialogMediaBorrow.setVisible(true);
+			}
+		});
+		
+		btnRequestMediaSend.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String type = mediaTypeComboBox.getSelectedItem().toString();
+				String name = mediaNameTextField.getText();
+				String author = mediaAuthorTextField.getText();
+				
+				if (name.equals("") || author.equals("")) {
+					JOptionPane.showMessageDialog(null, "Please Enter all Fields", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				
+				// Add the functionality here
+				// need to save this data to a file through the Database.java file
+				
+				dialogMediaBorrow.setVisible(false);
+				dialogMediaBorrow.dispose();
+				JOptionPane.showMessageDialog(null, "Media Sucessfully Placed on Hold", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+
+			}
+		});
+		
+		studentMenu.add(btnRequestMedia);
 		studentMiddle.setBorder(new LineBorder(new Color(0, 0, 0)));
 		StudentWindow.add(studentMiddle, BorderLayout.CENTER);
 		studentMiddle.setLayout(new GridLayout(0, 1, 0, 0));
-		studentMiddle.add(panel_16);
+		
+		studentMiddle.add(panel_26);
+		panel_26.setLayout(new GridLayout(0, 1, 0, 0));
 		comboBox_studentHold.setModel(new DefaultComboBoxModel(new String[] {"Books/Magazines/Comics", "CDs", "DVDs"}));
+		panel_26.add(panel_16);
 		panel_16.add(comboBox_studentHold);
 		panel_16.add(button);
-		studentMiddle.add(panel_17);
+		panel_26.add(panel_17);
 		panel_17.setLayout(new BoxLayout(panel_17, BoxLayout.X_AXIS));
 		panel_17.add(panel_18);
 		panel_18.setLayout(new GridLayout(0, 1, 0, 0));
