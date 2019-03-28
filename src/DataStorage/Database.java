@@ -213,6 +213,9 @@ public class Database implements Serializable {
 			for (int i=0;i<paperMedias.size();i++) {
 				out.writeObject(paperMedias.get(i));
 				}
+			for (int i=0;i<orders.size();i++) {
+				out.writeObject(orders.get(i));
+				}
 
 			
 			out.close();
@@ -258,6 +261,7 @@ public class Database implements Serializable {
 					if(obj instanceof CD) cds.add((CD)obj);{}
 					if(obj instanceof DVD) dvds.add((DVD)obj);{}
 					if(obj instanceof PaperMedia) paperMedias.add((PaperMedia)obj);
+					if(obj instanceof Orders) orders.add((Orders)obj);
 					
 				}
 				
@@ -309,6 +313,7 @@ public class Database implements Serializable {
     
     /**
      * Prints virtual shelf to string
+     * @return String - a nice format
      */
     public String shelfString() {
     	String a = "";
@@ -345,6 +350,10 @@ public class Database implements Serializable {
     	orders.add(new Order(who, medType, name, creator, year, month, day));
     }
     
+    /**
+     * Generates string of orders
+     * @return String - orders in a nice format
+     */
     public String listOrders() {
     	String temp = "";
     	for (int i = 0; i < orders.size(); i++)
