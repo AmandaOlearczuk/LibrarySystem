@@ -225,6 +225,7 @@ public class logInAs {
 	private final DefaultListModel searchHoldsDLM = new DefaultListModel();
 	private final DefaultListModel searchBorrowDLM = new DefaultListModel();
 	private final DefaultListModel currentOrderRequestsModel = new DefaultListModel();
+	private final DefaultListModel customerOrderRequestsModel = new DefaultListModel();
 
 	
 	//Items for Ordering Media Pop-up
@@ -324,7 +325,7 @@ public class logInAs {
 	private final JPanel panel_24 = new JPanel();
 	private final JPanel panel_25 = new JPanel();
 	private final JScrollPane scrollPane_1 = new JScrollPane();
-	private final JList listMediaOrders = new JList();
+	private final JList listMediaOrders = new JList(customerOrderRequestsModel);
 	private final JButton btnCreateNewOrder = new JButton("Create New Order");
 	private final JLabel lblNewLabel_1 = new JLabel("Media Order Requests:");
 	private final JButton btnViewMediaOrders = new JButton("Current Media Orders");
@@ -1504,8 +1505,16 @@ public class logInAs {
 				 */
 				btnOrderMedia.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+					
 						mid.show(middle, "order");
 						customerDLM.clear();
+						customerOrderRequestsModel.clear();
+						
+						//populate list with current Media Requests from Customers
+						int numRequests = dtb.getNumberOfOrderRequests();
+						for (int i = 0; i < numRequests; i++) {
+							customerOrderRequestsModel.addElement(dtb.getOrderRequests().get(i).ShowOrderRequest());
+						}
 					}
 				});
 				
@@ -1517,7 +1526,7 @@ public class logInAs {
 					public void actionPerformed(ActionEvent e) {
 						// case where nothing is selected
 						if (listMediaOrders.getSelectedIndex() != -1) {
-							JOptionPane.showMessageDialog(null, "Need to finish this part!", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+							System.out.println(listMediaOrders.getSelectedIndex());
 						}	
 						
 						// case where something is selected
@@ -1791,7 +1800,7 @@ public class logInAs {
 	 */
 	btnRequestMediaSend.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			
+			//weeh
 			String type = mediaTypeComboBox.getSelectedItem().toString();
 			String name = mediaNameTextField.getText();
 			String author = mediaAuthorTextField.getText();
@@ -1856,7 +1865,7 @@ public class logInAs {
 				JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "Unknown media type: \""+type+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
 			}
 			//dtb.loadData();
-			dtb.addOrder(dtb.searchByID(idTxtField.getText()), type, name, author, "", "", "");
+			dtb.addOrderRequest(dtb.searchByID("101"), type, name, author);
 			dtb.save();
 			System.out.println("order saved");
 			dialogCustomerRequestMedia.setVisible(false);

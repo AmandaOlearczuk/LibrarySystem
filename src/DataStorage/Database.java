@@ -38,6 +38,9 @@ public class Database implements Serializable {
 	
 	private ArrayList<Order> orders = new ArrayList<Order>();
 	private int numOrders = 0;
+	
+	private ArrayList<OrderRequest> orderRequests = new ArrayList<OrderRequest>();
+	private int numOrderRequests = 0;
  	
 	/**
 	 * Getters & setters
@@ -86,6 +89,14 @@ public class Database implements Serializable {
 	
 	public int getNumberOfOrders() {
 		return numOrders;
+	}
+	
+	public ArrayList<OrderRequest> getOrderRequests() {
+		return orderRequests;
+	}
+	
+	public int getNumberOfOrderRequests() {
+		return numOrderRequests;
 	}
 	
 
@@ -361,6 +372,11 @@ public class Database implements Serializable {
     public void addOrder(Customer who, String medType, String name, String creator, String year, String month, String day) {
     	orders.add(new Order(who, medType, name, creator, year, month, day));
     	numOrders++;
+    }
+    
+    public void addOrderRequest(Customer who, String medType, String name, String creator) {
+    	orderRequests.add(new OrderRequest(who, medType, name, creator));
+    	numOrderRequests++;
     }
     
     /**
