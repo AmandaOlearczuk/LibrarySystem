@@ -224,6 +224,8 @@ public class logInAs {
 	private final DefaultListModel customerHoldsDLM = new DefaultListModel();
 	private final DefaultListModel searchHoldsDLM = new DefaultListModel();
 	private final DefaultListModel searchBorrowDLM = new DefaultListModel();
+	private final DefaultListModel currentOrderRequestsModel = new DefaultListModel();
+
 	
 	//Items for Ordering Media Pop-up
 	private JLabel mediaTypeLabel = new JLabel(" Media Type: ");
@@ -1357,7 +1359,7 @@ public class logInAs {
 						if(!custFees.getText().isEmpty() && Double.parseDouble(custFees.getText()) > 0) {
 
 							dialogFeePayment.setBounds(0, 0, screenSize.width/4, screenSize.height/4);
-							dialogFeePayment.setLayout(new GridLayout(0,1,0,0));
+							dialogFeePayment.getContentPane().setLayout(new GridLayout(0,1,0,0));
 							dialogFeePayment.setModalityType(ModalityType.TOOLKIT_MODAL);
 							dialogFeePayment.setLocationRelativeTo(null);
 
@@ -1417,11 +1419,11 @@ public class logInAs {
 							quitBtn.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 
-							dialogFeePayment.add(panel_30);
-							dialogFeePayment.add(panel_31);
-							dialogFeePayment.add(panel_32);
-							dialogFeePayment.add(panel_33);
-							dialogFeePayment.add(panel_34);
+							dialogFeePayment.getContentPane().add(panel_30);
+							dialogFeePayment.getContentPane().add(panel_31);
+							dialogFeePayment.getContentPane().add(panel_32);
+							dialogFeePayment.getContentPane().add(panel_33);
+							dialogFeePayment.getContentPane().add(panel_34);
 
 							dialogFeePayment.setVisible(true);
 
@@ -1609,6 +1611,7 @@ public class logInAs {
 				 */
 				btnViewMediaOrders.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						//wee
 						dialogShowOrders.getContentPane().setLayout(new GridLayout(3,1,5,5));
 						dialogShowOrders.setModalityType(ModalityType.TOOLKIT_MODAL);
 						dialogShowOrders.setResizable(false);
@@ -1620,11 +1623,19 @@ public class logInAs {
 						dialogShowOrders.getContentPane().add(currentOrdersList);
 						dialogShowOrders.getContentPane().add(cancelButton_showOrders);
 
-						dlm.clear();
-						dlm.addElement(dtb.listOrders());
-						currentOrdersList.setModel(dlm);
+						currentOrderRequestsModel.clear();
+						
+						// Add orders to the dlm
+						int num = dtb.getNumberOfOrders();
+						for (int i = 0; i < num; i++) {
+							currentOrderRequestsModel.addElement(dtb.getOrders().get(i).showOrder());
+						}
+						
+						currentOrdersList.setModel(currentOrderRequestsModel);
 							
 						dialogShowOrders.setVisible(true);
+						
+						
 					}
 				});
 	

@@ -37,6 +37,7 @@ public class Database implements Serializable {
 	private ArrayList<Librarian> librarians = new ArrayList<Librarian>();	
 	
 	private ArrayList<Order> orders = new ArrayList<Order>();
+	private int numOrders = 0;
  	
 	/**
 	 * Getters & setters
@@ -77,6 +78,14 @@ public class Database implements Serializable {
 	
 	public ArrayList<Customer> getCustomers() {
 		return customers;
+	}
+	
+	public ArrayList<Order> getOrders() {
+		return orders;
+	}
+	
+	public int getNumberOfOrders() {
+		return numOrders;
 	}
 	
 
@@ -351,6 +360,7 @@ public class Database implements Serializable {
      */
     public void addOrder(Customer who, String medType, String name, String creator, String year, String month, String day) {
     	orders.add(new Order(who, medType, name, creator, year, month, day));
+    	numOrders++;
     }
     
     /**
@@ -363,6 +373,7 @@ public class Database implements Serializable {
     		temp = temp + orders.get(i).showOrder();
     	return temp;
     }
+   
 }
 
 
