@@ -290,7 +290,7 @@ public class logInAs {
 	private JLabel lblNewLabel2 = new JLabel("");
 	private JLabel lblId = new JLabel("ID:");
 	private JLabel idLabel = new JLabel();
-	private JLabel lblFees = new JLabel("Fees:");
+	private JLabel lblFees = new JLabel("Fees: $");
 	private JLabel feesLabel = new JLabel();
 	private JTextField payAmount = new JTextField();
 	private JButton payBtn = new JButton("Pay Amount");
@@ -1314,7 +1314,7 @@ public class logInAs {
 								
 								custType.setText(c.getMaxMedia() + "");
 								custBirth.setText(birth.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH ) + " " + birth.get(Calendar.DATE) + ", " + birth.get(Calendar.YEAR) );
-								custFees.setText(c.getFeesOwned() + "");
+								custFees.setText("$ " + c.getFeesOwned());
 								
 								searchHoldsDLM.clear();
 								searchBorrowDLM.clear();
@@ -1448,11 +1448,11 @@ public class logInAs {
 
 						try {
 							paying = Double.parseDouble(payAmount.getText());
-
-
-
 							curFee = Double.parseDouble(custFees.getText());
-							if(curFee - paying < 0) {
+
+							if(paying < 0) {
+								JOptionPane.showMessageDialog(dialogFeePayment, "Please enter a positive number.", "Number Format Error", JOptionPane.INFORMATION_MESSAGE);
+							}else if(curFee - paying < 0) {
 								change = paying-curFee;
 
 								c.setFeesOwned(0.0);
@@ -1462,6 +1462,7 @@ public class logInAs {
 								JOptionPane.showMessageDialog(dialogFeePayment, "Fees paid in full.\nChange Due: " + change.toString(), "Change Due", JOptionPane.INFORMATION_MESSAGE);
 
 								dialogFeePayment.setVisible(false);
+								payAmount.setText("");
 								dialogFeePayment.dispose();
 
 
@@ -1475,6 +1476,7 @@ public class logInAs {
 								JOptionPane.showMessageDialog(dialogFeePayment, "Remaining Fees: " + newFee.toString(), "Remaining Fees", JOptionPane.INFORMATION_MESSAGE);
 
 								dialogFeePayment.setVisible(false);
+								payAmount.setText("");
 								dialogFeePayment.dispose();
 							}
 
@@ -1495,6 +1497,7 @@ public class logInAs {
 				quitBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dialogFeePayment.setVisible(false);
+						payAmount.setText("");
 						dialogFeePayment.dispose();
 					}
 				});
