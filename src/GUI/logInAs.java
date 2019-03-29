@@ -52,7 +52,52 @@ import Media.PaperMedia;
 import Media.PhysicalMedia;
 import Utilities.Address;
 import Utilities.CalendarPeriod;
+
+import Utilities.Status;
+
+import java.awt.GridLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JTextField;
+import javax.swing.JSplitPane;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Component;
+import java.awt.Dialog.ModalityType;
+
+import javax.swing.JSeparator;
+import javax.swing.border.LineBorder;
+import javax.swing.JList;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.AbstractListModel;
+import javax.swing.BorderFactory;
+
+import java.awt.List;
+import javax.swing.JScrollBar;
+import java.awt.Button;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import java.awt.Panel;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JDesktopPane;
+import net.miginfocom.swing.MigLayout;
+
 //import net.miginfocom.swing.MigLayout;
+
 
 public class logInAs {
 
@@ -235,6 +280,25 @@ public class logInAs {
 	private JLabel custAddress3 = new JLabel();
 	private JLabel custPhone = new JLabel();
 	private JLabel custType = new JLabel();
+	
+	//Items for fee payment after search
+	private JLabel lblName2 = new JLabel("Name:");
+	private JLabel nameLabel2 = new JLabel();
+	private JLabel lblNewLabel2 = new JLabel("");
+	private JLabel lblId = new JLabel("ID:");
+	private JLabel idLabel = new JLabel();
+	private JLabel lblFees = new JLabel("Fees:");
+	private JLabel feesLabel = new JLabel();
+	private JTextField payAmount = new JTextField();
+	private JButton payBtn = new JButton("Pay Amount");
+	private JLabel updateInfo = new JLabel();
+	private JButton quitBtn = new JButton("Cancel");
+	private JPanel panel_30 = new JPanel();
+	private JPanel panel_31 = new JPanel();
+	private JPanel panel_32 = new JPanel();
+	private JPanel panel_33 = new JPanel();
+	private JPanel panel_34 = new JPanel();
+	private JDialog dialogFeePayment = new JDialog();
 	
 	//Pop-up window items for librarian's "change status" 
 	private JDialog dialogChangeStatus = new JDialog();
@@ -1283,6 +1347,155 @@ public class logInAs {
 						
 					}
 				});
+				
+				/**
+				 * pay fees button in search tab
+				 * 
+				 */
+				btnPayFees.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(!custFees.getText().isEmpty() && Double.parseDouble(custFees.getText()) > 0) {
+							
+							dialogFeePayment.setBounds(0, 0, screenSize.width/4, screenSize.height/4);
+							dialogFeePayment.setLayout(new GridLayout(0,1,0,0));
+							dialogFeePayment.setModalityType(ModalityType.TOOLKIT_MODAL);
+							dialogFeePayment.setLocationRelativeTo(null);
+							
+
+							//panel 30
+							
+							panel_30.setLayout(new GridLayout(0,3,0,0));
+							
+							panel_30.add(lblName2);
+							lblName2.setFont(new Font("Tahoma", Font.BOLD, 12));
+
+							panel_30.add(nameLabel2);
+							nameLabel2.setText(custName.getText());
+							nameLabel2.setFont(new Font("Tahoma", Font.PLAIN, 12));
+							
+							panel_30.add(lblNewLabel2);
+
+							panel_30.add(lblId);
+							lblId.setFont(new Font("Tahoma", Font.BOLD, 12));
+							
+							panel_30.add(idLabel);
+							idLabel.setText(custID.getText());
+							idLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+							
+							//panel 31
+
+							panel_31.setLayout(new GridLayout(0, 3, 0, 0));
+
+							panel_31.add(lblFees);
+							lblFees.setFont(new Font("Tahoma", Font.BOLD, 12));
+							
+							panel_31.add(feesLabel);
+							feesLabel.setText(custFees.getText());
+							feesLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+							
+							//panel 32
+
+							panel_32.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
+							panel_32.add(payAmount);
+							payAmount.setColumns(10);
+							
+							panel_32.add(payBtn);
+							payBtn.setFont(new Font("Tahoma", Font.BOLD, 12));
+
+							//panel 33
+
+							panel_33.setLayout(new GridLayout(1, 0, 0, 0));
+							
+							panel_33.add(updateInfo);
+							updateInfo.setFont(new Font("Tahoma", Font.BOLD, 12));
+
+							//panel 34
+							panel_34.setLayout(new BorderLayout(0, 0));
+							
+							panel_34.add(quitBtn, BorderLayout.CENTER);
+							quitBtn.setFont(new Font("Tahoma", Font.BOLD, 12));
+
+							
+							dialogFeePayment.add(panel_30);
+							dialogFeePayment.add(panel_31);
+							dialogFeePayment.add(panel_32);
+							dialogFeePayment.add(panel_33);
+							dialogFeePayment.add(panel_34);
+
+							dialogFeePayment.setVisible(true);
+							
+
+							
+							
+						}else {
+							JOptionPane.showMessageDialog(null, "No fees to be payed.", "No Fees Error", JOptionPane.INFORMATION_MESSAGE);
+						}
+						
+					}
+				});
+				
+				/**
+				 * pay amount button in fee payment dialog
+				 */
+				payBtn.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Double paying, change, curFee, newFee;
+						Customer c = dtb.searchByID(idLabel.getText());
+						
+						try {
+							paying = Double.parseDouble(payAmount.getText());
+							
+							
+							
+							curFee = Double.parseDouble(custFees.getText());
+							if(curFee - paying < 0) {
+								change = paying-curFee;
+								
+								c.setFeesOwned(0.0);
+								dtb.save();
+								
+								custFees.setText("0.0");
+								JOptionPane.showMessageDialog(dialogFeePayment, "Fees paid in full.\nChange Due: " + change.toString(), "Change Due", JOptionPane.INFORMATION_MESSAGE);
+								
+								dialogFeePayment.setVisible(false);
+								dialogFeePayment.dispose();
+								
+								
+							}else {
+								newFee = Math.round((curFee-paying)*100.0)/100.0;
+								c.setFeesOwned(newFee);
+								dtb.save();
+								
+								custFees.setText(newFee.toString());
+								
+								JOptionPane.showMessageDialog(dialogFeePayment, "Remaining Fees: " + newFee.toString(), "Remaining Fees", JOptionPane.INFORMATION_MESSAGE);
+								
+								dialogFeePayment.setVisible(false);
+								dialogFeePayment.dispose();
+							}
+							
+						}
+						catch (NumberFormatException g){
+							JOptionPane.showMessageDialog(dialogFeePayment, "Please enter a valid number.", "Number Format Error", JOptionPane.INFORMATION_MESSAGE);
+						}
+						catch (NullPointerException f) {
+							JOptionPane.showMessageDialog(dialogFeePayment, "Please enter a number.", "Number Format Error", JOptionPane.INFORMATION_MESSAGE);
+						}
+						
+					}
+				});
+				
+				/**
+				 * Cancel button in fee payment dialog
+				 */
+				quitBtn.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dialogFeePayment.setVisible(false);
+						dialogFeePayment.dispose();
+					}
+				});
+
 				
 				/**
 				 * Librarian's order media button

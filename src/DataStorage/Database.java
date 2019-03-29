@@ -264,7 +264,7 @@ public class Database implements Serializable {
 					if(obj instanceof CD) cds.add((CD)obj);{}
 					if(obj instanceof DVD) dvds.add((DVD)obj);{}
 					if(obj instanceof PaperMedia) paperMedias.add((PaperMedia)obj);
-					if(obj instanceof Orders) orders.add((Orders)obj);
+					if(obj instanceof Order) orders.add((Order)obj);
 					
 				}
 				
