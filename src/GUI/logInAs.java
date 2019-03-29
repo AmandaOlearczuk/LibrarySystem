@@ -1524,10 +1524,20 @@ public class logInAs {
 				 */
 				btnCreateNewOrder.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						// case where nothing is selected
+						// If a request is selected, autofill
 						if (listMediaOrders.getSelectedIndex() != -1) {
-							System.out.println(listMediaOrders.getSelectedIndex());
-						}	
+							String request = (String)listMediaOrders.getSelectedValue();
+							String[] requestElements = request.split(" ");
+							
+							mediaAuthorTextField.setText(requestElements[10]);
+							mediaNameTextField.setText(requestElements[8]);
+						} else {
+							mediaNameTextField.setText("");
+							mediaAuthorTextField.setText("");
+							mediaDateTextField_y.setText("");
+							mediaDateTextField_m.setText("");
+							mediaDateTextField_d.setText("");
+						}
 						
 						// case where something is selected
 						dialogRequestMedia.getContentPane().setLayout(new GridLayout(0,2,5,5));
@@ -1553,13 +1563,7 @@ public class logInAs {
 						dialogRequestMedia.getContentPane().add(mediaDateLabel_d);
 						dialogRequestMedia.getContentPane().add(mediaDateTextField_d);
 						
-						mediaNameTextField.setText("");
-						mediaAuthorTextField.setText("");
-						mediaDateTextField_y.setText("");
-						mediaDateTextField_m.setText("");
-						mediaDateTextField_d.setText("");
-						
-
+											
 						dialogRequestMedia.getContentPane().add(orderMediaOkBtn);
 						dialogRequestMedia.getContentPane().add(cancelButton_requestMedia);
 							
@@ -1571,7 +1575,7 @@ public class logInAs {
 			
 				/**
 				 * Ok Button for the ordering media pop-up window
-				 * TODO
+				 * 
 				 */
 				orderMediaOkBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
@@ -1600,7 +1604,7 @@ public class logInAs {
 						}
 						
 						// if the error checking passes
-						dtb.addOrder(dtb.searchByID("101"), (String)mediaTypeComboBox.getSelectedItem(), mediaNameTextField.getText(), mediaAuthorTextField.getText(), 
+						dtb.addOrder(dtb.searchLibrarianByID("100"), (String)mediaTypeComboBox.getSelectedItem(), mediaNameTextField.getText(), mediaAuthorTextField.getText(), 
 								mediaDateTextField_y.getText(), mediaDateTextField_m.getText(), mediaDateTextField_d.getText());
 						
 						dialogRequestMedia.setVisible(false);
@@ -1609,9 +1613,6 @@ public class logInAs {
 						
 						JOptionPane.showMessageDialog(dialogRequestMedia, "Media Successfully Ordered", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
 						
-						
-						System.out.println(dtb.listOrders());
-
 					}
 				});
 	
@@ -1620,7 +1621,6 @@ public class logInAs {
 				 */
 				btnViewMediaOrders.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//wee
 						dialogShowOrders.getContentPane().setLayout(new GridLayout(3,1,5,5));
 						dialogShowOrders.setModalityType(ModalityType.TOOLKIT_MODAL);
 						dialogShowOrders.setResizable(false);
@@ -1799,7 +1799,6 @@ public class logInAs {
 	 */
 	btnRequestMediaSend.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			//weeh
 			String type = mediaTypeComboBox.getSelectedItem().toString();
 			String name = mediaNameTextField.getText();
 			String author = mediaAuthorTextField.getText();
