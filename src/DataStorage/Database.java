@@ -11,7 +11,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import Actors.*;
+import Actors.Customer;
+import Actors.Librarian;
+import Actors.Student;
 import Media.CD;
 import Media.DVD;
 import Media.PaperMedia;
@@ -254,6 +256,7 @@ public class Database implements Serializable {
 				cds.clear();
 				dvds.clear();
 				paperMedias.clear();
+				orders.clear();
 				while(true) {
 					Object obj = in.readObject();
 					if(obj instanceof Customer) customers.add((Customer)obj);
@@ -261,7 +264,7 @@ public class Database implements Serializable {
 					if(obj instanceof CD) cds.add((CD)obj);{}
 					if(obj instanceof DVD) dvds.add((DVD)obj);{}
 					if(obj instanceof PaperMedia) paperMedias.add((PaperMedia)obj);
-					if(obj instanceof Orders) orders.add((Orders)obj);
+					if(obj instanceof Order) orders.add((Order)obj);
 					
 				}
 				

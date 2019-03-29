@@ -426,33 +426,64 @@ public class logInAs {
 					return;
 				}
 				
-				// Add the functionality here
-				// need to save this data to a file through the Database.java file
+				// Check to see if the input represents a valid media
+				Media.PhysicalMedia med = null;
 				if (type.equals("Books/Magazines/Comics")) {
+					label1:
 					for (PaperMedia media : dtb.getPaperMedias()) {
-						if (!media.getTitle().toLowerCase().equals(name.toLowerCase())) {
-							JOptionPane.showMessageDialog(null, "No paper media exists with name: \""+name+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
-							return;
+						if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+							for (String author2 : media.getAuthors()) {
+								if (author2.toLowerCase().equals(author.toLowerCase())) {
+									med = media;
+									break label1;
+								}
+							}
 						}
+					}
+					if (med == null) {
+						JOptionPane.showMessageDialog(null, "No paper media exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+						return;
 					}
 				} else if (type.equals("CDs")) {
+					label2:
 					for (CD media : dtb.getCds()) {
-						if (!media.getTitle().toLowerCase().equals(name.toLowerCase())) {
-							JOptionPane.showMessageDialog(null, "No CD exists with name: \""+name+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
-							return;
+						if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+							for (String author2 : media.getComposers()) {
+								if (author2.toLowerCase().equals(author.toLowerCase())) {
+									med = media;
+									break label2;
+								}
+							}
 						}
 					}
+					if (med == null) {
+						JOptionPane.showMessageDialog(null, "No CD exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
 				} else if (type.equals("DVDs")) {
+					label3:
 					for (DVD media : dtb.getDvds()) {
-						if (!media.getTitle().toLowerCase().equals(name.toLowerCase())) {
-							JOptionPane.showMessageDialog(null, "No DVD exists with name: \""+name+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
-							return;
+						if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+							for (String author2 : media.getDirectors()) {
+								if (author2.toLowerCase().equals(author.toLowerCase())) {
+									med = media;
+									break label3;
+								}
+							}
 						}
+					}
+					if (med == null) {
+						JOptionPane.showMessageDialog(null, "No DVD exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+						return;
 					}
 				} else {
 					// This should never get run, but just in case
 					JOptionPane.showMessageDialog(null, "Unknown media type: \""+type+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
 				}
+				dtb.loadData();
+				//TODO: FILL IN THIS LINE, add the order to the database
+				//dtb.addOrder(, type, name, "creator", year, month, day);
+				dtb.save();
 				dialogMediaBorrow.setVisible(false);
 				dialogMediaBorrow.dispose();
 				JOptionPane.showMessageDialog(null, "Media Sucessfully Placed on Hold", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
