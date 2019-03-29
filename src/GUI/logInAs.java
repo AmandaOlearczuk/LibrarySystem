@@ -1564,7 +1564,31 @@ public class logInAs {
 				 */
 				orderMediaOkBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						// error checking
+						if (mediaNameTextField.getText().equals("") || mediaAuthorTextField.getText().equals("") || mediaDateTextField_d.getText().equals("")
+								|| mediaDateTextField_m.getText().equals("") || mediaDateTextField_y.getText().equals("")) {
+							JOptionPane.showMessageDialog(dialogRequestMedia, "Please Complete All Fields", "Errorbox ", JOptionPane.INFORMATION_MESSAGE);
+							return;
+						}
 						
+						int day = -1;
+						int month = -1;
+						int year = -1;
+						try {
+							day = Integer.parseInt(mediaDateTextField_d.getText());
+							month = Integer.parseInt(mediaDateTextField_m.getText());
+							year = Integer.parseInt(mediaDateTextField_y.getText());
+						} catch (NumberFormatException nfe) {
+							JOptionPane.showMessageDialog(dialogRequestMedia, "Please Enter Only Numbers in the Date Fields", "Errorbox ", JOptionPane.INFORMATION_MESSAGE);
+							return;
+						}
+						
+						if (day > 31 || month > 12 || year > 9999) {
+							JOptionPane.showMessageDialog(dialogRequestMedia, "Incorrect Date Format, Please Fix", "Errorbox ", JOptionPane.INFORMATION_MESSAGE);
+							return;
+						}
+						
+						// if the error checking passes
 						dtb.addOrder(dtb.searchByID("101"), (String)mediaTypeComboBox.getSelectedItem(), mediaNameTextField.getText(), mediaAuthorTextField.getText(), 
 								mediaDateTextField_y.getText(), mediaDateTextField_m.getText(), mediaDateTextField_d.getText());
 						
