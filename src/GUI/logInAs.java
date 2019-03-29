@@ -290,7 +290,7 @@ public class logInAs {
 	private JLabel lblNewLabel2 = new JLabel("");
 	private JLabel lblId = new JLabel("ID:");
 	private JLabel idLabel = new JLabel();
-	private JLabel lblFees = new JLabel("Fees: $");
+	private JLabel lblFees = new JLabel("Fees:");
 	private JLabel feesLabel = new JLabel();
 	private JTextField payAmount = new JTextField();
 	private JButton payBtn = new JButton("Pay Amount");
@@ -1357,7 +1357,7 @@ public class logInAs {
 				 */
 				btnPayFees.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(!custFees.getText().isEmpty() && Double.parseDouble(custFees.getText()) > 0) {
+						if(!custFees.getText().isEmpty() && Double.parseDouble(custFees.getText().substring(1)) > 0) {
 
 							dialogFeePayment.setBounds(0, 0, screenSize.width/4, screenSize.height/4);
 							dialogFeePayment.getContentPane().setLayout(new GridLayout(0,1,0,0));
@@ -1448,7 +1448,7 @@ public class logInAs {
 
 						try {
 							paying = Double.parseDouble(payAmount.getText());
-							curFee = Double.parseDouble(custFees.getText());
+							curFee = Double.parseDouble(custFees.getText().substring(1));
 
 							if(paying < 0) {
 								JOptionPane.showMessageDialog(dialogFeePayment, "Please enter a positive number.", "Number Format Error", JOptionPane.INFORMATION_MESSAGE);
