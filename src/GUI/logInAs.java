@@ -130,6 +130,9 @@ public class logInAs {
 	private final JButton button = new JButton("Browse");
 	private final JButton changeStatusOKButton = new JButton("Ok");
 	private final JButton changeStatusCancelButton = new JButton("Cancel");
+	private final JButton cancelButton_requestMedia = new JButton("Cancel");
+	private final JButton cancelButton_showOrders = new JButton("Cancel");
+	private final JButton cancelButton_customerRequest= new JButton("Cancel");
 	
 	private CardLayout cl = new CardLayout();
 	private final CardLayout mid = new CardLayout(5,5);
@@ -199,8 +202,10 @@ public class logInAs {
 	private final JList currentOrdersList = new JList();
     private JLabel currMedOrdersLabel = new JLabel("Current Media Orders: ");
 
-
-	
+    private JDialog dialogRequestMedia = new JDialog();
+    private JDialog dialogShowOrders= new JDialog();
+    private JDialog dialogCustomerRequestMedia = new JDialog();
+    
 	//Items for Pop up dialog for borrowing books 
     private JButton okButton = new JButton("Ok");
     private JLabel customerID = new JLabel("Customer ID: ");
@@ -261,7 +266,7 @@ public class logInAs {
 	private final JButton btnRequestMedia = new JButton("Request Media");
 	private final JPanel panel_26 = new JPanel();
 	
-	
+	JDialog dialogAlwaysOnTop = new JDialog();
 	
 	/**
 	 * Launch the application.
@@ -311,6 +316,7 @@ public class logInAs {
 		cl.setVgap(5);
 		cl.setHgap(5);
 		
+		dialogAlwaysOnTop.setAlwaysOnTop(true);
 		who.setOpaque(true);
 		panelCont.setLayout(cl);
 		LogInAs.setOpaque(true);
@@ -343,13 +349,6 @@ public class logInAs {
 		menu.add(librarianBrowseButton);
 		menu.add(pickupBtn);
 		menu.add(searchCustomerBtn);
-		btnOrderMedia.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				mid.show(middle, "order");
-				customerDLM.clear();
-			}
-		});
-		
 		menu.add(btnOrderMedia);
 		middle.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		LibrarianWindow.add(middle, BorderLayout.CENTER);
@@ -386,110 +385,8 @@ public class logInAs {
 		StudentWindow.add(studentMenu, BorderLayout.WEST);
 		studentMenu.setLayout(new GridLayout(5, 0, 0, 0));
 		studentMenu.add(btnPlaceOnHold);
-		btnRequestMedia.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//weeh
-				dialogMediaBorrow.getContentPane().setLayout(new GridLayout(0,2,5,5));
-				dialogMediaBorrow.setModalityType(ModalityType.TOOLKIT_MODAL);
-				
-				dialogMediaBorrow.setBounds(0,0 ,screenSize.width/3, screenSize.height/2);
-				dialogMediaBorrow.setLocationRelativeTo(null);
-				
-					
-				mediaTypeComboBox.setBackground(Color.white);
-				mediaTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"CDs" , "DVDs", "Books/Magazines/Comics"}));
-					
-				
-					
-				dialogMediaBorrow.getContentPane().add(mediaTypeLabel);
-				dialogMediaBorrow.getContentPane().add(mediaTypeComboBox);
-				dialogMediaBorrow.getContentPane().add(mediaNameLabel);
-				dialogMediaBorrow.getContentPane().add(mediaNameTextField);
-				dialogMediaBorrow.getContentPane().add(mediaAuthorLabel);
-				dialogMediaBorrow.getContentPane().add(mediaAuthorTextField);
-					
-				dialogMediaBorrow.getContentPane().add(btnRequestMediaSend);
-				dialogMediaBorrow.getContentPane().add(cancelButton);
-					
-				dialogMediaBorrow.setVisible(true);
-			}
-		});
 		
-		btnRequestMediaSend.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String type = mediaTypeComboBox.getSelectedItem().toString();
-				String name = mediaNameTextField.getText();
-				String author = mediaAuthorTextField.getText();
-				
-				if (name.equals("") || author.equals("")) {
-					JOptionPane.showMessageDialog(null, "Please Enter all Fields", "InfoBox ", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				
-				// Check to see if the input represents a valid media
-				Media.PhysicalMedia med = null;
-				if (type.equals("Books/Magazines/Comics")) {
-					label1:
-					for (PaperMedia media : dtb.getPaperMedias()) {
-						if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
-							for (String author2 : media.getAuthors()) {
-								if (author2.toLowerCase().equals(author.toLowerCase())) {
-									med = media;
-									break label1;
-								}
-							}
-						}
-					}
-					if (med == null) {
-						JOptionPane.showMessageDialog(null, "No paper media exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-				} else if (type.equals("CDs")) {
-					label2:
-					for (CD media : dtb.getCds()) {
-						if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
-							for (String author2 : media.getComposers()) {
-								if (author2.toLowerCase().equals(author.toLowerCase())) {
-									med = media;
-									break label2;
-								}
-							}
-						}
-					}
-					if (med == null) {
-						JOptionPane.showMessageDialog(null, "No CD exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-				} else if (type.equals("DVDs")) {
-					label3:
-					for (DVD media : dtb.getDvds()) {
-						if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
-							for (String author2 : media.getDirectors()) {
-								if (author2.toLowerCase().equals(author.toLowerCase())) {
-									med = media;
-									break label3;
-								}
-							}
-						}
-					}
-					if (med == null) {
-						JOptionPane.showMessageDialog(null, "No DVD exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-				} else {
-					// This should never get run, but just in case
-					JOptionPane.showMessageDialog(null, "Unknown media type: \""+type+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
-				}
-				dtb.loadData();
-				//TODO: FILL IN THIS LINE, add the order to the database
-				//dtb.addOrder(, type, name, "creator", year, month, day);
-				dtb.save();
-				dialogMediaBorrow.setVisible(false);
-				dialogMediaBorrow.dispose();
-				JOptionPane.showMessageDialog(null, "Media Sucessfully Placed on Hold", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
-
-			}
-		});
+		
 		
 		studentMenu.add(btnRequestMedia);
 		studentMiddle.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -531,15 +428,6 @@ public class logInAs {
 		LogInAs.add(studentBtn);
 		LogInAs.add(facultyBtn);
 		LogInAs.add(librarianBtn);
-		
-		librarianBtn.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-		        cl.show(panelCont, "2");
-		        who.setText("Librarian");
-			}
-		});
 		LogInAsSomeone.setLayout(new GridLayout(5, 3, 0, 0));
 		LogInAsSomeone.add(panel_2);
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS));
@@ -706,29 +594,6 @@ public class logInAs {
 		order_media.add(panel_22, gbc_panel_22);
 		panel_22.setLayout(new GridLayout(3, 6, 0, 0));
 		
-		/**
-		 * Lists the current orders to be filled
-		 */
-		btnViewMediaOrders.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dialogMediaBorrow.getContentPane().setLayout(new GridLayout(3,1,5,5));
-				dialogMediaBorrow.setModalityType(ModalityType.TOOLKIT_MODAL);
-				
-				dialogMediaBorrow.setBounds(0,0 ,screenSize.width/3, screenSize.height/2);
-				dialogMediaBorrow.setLocationRelativeTo(null);
-				
-				dialogMediaBorrow.getContentPane().add(currMedOrdersLabel);
-				dialogMediaBorrow.getContentPane().add(currentOrdersList);
-				dialogMediaBorrow.getContentPane().add(cancelButton);
-
-				dlm.clear();
-				dlm.addElement(dtb.listOrders());
-				currentOrdersList.setModel(dlm);
-					
-				dialogMediaBorrow.setVisible(true);
-			}
-		});
-		
 		panel_22.add(btnViewMediaOrders);
 		
 		panel_22.add(label_empty);
@@ -753,67 +618,7 @@ public class logInAs {
 		
 		panel_23.add(panel_25);
 		panel_25.setLayout(new GridLayout(1, 1, 0, 0));
-		btnCreateNewOrder.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// case where nothing is selected
-				if (listMediaOrders.getSelectedIndex() != -1) {
-					JOptionPane.showMessageDialog(null, "Need to finish this part!", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
-				}	
-				
-				// case where something is selected
-				dialogMediaBorrow.getContentPane().setLayout(new GridLayout(0,2,5,5));
-				dialogMediaBorrow.setModalityType(ModalityType.TOOLKIT_MODAL);
-				
-				dialogMediaBorrow.setBounds(0,0 ,screenSize.width/3, screenSize.height/2);
-				dialogMediaBorrow.setLocationRelativeTo(null);
-				
-					
-				mediaTypeComboBox.setBackground(Color.white);
-				mediaTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"CDs" , "DVDs", "Books/Magazines/Comics"}));
-					
-				
-					
-				dialogMediaBorrow.getContentPane().add(mediaTypeLabel);
-				dialogMediaBorrow.getContentPane().add(mediaTypeComboBox);
-				dialogMediaBorrow.getContentPane().add(mediaNameLabel);
-				dialogMediaBorrow.getContentPane().add(mediaNameTextField);
-				dialogMediaBorrow.getContentPane().add(mediaAuthorLabel);
-				dialogMediaBorrow.getContentPane().add(mediaAuthorTextField);
-				dialogMediaBorrow.getContentPane().add(mediaDateLabel_y);
-				dialogMediaBorrow.getContentPane().add(mediaDateTextField_y);
-				dialogMediaBorrow.getContentPane().add(mediaDateLabel_m);
-				dialogMediaBorrow.getContentPane().add(mediaDateTextField_m);
-				dialogMediaBorrow.getContentPane().add(mediaDateLabel_d);
-				dialogMediaBorrow.getContentPane().add(mediaDateTextField_d);
-					
-					
-					
-				dialogMediaBorrow.getContentPane().add(orderMediaOkBtn);
-				dialogMediaBorrow.getContentPane().add(cancelButton);
-					
-				dialogMediaBorrow.setVisible(true);
-				
-			}
-		});
-		
-		/**
-		 * Ok Button for the ordering media pop-up window
-		 */
-		orderMediaOkBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				dtb.addOrder("101", (String)mediaTypeComboBox.getSelectedItem(), mediaNameTextField.getText(), mediaAuthorTextField.getText(), 
-						mediaDateTextField_y.getText(), mediaDateTextField_m.getText(), mediaDateTextField_d.getText());
-				
-				dialogMediaBorrow.setVisible(false);
-				dialogMediaBorrow.dispose();
-				dlm.clear();
-				JOptionPane.showMessageDialog(null, "Media Successfully Ordered", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
-				
-				System.out.println(dtb.listOrders());
 
-			}
-		});
-		
 		panel_25.add(btnCreateNewOrder);
 		
 		borrow_media.repaint();
@@ -833,7 +638,7 @@ public class logInAs {
 		});
 			
 		/**
-		 * Click "log in as Student/Librarian/Faculty"
+		 * Click "log in as Student/Faculty/Librarian"
 		 */
 		
 	   studentBtn.addActionListener(new ActionListener() {
@@ -851,6 +656,15 @@ public class logInAs {
 			public void actionPerformed(ActionEvent arg0) {
 		        cl.show(panelCont, "2");
 		        who.setText("Faculty");
+			}
+		});
+	   
+	   librarianBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+		        cl.show(panelCont, "2");
+		        who.setText("Librarian");
 			}
 		});
 	   
@@ -1171,6 +985,25 @@ public class logInAs {
 				});
 				
 				/**
+				 * Cancel button within show orders dialog
+				 */
+				cancelButton_requestMedia.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dialogRequestMedia.setVisible(false);
+						dialogRequestMedia.dispose();
+					}
+				});
+				
+				cancelButton_showOrders.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dialogShowOrders.setVisible(false);
+						dialogShowOrders.dispose();
+					}
+				});
+				
+				
+				
+				/**
 				 * Ok button within a borrow dialog
 				 */
 				okButton.addActionListener(new ActionListener() {
@@ -1450,11 +1283,117 @@ public class logInAs {
 						
 					}
 				});
-					
 				
+				/**
+				 * Librarian's order media button
+				 */
+				btnOrderMedia.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						mid.show(middle, "order");
+						customerDLM.clear();
+					}
+				});
+				
+				/**
+				 * Librarian button to create new order from existing requests
+				 * TODO
+				 */
+				btnCreateNewOrder.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						// case where nothing is selected
+						if (listMediaOrders.getSelectedIndex() != -1) {
+							JOptionPane.showMessageDialog(null, "Need to finish this part!", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+						}	
+						
+						// case where something is selected
+						dialogRequestMedia.getContentPane().setLayout(new GridLayout(0,2,5,5));
+						dialogRequestMedia.setModalityType(ModalityType.TOOLKIT_MODAL);
+						
+						dialogRequestMedia.setBounds(0,0 ,screenSize.width/3, screenSize.height/2);
+						dialogRequestMedia.setLocationRelativeTo(null);
+						
+							
+						mediaTypeComboBox.setBackground(Color.white);
+						mediaTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"CDs" , "DVDs", "Books/Magazines/Comics"}));
+								
+						dialogRequestMedia.getContentPane().add(mediaTypeLabel);
+						dialogRequestMedia.getContentPane().add(mediaTypeComboBox);
+						dialogRequestMedia.getContentPane().add(mediaNameLabel);
+						dialogRequestMedia.getContentPane().add(mediaNameTextField);
+						dialogRequestMedia.getContentPane().add(mediaAuthorLabel);
+						dialogRequestMedia.getContentPane().add(mediaAuthorTextField);
+						dialogRequestMedia.getContentPane().add(mediaDateLabel_y);
+						dialogRequestMedia.getContentPane().add(mediaDateTextField_y);
+						dialogRequestMedia.getContentPane().add(mediaDateLabel_m);
+						dialogRequestMedia.getContentPane().add(mediaDateTextField_m);
+						dialogRequestMedia.getContentPane().add(mediaDateLabel_d);
+						dialogRequestMedia.getContentPane().add(mediaDateTextField_d);
+						
+						mediaNameTextField.setText("");
+						mediaAuthorTextField.setText("");
+						mediaDateTextField_y.setText("");
+						mediaDateTextField_m.setText("");
+						mediaDateTextField_d.setText("");
+						
+
+						dialogRequestMedia.getContentPane().add(orderMediaOkBtn);
+						dialogRequestMedia.getContentPane().add(cancelButton_requestMedia);
+							
+						dialogRequestMedia.setVisible(true);
+						
+					}
+				});
+	
 			
-			
+				/**
+				 * Ok Button for the ordering media pop-up window
+				 * TODO
+				 */
+				orderMediaOkBtn.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						dtb.addOrder(dtb.searchByID("101"), (String)mediaTypeComboBox.getSelectedItem(), mediaNameTextField.getText(), mediaAuthorTextField.getText(), 
+								mediaDateTextField_y.getText(), mediaDateTextField_m.getText(), mediaDateTextField_d.getText());
+						
+						dialogRequestMedia.setVisible(false);
+						dialogRequestMedia.dispose();
+						dlm.clear();
+						
+						JOptionPane.showMessageDialog(dialogRequestMedia, "Media Successfully Ordered", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+						
+						
+						System.out.println(dtb.listOrders());
+
+					}
+				});
+	
+				/**
+				 * Lists the current orders to be filled
+				 */
+				btnViewMediaOrders.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dialogShowOrders.getContentPane().setLayout(new GridLayout(3,1,5,5));
+						dialogShowOrders.setModalityType(ModalityType.TOOLKIT_MODAL);
+						dialogShowOrders.setResizable(false);
+						
+						dialogShowOrders.setBounds(0,0 ,screenSize.width/3, screenSize.height/2);
+						dialogShowOrders.setLocationRelativeTo(null);
+						
+						dialogShowOrders.getContentPane().add(currMedOrdersLabel);
+						dialogShowOrders.getContentPane().add(currentOrdersList);
+						dialogShowOrders.getContentPane().add(cancelButton_showOrders);
+
+						dlm.clear();
+						dlm.addElement(dtb.listOrders());
+						currentOrdersList.setModel(dlm);
+							
+						dialogShowOrders.setVisible(true);
+					}
+				});
+	
+	
 	}
+		
 
 	/**
 	 * Actions for student and faculty
@@ -1567,7 +1506,131 @@ public class logInAs {
 				}
 			}
 		});
-	}
+	
+	/**
+	 * Request button in customer's window (to request a media)
+	 */
+	btnRequestMedia.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			
+			dialogCustomerRequestMedia.getContentPane().setLayout(new GridLayout(0,2,5,5));
+			dialogCustomerRequestMedia.setModalityType(ModalityType.TOOLKIT_MODAL);
+			
+			dialogCustomerRequestMedia.setBounds(0,0 ,screenSize.width/3, screenSize.height/2);
+			dialogCustomerRequestMedia.setLocationRelativeTo(null);
+			
+				
+			mediaTypeComboBox.setBackground(Color.white);
+			mediaTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"CDs" , "DVDs", "Books/Magazines/Comics"}));
+
+			dialogCustomerRequestMedia.getContentPane().add(mediaTypeLabel);
+			dialogCustomerRequestMedia.getContentPane().add(mediaTypeComboBox);
+			dialogCustomerRequestMedia.getContentPane().add(mediaNameLabel);
+			dialogCustomerRequestMedia.getContentPane().add(mediaNameTextField);
+			dialogCustomerRequestMedia.getContentPane().add(mediaAuthorLabel);
+			dialogCustomerRequestMedia.getContentPane().add(mediaAuthorTextField);
+				
+			dialogCustomerRequestMedia.getContentPane().add(btnRequestMediaSend);
+			dialogCustomerRequestMedia.getContentPane().add(cancelButton_customerRequest);
+				
+			dialogCustomerRequestMedia.setVisible(true);
+		}
+	});
+	
+	/**
+	 * Send button for Customer's request to order a media
+	 * TODO 
+	 */
+	btnRequestMediaSend.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			
+			String type = mediaTypeComboBox.getSelectedItem().toString();
+			String name = mediaNameTextField.getText();
+			String author = mediaAuthorTextField.getText();
+			
+			if (name.equals("") || author.equals("")) {
+				JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "Please Enter all Fields", "InfoBox ", JOptionPane.ERROR_MESSAGE);	
+				return;
+			}
+			
+			// Check to see if the input represents a valid media
+			Media.PhysicalMedia med = null;
+			if (type.equals("Books/Magazines/Comics")) {
+				label1:
+				for (PaperMedia media : dtb.getPaperMedias()) {
+					if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+						for (String author2 : media.getAuthors()) {
+							if (author2.toLowerCase().equals(author.toLowerCase())) {
+								med = media;
+								break label1;
+							}
+						}
+					}
+				}
+				if (med == null) {
+					JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "No paper media exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			} else if (type.equals("CDs")) {
+				label2:
+				for (CD media : dtb.getCds()) {
+					if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+						for (String author2 : media.getComposers()) {
+							if (author2.toLowerCase().equals(author.toLowerCase())) {
+								med = media;
+								break label2;
+							}
+						}
+					}
+				}
+				if (med == null) {
+					JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "No CD exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			} else if (type.equals("DVDs")) {
+				label3:
+				for (DVD media : dtb.getDvds()) {
+					if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+						for (String author2 : media.getDirectors()) {
+							if (author2.toLowerCase().equals(author.toLowerCase())) {
+								med = media;
+								break label3;
+							}
+						}
+					}
+				}
+				if (med == null) {
+					JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "No DVD exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			} else {
+				// This should never get run, but just in case
+				JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "Unknown media type: \""+type+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+			}
+			//dtb.loadData();
+			dtb.addOrder(dtb.searchByID(idTxtField.getText()), type, name, author, "", "", "");
+			dtb.save();
+			System.out.println("order saved");
+			dialogCustomerRequestMedia.setVisible(false);
+			dialogCustomerRequestMedia.dispose();
+			JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "Request form successfully sent", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+
+		}
+	});
+	
+	/**
+	 * Cancel button for customer's requests
+	 */
+	cancelButton_customerRequest.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dialogCustomerRequestMedia.setVisible(false);
+			dialogCustomerRequestMedia.dispose();
+		}
+	});
+	
+    
+	
+}
 }
 
 	

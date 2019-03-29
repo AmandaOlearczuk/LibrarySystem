@@ -1,7 +1,7 @@
 package DataStorage;
-
+import Actors.Customer;
 public class Order {
-	private String whoOrdered;
+	private Customer whoOrdered;
 	private String mediaType;
 	private String name;
 	private String creator;
@@ -10,7 +10,7 @@ public class Order {
 	private String day;
 	
 		
-	public Order (String who, String med, String n, String c, String y, String m, String d) {
+	public Order (Customer who, String med, String n, String c, String y, String m, String d) {
 		this.whoOrdered = who;
 		this.mediaType = med;
 		this.name = n;
@@ -21,8 +21,14 @@ public class Order {
 		
 	}
 	
+	/**
+	 * 
+	 * @return String - order in a nice format
+	 */
 	public String showOrder() {
-		return "User " + whoOrdered + " ordered " + mediaType + " " + name + " by: " + creator + " released on: " + day + "-" + month + "-" + year + "\n";
+		return "User: " + whoOrdered.getFirstName() + " " + whoOrdered.getLastName() + " with ID: " + 
+	              whoOrdered.getID() + " ordered " + mediaType + " " + name + " by: " + 
+				    creator + " released on: " + day + "-" + month + "-" + year + "\n";
 	}
 
 }
