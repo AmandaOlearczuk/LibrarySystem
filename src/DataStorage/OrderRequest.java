@@ -16,6 +16,10 @@ public class OrderRequest {
 
 	}
 	
+	/**
+	 * 
+	 * @return - returns a String with the information about the media Request
+	 */
 	public String ShowOrderRequest() {
 		return "User: " + whoOrdered.getFirstName() + " " + whoOrdered.getLastName() + " with ID: " + 
 	              whoOrdered.getID() + " ordered " + mediaType + " " + name + " by: " + creator;

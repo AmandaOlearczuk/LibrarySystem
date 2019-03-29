@@ -1,7 +1,7 @@
 package DataStorage;
-import Actors.Customer;
+import Actors.Librarian;
 public class Order {
-	private Customer whoOrdered;
+	private Librarian whoOrdered;
 	private String mediaType;
 	private String name;
 	private String creator;
@@ -9,8 +9,10 @@ public class Order {
 	private String month;
 	private String day;
 	
-		
-	public Order (Customer who, String med, String n, String c, String y, String m, String d) {
+	/**
+	 * Constructor
+	 */
+	public Order (Librarian who, String med, String n, String c, String y, String m, String d) {
 		this.whoOrdered = who;
 		this.mediaType = med;
 		this.name = n;

@@ -368,12 +368,26 @@ public class Database implements Serializable {
     
     /**
      * Adds a media order to the order file
+     * @param who
+     * @param medType
+     * @param name
+     * @param creator
+     * @param year
+     * @param month
+     * @param day
      */
-    public void addOrder(Customer who, String medType, String name, String creator, String year, String month, String day) {
+    public void addOrder(Librarian who, String medType, String name, String creator, String year, String month, String day) {
     	orders.add(new Order(who, medType, name, creator, year, month, day));
     	numOrders++;
     }
     
+    /**
+     * Adds a media request for a Librarian to handle
+     * @param who
+     * @param medType
+     * @param name
+     * @param creator
+     */
     public void addOrderRequest(Customer who, String medType, String name, String creator) {
     	orderRequests.add(new OrderRequest(who, medType, name, creator));
     	numOrderRequests++;

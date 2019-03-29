@@ -1527,10 +1527,20 @@ public class logInAs {
 				 */
 				btnCreateNewOrder.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						// case where nothing is selected
+						// If a request is selected, autofill
 						if (listMediaOrders.getSelectedIndex() != -1) {
-							System.out.println(listMediaOrders.getSelectedIndex());
-						}	
+							String request = (String)listMediaOrders.getSelectedValue();
+							String[] requestElements = request.split(" ");
+							
+							mediaAuthorTextField.setText(requestElements[10]);
+							mediaNameTextField.setText(requestElements[8]);
+						} else {
+							mediaNameTextField.setText("");
+							mediaAuthorTextField.setText("");
+							mediaDateTextField_y.setText("");
+							mediaDateTextField_m.setText("");
+							mediaDateTextField_d.setText("");
+						}
 						
 						// case where something is selected
 						dialogRequestMedia.getContentPane().setLayout(new GridLayout(0,2,5,5));
@@ -1556,13 +1566,7 @@ public class logInAs {
 						dialogRequestMedia.getContentPane().add(mediaDateLabel_d);
 						dialogRequestMedia.getContentPane().add(mediaDateTextField_d);
 						
-						mediaNameTextField.setText("");
-						mediaAuthorTextField.setText("");
-						mediaDateTextField_y.setText("");
-						mediaDateTextField_m.setText("");
-						mediaDateTextField_d.setText("");
-						
-
+											
 						dialogRequestMedia.getContentPane().add(orderMediaOkBtn);
 						dialogRequestMedia.getContentPane().add(cancelButton_requestMedia);
 							
@@ -1574,7 +1578,7 @@ public class logInAs {
 			
 				/**
 				 * Ok Button for the ordering media pop-up window
-				 * TODO
+				 * 
 				 */
 				orderMediaOkBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
@@ -1603,7 +1607,7 @@ public class logInAs {
 						}
 						
 						// if the error checking passes
-						dtb.addOrder(dtb.searchByID("101"), (String)mediaTypeComboBox.getSelectedItem(), mediaNameTextField.getText(), mediaAuthorTextField.getText(), 
+						dtb.addOrder(dtb.searchLibrarianByID("100"), (String)mediaTypeComboBox.getSelectedItem(), mediaNameTextField.getText(), mediaAuthorTextField.getText(), 
 								mediaDateTextField_y.getText(), mediaDateTextField_m.getText(), mediaDateTextField_d.getText());
 						
 						dialogRequestMedia.setVisible(false);
@@ -1612,9 +1616,6 @@ public class logInAs {
 						
 						JOptionPane.showMessageDialog(dialogRequestMedia, "Media Successfully Ordered", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
 						
-						
-						System.out.println(dtb.listOrders());
-
 					}
 				});
 	
@@ -1623,7 +1624,6 @@ public class logInAs {
 				 */
 				btnViewMediaOrders.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//wee
 						dialogShowOrders.getContentPane().setLayout(new GridLayout(3,1,5,5));
 						dialogShowOrders.setModalityType(ModalityType.TOOLKIT_MODAL);
 						dialogShowOrders.setResizable(false);
@@ -1799,11 +1799,9 @@ public class logInAs {
 	
 	/**
 	 * Send button for Customer's request to order a media
-	 * TODO 
 	 */
 	btnRequestMediaSend.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			//weeh
 			String type = mediaTypeComboBox.getSelectedItem().toString();
 			String name = mediaNameTextField.getText();
 			String author = mediaAuthorTextField.getText();
@@ -1815,11 +1813,12 @@ public class logInAs {
 			
 			// Check to see if the input represents a valid media
 			if (type.equals("Books/Magazines/Comics")) {
-				label1:
 				for (PaperMedia media : dtb.getPaperMedias()) {
 					if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+						// The given name matches the name of a media in the system
 						for (String author2 : media.getAuthors()) {
 							if (author2.toLowerCase().equals(author.toLowerCase())) {
+								// The author also matches
 								JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "Paper media already exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
@@ -1829,8 +1828,10 @@ public class logInAs {
 			} else if (type.equals("CDs")) {
 				for (CD media : dtb.getCds()) {
 					if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+						// The given name matches the name of a media in the system
 						for (String author2 : media.getComposers()) {
 							if (author2.toLowerCase().equals(author.toLowerCase())) {
+								// The author also matches
 								JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "CD already exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
@@ -1840,8 +1841,10 @@ public class logInAs {
 			} else if (type.equals("DVDs")) {
 				for (DVD media : dtb.getDvds()) {
 					if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+						// The given name matches the name of a media in the system
 						for (String author2 : media.getDirectors()) {
 							if (author2.toLowerCase().equals(author.toLowerCase())) {
+								// The author also matches
 								JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "DVD already exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
