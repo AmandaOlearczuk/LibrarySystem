@@ -1796,7 +1796,6 @@ public class logInAs {
 	
 	/**
 	 * Send button for Customer's request to order a media
-	 * TODO 
 	 */
 	btnRequestMediaSend.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -1812,11 +1811,12 @@ public class logInAs {
 			
 			// Check to see if the input represents a valid media
 			if (type.equals("Books/Magazines/Comics")) {
-				label1:
 				for (PaperMedia media : dtb.getPaperMedias()) {
 					if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+						// The given name matches the name of a media in the system
 						for (String author2 : media.getAuthors()) {
 							if (author2.toLowerCase().equals(author.toLowerCase())) {
+								// The author also matches
 								JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "Paper media already exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
@@ -1826,8 +1826,10 @@ public class logInAs {
 			} else if (type.equals("CDs")) {
 				for (CD media : dtb.getCds()) {
 					if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+						// The given name matches the name of a media in the system
 						for (String author2 : media.getComposers()) {
 							if (author2.toLowerCase().equals(author.toLowerCase())) {
+								// The author also matches
 								JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "CD already exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
@@ -1837,8 +1839,10 @@ public class logInAs {
 			} else if (type.equals("DVDs")) {
 				for (DVD media : dtb.getDvds()) {
 					if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+						// The given name matches the name of a media in the system
 						for (String author2 : media.getDirectors()) {
 							if (author2.toLowerCase().equals(author.toLowerCase())) {
+								// The author also matches
 								JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "DVD already exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
