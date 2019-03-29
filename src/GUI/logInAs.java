@@ -1,38 +1,47 @@
 package GUI;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.JPasswordField;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
-
-import javax.swing.JButton;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Panel;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextPane;
-import javax.swing.JTextArea;
-import java.awt.Label;
-import java.awt.Toolkit;
-import java.awt.CardLayout;
+
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-
-import java.awt.FlowLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.SoftBevelBorder;
 
 import Actors.Customer;
 import Actors.Librarian;
@@ -43,6 +52,7 @@ import Media.PaperMedia;
 import Media.PhysicalMedia;
 import Utilities.Address;
 import Utilities.CalendarPeriod;
+<<<<<<< HEAD
 import Utilities.Status;
 
 import java.awt.GridLayout;
@@ -85,6 +95,9 @@ import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JDesktopPane;
 import net.miginfocom.swing.MigLayout;
+=======
+//import net.miginfocom.swing.MigLayout;
+>>>>>>> 6cf8b77d953789b516414458bce8dc8274a701f4
 
 public class logInAs {
 
@@ -157,7 +170,7 @@ public class logInAs {
 	private final JButton searchCustomerBtn = new JButton("Search Customer");
 	private final JButton HoldBtnStudent = new JButton("Hold");
 	private final JButton logOutBtn2 = new JButton("Log Out");
-	private final JButton btnPlaceOnHold = new JButton("Place on Hold");
+	private final JButton btnPlaceOnHold = new JButton("Browse Media");
 	private final JButton btnOk = new JButton("Ok");
 	private final JButton button = new JButton("Browse");
 	private final JButton changeStatusOKButton = new JButton("Ok");
@@ -223,6 +236,9 @@ public class logInAs {
 	private JLabel mediaDateLabel_d = new JLabel(" Day of Creation: ");
 	private JTextField mediaDateTextField_d = new JTextField();
 	private JButton orderMediaOkBtn = new JButton("Send");
+	
+	//Items for Student Media Order Requests
+	private JButton btnRequestMediaSend = new JButton("Send");
 	
 	//Items for the pop up for current Media Orders
 	private final JList currentOrdersList = new JList();
@@ -306,6 +322,8 @@ public class logInAs {
 	private final JLabel lblNewLabel_1 = new JLabel("Media Order Requests:");
 	private final JButton btnViewMediaOrders = new JButton("Current Media Orders");
 	private final JLabel label_empty = new JLabel("");
+	private final JButton btnRequestMedia = new JButton("Request Media");
+	private final JPanel panel_26 = new JPanel();
 	
 	
 	
@@ -432,14 +450,123 @@ public class logInAs {
 		StudentWindow.add(studentMenu, BorderLayout.WEST);
 		studentMenu.setLayout(new GridLayout(5, 0, 0, 0));
 		studentMenu.add(btnPlaceOnHold);
+		btnRequestMedia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//weeh
+				dialogMediaBorrow.getContentPane().setLayout(new GridLayout(0,2,5,5));
+				dialogMediaBorrow.setModalityType(ModalityType.TOOLKIT_MODAL);
+				
+				dialogMediaBorrow.setBounds(0,0 ,screenSize.width/3, screenSize.height/2);
+				dialogMediaBorrow.setLocationRelativeTo(null);
+				
+					
+				mediaTypeComboBox.setBackground(Color.white);
+				mediaTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"CDs" , "DVDs", "Books/Magazines/Comics"}));
+					
+				
+					
+				dialogMediaBorrow.getContentPane().add(mediaTypeLabel);
+				dialogMediaBorrow.getContentPane().add(mediaTypeComboBox);
+				dialogMediaBorrow.getContentPane().add(mediaNameLabel);
+				dialogMediaBorrow.getContentPane().add(mediaNameTextField);
+				dialogMediaBorrow.getContentPane().add(mediaAuthorLabel);
+				dialogMediaBorrow.getContentPane().add(mediaAuthorTextField);
+					
+				dialogMediaBorrow.getContentPane().add(btnRequestMediaSend);
+				dialogMediaBorrow.getContentPane().add(cancelButton);
+					
+				dialogMediaBorrow.setVisible(true);
+			}
+		});
+		
+		btnRequestMediaSend.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String type = mediaTypeComboBox.getSelectedItem().toString();
+				String name = mediaNameTextField.getText();
+				String author = mediaAuthorTextField.getText();
+				
+				if (name.equals("") || author.equals("")) {
+					JOptionPane.showMessageDialog(null, "Please Enter all Fields", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				// Check to see if the input represents a valid media
+				Media.PhysicalMedia med = null;
+				if (type.equals("Books/Magazines/Comics")) {
+					label1:
+					for (PaperMedia media : dtb.getPaperMedias()) {
+						if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+							for (String author2 : media.getAuthors()) {
+								if (author2.toLowerCase().equals(author.toLowerCase())) {
+									med = media;
+									break label1;
+								}
+							}
+						}
+					}
+					if (med == null) {
+						JOptionPane.showMessageDialog(null, "No paper media exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				} else if (type.equals("CDs")) {
+					label2:
+					for (CD media : dtb.getCds()) {
+						if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+							for (String author2 : media.getComposers()) {
+								if (author2.toLowerCase().equals(author.toLowerCase())) {
+									med = media;
+									break label2;
+								}
+							}
+						}
+					}
+					if (med == null) {
+						JOptionPane.showMessageDialog(null, "No CD exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				} else if (type.equals("DVDs")) {
+					label3:
+					for (DVD media : dtb.getDvds()) {
+						if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
+							for (String author2 : media.getDirectors()) {
+								if (author2.toLowerCase().equals(author.toLowerCase())) {
+									med = media;
+									break label3;
+								}
+							}
+						}
+					}
+					if (med == null) {
+						JOptionPane.showMessageDialog(null, "No DVD exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				} else {
+					// This should never get run, but just in case
+					JOptionPane.showMessageDialog(null, "Unknown media type: \""+type+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+				}
+				dtb.loadData();
+				//TODO: FILL IN THIS LINE, add the order to the database
+				//dtb.addOrder(, type, name, "creator", year, month, day);
+				dtb.save();
+				dialogMediaBorrow.setVisible(false);
+				dialogMediaBorrow.dispose();
+				JOptionPane.showMessageDialog(null, "Media Sucessfully Placed on Hold", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
+
+			}
+		});
+		
+		studentMenu.add(btnRequestMedia);
 		studentMiddle.setBorder(new LineBorder(new Color(0, 0, 0)));
 		StudentWindow.add(studentMiddle, BorderLayout.CENTER);
 		studentMiddle.setLayout(new GridLayout(0, 1, 0, 0));
-		studentMiddle.add(panel_16);
+		
+		studentMiddle.add(panel_26);
+		panel_26.setLayout(new GridLayout(0, 1, 0, 0));
 		comboBox_studentHold.setModel(new DefaultComboBoxModel(new String[] {"Books/Magazines/Comics", "CDs", "DVDs"}));
+		panel_26.add(panel_16);
 		panel_16.add(comboBox_studentHold);
 		panel_16.add(button);
-		studentMiddle.add(panel_17);
+		panel_26.add(panel_17);
 		panel_17.setLayout(new BoxLayout(panel_17, BoxLayout.X_AXIS));
 		panel_17.add(panel_18);
 		panel_18.setLayout(new GridLayout(0, 1, 0, 0));
