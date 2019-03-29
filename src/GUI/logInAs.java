@@ -1814,54 +1814,39 @@ public class logInAs {
 			}
 			
 			// Check to see if the input represents a valid media
-			Media.PhysicalMedia med = null;
 			if (type.equals("Books/Magazines/Comics")) {
 				label1:
 				for (PaperMedia media : dtb.getPaperMedias()) {
 					if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
 						for (String author2 : media.getAuthors()) {
 							if (author2.toLowerCase().equals(author.toLowerCase())) {
-								med = media;
-								break label1;
+								JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "Paper media already exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+								return;
 							}
 						}
 					}
 				}
-				if (med == null) {
-					JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "No paper media exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
 			} else if (type.equals("CDs")) {
-				label2:
 				for (CD media : dtb.getCds()) {
 					if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
 						for (String author2 : media.getComposers()) {
 							if (author2.toLowerCase().equals(author.toLowerCase())) {
-								med = media;
-								break label2;
+								JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "CD already exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+								return;
 							}
 						}
 					}
 				}
-				if (med == null) {
-					JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "No CD exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
 			} else if (type.equals("DVDs")) {
-				label3:
 				for (DVD media : dtb.getDvds()) {
 					if (media.getTitle().toLowerCase().equals(name.toLowerCase())) {
 						for (String author2 : media.getDirectors()) {
 							if (author2.toLowerCase().equals(author.toLowerCase())) {
-								med = media;
-								break label3;
+								JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "DVD already exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
+								return;
 							}
 						}
 					}
-				}
-				if (med == null) {
-					JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "No DVD exists with the given name/author", "InfoBox ", JOptionPane.ERROR_MESSAGE);
-					return;
 				}
 			} else {
 				// This should never get run, but just in case
