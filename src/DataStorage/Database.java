@@ -238,6 +238,9 @@ public class Database implements Serializable {
 			for (int i=0;i<orders.size();i++) {
 				out.writeObject(orders.get(i));
 				}
+			for (int i=0;i<orderRequests.size();i++) {
+				out.writeObject(orderRequests.get(i));
+				}
 
 			
 			out.close();
@@ -277,6 +280,7 @@ public class Database implements Serializable {
 				dvds.clear();
 				paperMedias.clear();
 				orders.clear();
+				orderRequests.clear();
 				while(true) {
 					Object obj = in.readObject();
 					if(obj instanceof Customer) customers.add((Customer)obj);
@@ -285,6 +289,7 @@ public class Database implements Serializable {
 					if(obj instanceof DVD) dvds.add((DVD)obj);{}
 					if(obj instanceof PaperMedia) paperMedias.add((PaperMedia)obj);
 					if(obj instanceof Order) orders.add((Order)obj);
+					if(obj instanceof OrderRequest) orderRequests.add((OrderRequest) obj);
 					
 				}
 				

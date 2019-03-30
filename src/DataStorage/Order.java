@@ -1,6 +1,14 @@
 package DataStorage;
+import java.io.Serializable;
+
 import Actors.Librarian;
-public class Order {
+/**
+ * This class deals with librarian's orders
+ *
+ */
+public class Order implements Serializable{
+
+	private static final long serialVersionUID = 4728281715777434870L;
 	private Librarian whoOrdered;
 	private String mediaType;
 	private String name;

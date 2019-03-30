@@ -1515,7 +1515,7 @@ public class logInAs {
 						
 						//populate list with current Media Requests from Customers
 						int numRequests = dtb.getNumberOfOrderRequests();
-						for (int i = 0; i < numRequests; i++) {
+						for (int i = 0; i < dtb.getOrderRequests().size(); i++) {
 							customerOrderRequestsModel.addElement(dtb.getOrderRequests().get(i).ShowOrderRequest());
 						}
 					}
@@ -1856,9 +1856,10 @@ public class logInAs {
 				JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "Unknown media type: \""+type+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
 			}
 			//dtb.loadData();
-			dtb.addOrderRequest(dtb.searchByID("101"), type, name, author);
+			dtb.addOrderRequest(c, type, name, author);
 			dtb.save();
 			System.out.println("order saved");
+			//System.out.println(dtb.getOrderRequests());
 			dialogCustomerRequestMedia.setVisible(false);
 			dialogCustomerRequestMedia.dispose();
 			JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "Request form successfully sent", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
