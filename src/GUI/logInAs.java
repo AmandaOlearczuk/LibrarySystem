@@ -1357,7 +1357,7 @@ public class logInAs {
 				 */
 				btnPayFees.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(!custFees.getText().isEmpty() && Double.parseDouble(custFees.getText().substring(1)) > 0) {
+						if(!custFees.getText().isEmpty() /*&& Double.parseDouble(custFees.getText().substring(1)) > 0*/) {
 
 							dialogFeePayment.setBounds(0, 0, screenSize.width/4, screenSize.height/4);
 							dialogFeePayment.getContentPane().setLayout(new GridLayout(0,1,0,0));
@@ -1432,7 +1432,7 @@ public class logInAs {
 
 
 						}else {
-							JOptionPane.showMessageDialog(null, "No fees to be payed.", "No Fees Error", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "No fees to be payed.", "No Fees Error", JOptionPane.ERROR_MESSAGE);
 						}
 
 					}
@@ -1450,16 +1450,16 @@ public class logInAs {
 							paying = Double.parseDouble(payAmount.getText());
 							curFee = Double.parseDouble(custFees.getText().substring(1));
 
-							if(paying < 0) {
-								JOptionPane.showMessageDialog(dialogFeePayment, "Please enter a positive number.", "Number Format Error", JOptionPane.INFORMATION_MESSAGE);
-							}else if(curFee - paying < 0) {
+							/*if(paying < 0) {
+								JOptionPane.showMessageDialog(dialogFeePayment, "Please enter a positive number.", "Number Format Error", JOptionPane.ERROR_MESSAGE);
+							}else */if(curFee - paying < 0) {
 								change = paying-curFee;
 
 								c.setFeesOwned(0.0);
 								dtb.save();
 
-								custFees.setText("0.0");
-								JOptionPane.showMessageDialog(dialogFeePayment, "Fees paid in full.\nChange Due: " + change.toString(), "Change Due", JOptionPane.INFORMATION_MESSAGE);
+								custFees.setText("$ 0.0");
+								JOptionPane.showMessageDialog(dialogFeePayment, "Fees paid in full.\nChange Due: $" + change.toString(), "Change Due", JOptionPane.INFORMATION_MESSAGE);
 
 								dialogFeePayment.setVisible(false);
 								payAmount.setText("");
@@ -1471,7 +1471,7 @@ public class logInAs {
 								c.setFeesOwned(newFee);
 								dtb.save();
 
-								custFees.setText(newFee.toString());
+								custFees.setText("$ " + newFee.toString());
 
 								JOptionPane.showMessageDialog(dialogFeePayment, "Remaining Fees: " + newFee.toString(), "Remaining Fees", JOptionPane.INFORMATION_MESSAGE);
 
@@ -1482,10 +1482,10 @@ public class logInAs {
 
 						}
 						catch (NumberFormatException g){
-							JOptionPane.showMessageDialog(dialogFeePayment, "Please enter a valid number.", "Number Format Error", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(dialogFeePayment, "Please enter a valid number.", "Number Format Error", JOptionPane.ERROR_MESSAGE);
 						}
 						catch (NullPointerException f) {
-							JOptionPane.showMessageDialog(dialogFeePayment, "Please enter a number.", "Number Format Error", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(dialogFeePayment, "Please enter a number.", "Number Format Error", JOptionPane.ERROR_MESSAGE);
 						}
 
 					}
