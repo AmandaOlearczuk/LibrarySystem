@@ -256,6 +256,7 @@ public class logInAs {
 	//Items for the pop up for current Media Orders
 	private final JList currentOrdersList = new JList();
     private JLabel currMedOrdersLabel = new JLabel("Current Media Orders: ");
+    private JButton btnOrderRecieved = new JButton("Order Recieved");
 
     private JDialog dialogRequestMedia = new JDialog();
     private JDialog dialogShowOrders= new JDialog();
@@ -1612,6 +1613,9 @@ public class logInAs {
 				
 				dtb.save();
 				
+				// and remove the request
+				dtb.removeOrderRequest(listMediaOrders.getSelectedIndex());
+				
 				dialogRequestMedia.setVisible(false);
 				dialogRequestMedia.dispose();
 				dlm.clear();
@@ -1626,16 +1630,18 @@ public class logInAs {
 		 */
 		btnViewMediaOrders.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dialogShowOrders.getContentPane().setLayout(new GridLayout(3,1,5,5));
+				dialogShowOrders.getContentPane().setLayout(new GridLayout(2,2,5,5));
 				dialogShowOrders.setModalityType(ModalityType.TOOLKIT_MODAL);
 				dialogShowOrders.setResizable(false);
 				
-				dialogShowOrders.setBounds(0,0 ,screenSize.width/3, screenSize.height/2);
+				dialogShowOrders.setBounds(0,0 ,screenSize.width/2, screenSize.height/2);
 				dialogShowOrders.setLocationRelativeTo(null);
 				
 				dialogShowOrders.getContentPane().add(currMedOrdersLabel);
 				dialogShowOrders.getContentPane().add(scrollLibrarianOrders);
 				dialogShowOrders.getContentPane().add(cancelButton_showOrders);
+				dialogShowOrders.getContentPane().add(btnOrderRecieved);
+				
 
 				currentOrderRequestsModel.clear();
 				
@@ -1650,6 +1656,38 @@ public class logInAs {
 					
 				dialogShowOrders.setVisible(true);	
 				
+			}
+		});
+		
+		/**
+		 * Removes the order from the list and adds the media to the shelf
+		 */
+		btnOrderRecieved.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (currentOrdersList.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(dialogShowOrders, "Please Select an Order From the List", "Errorbox ", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					// remove order
+					dtb.removeOrder(currentOrdersList.getSelectedIndex());
+					
+					// add to shelf
+					
+					
+					dtb.save();
+					
+					// clear and re-populate the dlm
+					currentOrderRequestsModel.clear();
+					
+					int num = dtb.getOrders().size();
+					
+					for (int i = 0; i < num; i++) {
+						currentOrderRequestsModel.addElement(dtb.getOrders().get(i));
+					}
+					
+					
+					JOptionPane.showMessageDialog(dialogShowOrders, "Media Successfully Recieved", "Infobox ", JOptionPane.INFORMATION_MESSAGE);
+
+				}
 			}
 		});
 				

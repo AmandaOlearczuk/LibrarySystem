@@ -99,6 +99,16 @@ public class Database implements Serializable {
 		return numOrderRequests;
 	}
 	
+	public void removeOrder(int index) {
+		orders.remove(index);
+		numOrders--;
+	}
+	
+	public void removeOrderRequest(int index) {
+		orderRequests.remove(index);
+		numOrderRequests--;
+	}
+	
 
 	/**
 	 * This function searches customer by ID and returns that object
