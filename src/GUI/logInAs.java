@@ -46,16 +46,17 @@ import javax.swing.border.SoftBevelBorder;
 import Actors.Customer;
 import Actors.Librarian;
 import DataStorage.Database;
+import DataStorage.OrderRequest;
 import Media.CD;
 import Media.DVD;
 import Media.PaperMedia;
 import Media.PhysicalMedia;
 import Utilities.Address;
 import Utilities.CalendarPeriod;
-
 import Utilities.Status;
 
 import java.awt.GridLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -63,8 +64,10 @@ import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.JTextField;
 import javax.swing.JSplitPane;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Component;
@@ -81,11 +84,16 @@ import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 
 import java.awt.List;
+
 import javax.swing.JScrollBar;
+
 import java.awt.Button;
+
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+
 import java.awt.Panel;
+
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
@@ -94,6 +102,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JDesktopPane;
+
 import net.miginfocom.swing.MigLayout;
 
 //import net.miginfocom.swing.MigLayout;
@@ -146,6 +155,7 @@ public class logInAs {
 	private JScrollPane scrollCustomerHolds;
 	private JScrollPane scrollBorrowedSearch;
 	private JScrollPane scrollHeldSearch;
+	private JScrollPane scrollLibrarianOrders;
 	private final JScrollPane scrollPane = new JScrollPane();
 		
 	private JButton btnBack1 = new JButton("Back");
@@ -680,6 +690,9 @@ public class logInAs {
 		
 		scrollPane_1.setViewportView(listMediaOrders);
 		
+		scrollLibrarianOrders = new JScrollPane(currentOrdersList);
+
+		
 		panel_23.add(panel_25);
 		panel_25.setLayout(new GridLayout(1, 1, 0, 0));
 
@@ -747,26 +760,33 @@ public class logInAs {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//Verify login
+				
 				Boolean verifyLogin = false;
-				try {
-					Customer temp = dtb.searchByID(idTxtField.getText());
-					temp.getPassword();
-					String tempPass = new String(passwordField.getPassword());
-					if (tempPass.equals(temp.getPassword()))
-					verifyLogin = true;
-						
-				}
-				catch (NullPointerException e) {
-
-					Librarian temp = dtb.searchLibrarianByID(idTxtField.getText());
-					String tempPass = new String(passwordField.getPassword());
-					
-					try { 
-						if (tempPass.equals(temp.getPassword()))
+				
+				//Try looking for customers
+				if (who.getText().equals("Librarian")){
+					try {
+						librarian = dtb.searchLibrarianByID(idTxtField.getText());
+						librarian.getPassword();
+						String tempPass = new String(passwordField.getPassword());
+						if (tempPass.equals(librarian.getPassword()))
 						verifyLogin = true;
-					}catch(NullPointerException f) {
-						//nothing
+						
+							
+					}catch(NullPointerException e){
+						//Nothing
+					}
+				}
+				else{ //Try looking for customers
+					try {
+						customer = dtb.searchByID(idTxtField.getText());
+						customer.getPassword();
+						String tempPass = new String(passwordField.getPassword());
+						if (tempPass.equals(customer.getPassword()))
+						verifyLogin = true;
+						
+					}catch(NullPointerException e){
+						//Nothing
 					}
 				}
 
@@ -789,9 +809,7 @@ public class logInAs {
 			        	
 			        	IDPersonLoggedIn = idTxtField.getText();
 			        	customer = dtb.searchByID(IDPersonLoggedIn);
-			    		customerNameLabel.setText(customer.getFirstName() + " " + customer.getLastName());
-			        	
-			        	
+			    		customerNameLabel.setText(customer.getFirstName() + " " + customer.getLastName());		       			        	
 			        }
 			   
 				}
@@ -1483,7 +1501,7 @@ public class logInAs {
 				//populate list with current Media Requests from Customers
 				int numRequests = dtb.getNumberOfOrderRequests();
 				for (int i = 0; i < dtb.getOrderRequests().size(); i++) {
-					customerOrderRequestsModel.addElement(dtb.getOrderRequests().get(i).ShowOrderRequest());
+					customerOrderRequestsModel.addElement(dtb.getOrderRequests().get(i));
 				}
 			}
 		});
@@ -1494,31 +1512,46 @@ public class logInAs {
 		 */
 		btnCreateNewOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// If a request is selected, autofill
+				
+				// If a request is selected, auto-fill author and name fields
+				
+				mediaTypeComboBox.setBackground(Color.white);
+				
 				if (listMediaOrders.getSelectedIndex() != -1) {
-					String request = (String)listMediaOrders.getSelectedValue();
-					String[] requestElements = request.split(" ");
+					OrderRequest request = (OrderRequest)listMediaOrders.getSelectedValue();
+				
+					mediaAuthorTextField.setText(request.getCreator());
+					mediaNameTextField.setText(request.getName());
+	
+					if(request.getMediaType().equals("CDs")){
+						mediaTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"CDs" , "DVDs", "Books/Magazines/Comics"}));
+					}
 					
-					mediaAuthorTextField.setText(requestElements[10]);
-					mediaNameTextField.setText(requestElements[8]);
-				} else {
+					if(request.getMediaType().equals("DVDs")){
+						mediaTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"DVDs" , "CDs", "Books/Magazines/Comics"}));
+					}
+					
+					if(request.getMediaType().equals("Books/Magazines/Comics")){
+						mediaTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"Books/Magazines/Comics" , "DVDs", "CDs"}));
+					}
+						
+				} else { //No index selected - raw order created
 					mediaNameTextField.setText("");
 					mediaAuthorTextField.setText("");
 					mediaDateTextField_y.setText("");
 					mediaDateTextField_m.setText("");
 					mediaDateTextField_d.setText("");
+					
+					mediaTypeComboBox.setBackground(Color.white);
+					mediaTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"CDs" , "DVDs", "Books/Magazines/Comics"}));
 				}
 				
-				// case where something is selected
+				// Dialog creation and display
 				dialogRequestMedia.getContentPane().setLayout(new GridLayout(0,2,5,5));
 				dialogRequestMedia.setModalityType(ModalityType.TOOLKIT_MODAL);
 				
 				dialogRequestMedia.setBounds(0,0 ,screenSize.width/3, screenSize.height/2);
 				dialogRequestMedia.setLocationRelativeTo(null);
-				
-					
-				mediaTypeComboBox.setBackground(Color.white);
-				mediaTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"CDs" , "DVDs", "Books/Magazines/Comics"}));
 						
 				dialogRequestMedia.getContentPane().add(mediaTypeLabel);
 				dialogRequestMedia.getContentPane().add(mediaTypeComboBox);
@@ -1573,9 +1606,11 @@ public class logInAs {
 					return;
 				}
 				
-				// if the error checking passes
-				dtb.addOrder(dtb.searchLibrarianByID("100"), (String)mediaTypeComboBox.getSelectedItem(), mediaNameTextField.getText(), mediaAuthorTextField.getText(), 
+				// if the error checking passes , add order to librarian's account 
+				dtb.addLibrarianOrder(dtb.searchLibrarianByID(librarian.getID()), (String)mediaTypeComboBox.getSelectedItem(), mediaNameTextField.getText(), mediaAuthorTextField.getText(), 
 						mediaDateTextField_y.getText(), mediaDateTextField_m.getText(), mediaDateTextField_d.getText());
+				
+				dtb.save();
 				
 				dialogRequestMedia.setVisible(false);
 				dialogRequestMedia.dispose();
@@ -1587,7 +1622,7 @@ public class logInAs {
 		});
 	
 		/**
-		 * Lists the current orders to be filled
+		 * Lists the current orders to be filled sent in by librarian
 		 */
 		btnViewMediaOrders.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1599,21 +1634,21 @@ public class logInAs {
 				dialogShowOrders.setLocationRelativeTo(null);
 				
 				dialogShowOrders.getContentPane().add(currMedOrdersLabel);
-				dialogShowOrders.getContentPane().add(currentOrdersList);
+				dialogShowOrders.getContentPane().add(scrollLibrarianOrders);
 				dialogShowOrders.getContentPane().add(cancelButton_showOrders);
 
 				currentOrderRequestsModel.clear();
 				
 				// Add orders to the dlm
-				int num = dtb.getNumberOfOrders();
-				for (int i = 0; i < num; i++) {
-					currentOrderRequestsModel.addElement(dtb.getOrders().get(i).showOrder());
-				}
+				int num = dtb.getOrders().size();
 				
 				currentOrdersList.setModel(currentOrderRequestsModel);
-					
-				dialogShowOrders.setVisible(true);
 				
+				for (int i = 0; i < num; i++) {
+					currentOrderRequestsModel.addElement(dtb.getOrders().get(i));
+				}
+					
+				dialogShowOrders.setVisible(true);	
 				
 			}
 		});
@@ -1827,7 +1862,7 @@ public class logInAs {
 				JOptionPane.showMessageDialog(dialogCustomerRequestMedia, "Unknown media type: \""+type+"\"", "InfoBox ", JOptionPane.ERROR_MESSAGE);
 			}
 			//dtb.loadData();
-			dtb.addOrderRequest(customer, type, name, author);
+			dtb.addCustomerOrderRequest(customer, type, name, author);
 			dtb.save();
 			System.out.println("order saved");
 			//System.out.println(dtb.getOrderRequests());

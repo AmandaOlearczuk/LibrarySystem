@@ -381,19 +381,19 @@ public class Database implements Serializable {
      * @param month
      * @param day
      */
-    public void addOrder(Librarian who, String medType, String name, String creator, String year, String month, String day) {
+    public void addLibrarianOrder(Librarian who, String medType, String name, String creator, String year, String month, String day) {
     	orders.add(new Order(who, medType, name, creator, year, month, day));
     	numOrders++;
     }
     
     /**
-     * Adds a media request for a Librarian to handle
+     * Adds a media request by Customer
      * @param who
      * @param medType
      * @param name
      * @param creator
      */
-    public void addOrderRequest(Customer who, String medType, String name, String creator) {
+    public void addCustomerOrderRequest(Customer who, String medType, String name, String creator) {
     	orderRequests.add(new OrderRequest(who, medType, name, creator));
     	numOrderRequests++;
     }
@@ -402,10 +402,10 @@ public class Database implements Serializable {
      * Generates string of orders
      * @return String - orders in a nice format
      */
-    public String listOrders() {
+    public String listCustomerOrders() {
     	String temp = "";
     	for (int i = 0; i < orders.size(); i++)
-    		temp = temp + orders.get(i).showOrder();
+    		temp = temp + orders.get(i).toString();
     	return temp;
     }
    

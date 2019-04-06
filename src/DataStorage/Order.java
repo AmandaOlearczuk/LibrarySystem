@@ -35,7 +35,7 @@ public class Order implements Serializable{
 	 * 
 	 * @return String - order in a nice format
 	 */
-	public String showOrder() {
+	public String toString() {
 		return "User: " + whoOrdered.getFirstName() + " " + whoOrdered.getLastName() + " with ID: " + 
 	              whoOrdered.getID() + " ordered " + mediaType + " " + name + " by: " + 
 				    creator + " released on: " + day + "-" + month + "-" + year + "\n";
