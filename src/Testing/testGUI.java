@@ -1,12 +1,25 @@
 package Testing;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.GridLayout;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+
+import java.awt.CardLayout;
+
+import javax.swing.JButton;
+
+import java.awt.BorderLayout;
+import java.awt.Dialog.ModalityType;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * Class for experimenting with the gui
@@ -15,6 +28,17 @@ import javax.swing.ListSelectionModel;
 public class testGUI {
 
 	private JFrame frame;
+	JDialog popDialog = new JDialog();
+	
+	JPanel parentPanel = new JPanel();		
+	JPanel studentPanel = new JPanel();
+	JPanel logInPanel = new JPanel();
+	
+	CardLayout cl = new CardLayout();
+	
+	JButton logInButton = new JButton("log in");
+	JButton popButton = new JButton("show dialog");
+	JButton backButton = new JButton("back");
 
 	/**
 	 * Launch the application.
@@ -44,40 +68,55 @@ public class testGUI {
 	 */
 	private void initialize() {
 
-			//Declaring JFrame, JPanel, JList, JScrollPane objects
-			frame = new JFrame();
-			JPanel panel = new JPanel();
-			JList list; 
-			JScrollPane scroll; 
-			String[] numberTest = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-
+			//Declaring JFrame, JPanels, CardLayout
+			frame = new JFrame();		
+			
 			//JFrame, frame
 			frame.setResizable(false);
 			frame.setLocationRelativeTo(null);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setSize(500, 500);
 			frame.setVisible(true);
-
-			//JPanel, panel
-			panel.setLayout(null);
-			frame.add(panel);
-
-			//JList, list
-			list = new JList(numberTest);
-
-			//list properties
-			list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			list.setLayoutOrientation(JList.VERTICAL);
-			list.setVisibleRowCount(3);
-
-			//Add JScrollPane to list   [What I need help with, its not working]
-			JScrollPane listScroller = new JScrollPane(list);
-			listScroller.setPreferredSize(new Dimension(250, 80));
-
-			//Setbounds, add list and repaint frame
-			listScroller.setBounds(25, 25, 100, 100);
-			panel.add(listScroller);
+			frame.getContentPane().add(parentPanel);
+			
+			parentPanel.setLayout(cl);
+			
+			parentPanel.add(logInPanel, "1");
+			parentPanel.add(studentPanel, "2");
+			
+			studentPanel.add(popButton);
+			studentPanel.add(backButton);
+			
+			logInPanel.add(logInButton);
+				
+			cl.show(parentPanel,"1");
 			frame.repaint();
+			
+			
+			logInButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					cl.show(parentPanel, "2");
+				}
+			});
+			
+			backButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					cl.show(parentPanel, "1");
+				}
+			});
+			
+			popButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					popDialog.setModalityType(ModalityType.TOOLKIT_MODAL);
+					popDialog.setBounds(0,0 ,100,100);
+					popDialog.setLocationRelativeTo(null);
+					popDialog.setVisible(true);
+				}
+			});
+			
+			
+			
 			}
 			
 	}

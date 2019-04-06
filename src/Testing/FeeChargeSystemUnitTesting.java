@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import Actors.Customer;
 import Actors.Student;
