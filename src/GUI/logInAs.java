@@ -149,6 +149,7 @@ public class logInAs {
 	private final JPanel customerPerson = new JPanel();
 	private final JPanel customerMenu = new JPanel();
 	private Panel panel_8 = new Panel();
+	private JPanel buttonPanel = new JPanel(new GridLayout(1,2,5,5));
 	
 	//For scrollable list
 	private JScrollPane scroll; 
@@ -654,20 +655,8 @@ public class logInAs {
 		panel_15.add(scrollHeldSearch);
 		
 		middle.add(order_media, "order");
-		GridBagLayout gbl_order_media = new GridBagLayout();
-		gbl_order_media.columnWidths = new int[]{0, 0};
-		gbl_order_media.rowHeights = new int[]{0, 0, 0};
-		gbl_order_media.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_order_media.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-		order_media.setLayout(gbl_order_media);
-		
-		GridBagConstraints gbc_panel_22 = new GridBagConstraints();
-		gbc_panel_22.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_22.anchor = GridBagConstraints.NORTH;
-		gbc_panel_22.fill = GridBagConstraints.BOTH;
-		gbc_panel_22.gridx = 0;
-		gbc_panel_22.gridy = 0;
-		order_media.add(panel_22, gbc_panel_22);
+		order_media.setLayout(new GridLayout(0, 1, 0, 0));
+		order_media.add(panel_22);
 		panel_22.setLayout(new GridLayout(3, 6, 0, 0));
 		
 		panel_22.add(btnViewMediaOrders);
@@ -676,14 +665,8 @@ public class logInAs {
 		lblNewLabel_1.setVerticalAlignment(SwingConstants.BOTTOM);
 		
 		panel_22.add(lblNewLabel_1);
-		
-		GridBagConstraints gbc_panel_23 = new GridBagConstraints();
-		gbc_panel_23.anchor = GridBagConstraints.SOUTH;
-		gbc_panel_23.fill = GridBagConstraints.BOTH;
-		gbc_panel_23.gridx = 0;
-		gbc_panel_23.gridy = 1;
-		order_media.add(panel_23, gbc_panel_23);
-		panel_23.setLayout(new GridLayout(1, 0, 0, 0));
+		order_media.add(panel_23);
+		panel_23.setLayout(new BorderLayout(0, 0));
 		
 		panel_23.add(panel_24);
 		panel_24.setLayout(new GridLayout(1, 0, 0, 0));
@@ -695,7 +678,7 @@ public class logInAs {
 		scrollLibrarianOrders = new JScrollPane(currentOrdersList);
 
 		
-		panel_23.add(panel_25);
+		panel_23.add(panel_25, BorderLayout.EAST);
 		panel_25.setLayout(new GridLayout(1, 1, 0, 0));
 
 		panel_25.add(btnCreateNewOrder);
@@ -1646,17 +1629,22 @@ public class logInAs {
 		 */
 		btnViewMediaOrders.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dialogShowOrders.getContentPane().setLayout(new GridLayout(2,2,5,5));
+				
+				buttonPanel.add(btnOrderRecieved);
+				buttonPanel.add(cancelButton_showOrders);
+				
+				dialogShowOrders.getContentPane().setLayout(new GridLayout(3,1,5,5));
 				dialogShowOrders.setModalityType(ModalityType.TOOLKIT_MODAL);
 				dialogShowOrders.setResizable(false);
 				
-				dialogShowOrders.setBounds(0,0 ,screenSize.width/2, screenSize.height/2);
+				dialogShowOrders.setBounds(0,0 ,(int) Math.abs(screenSize.width/2.5), (int) Math.abs(screenSize.height/2.5));
 				dialogShowOrders.setLocationRelativeTo(null);
 				
 				dialogShowOrders.getContentPane().add(currMedOrdersLabel);
 				dialogShowOrders.getContentPane().add(scrollLibrarianOrders);
-				dialogShowOrders.getContentPane().add(cancelButton_showOrders);
-				dialogShowOrders.getContentPane().add(btnOrderRecieved);
+				dialogShowOrders.getContentPane().add(buttonPanel);
+				//dialogShowOrders.getContentPane().add(cancelButton_showOrders);
+				//dialogShowOrders.getContentPane().add(btnOrderRecieved);
 				
 
 				currentOrderRequestsModel.clear();
