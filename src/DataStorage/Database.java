@@ -146,7 +146,7 @@ public class Database implements Serializable {
 	}
 	
 	/**
-	 * Use only if you want to create a new customer base only so new Data.bin file
+	 * Use only if you want to create a new data base only so new Data.bin file
 	 */
 	public void createCustomerMediaBase() {
 		

@@ -1510,13 +1510,20 @@ public class logInAs {
 		
 		/**
 		 * Librarian button to create new order from existing requests
-		 * TODO
+		 * 
 		 */
 		btnCreateNewOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				// If a request is selected, auto-fill author and name fields
+				mediaNameTextField.setText("");
+				mediaAuthorTextField.setText("");
+				mediaDateTextField_y.setText("");
+				mediaDateTextField_m.setText("");
+				mediaDateTextField_d.setText("");
 				
+				mediaTypeComboBox.setBackground(Color.white);
+				mediaTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"CDs" , "DVDs", "Books/Magazines/Comics"}));
 				mediaTypeComboBox.setBackground(Color.white);
 				
 				if (listMediaOrders.getSelectedIndex() != -1) {
@@ -1611,14 +1618,22 @@ public class logInAs {
 				// if the error checking passes , add order to librarian's account 
 				dtb.addLibrarianOrder(dtb.searchLibrarianByID(librarian.getID()), (String)mediaTypeComboBox.getSelectedItem(), mediaNameTextField.getText(), mediaAuthorTextField.getText(), 
 						mediaDateTextField_y.getText(), mediaDateTextField_m.getText(), mediaDateTextField_d.getText());
-				
-				dtb.save();
-				
+
 				// and remove the request
 				dtb.removeOrderRequest(listMediaOrders.getSelectedIndex());
 				
+				dtb.save();
+				
 				dialogRequestMedia.setVisible(false);
 				dialogRequestMedia.dispose();
+				
+				//Refresh dlm
+				customerOrderRequestsModel.clear();
+				int numRequests = dtb.getNumberOfOrderRequests();
+				for (int i = 0; i < dtb.getOrderRequests().size(); i++) {
+					customerOrderRequestsModel.addElement(dtb.getOrderRequests().get(i));
+				}
+				
 				dlm.clear();
 				
 				JOptionPane.showMessageDialog(dialogRequestMedia, "Media Successfully Ordered", "InfoBox ", JOptionPane.INFORMATION_MESSAGE);
@@ -1676,13 +1691,15 @@ public class logInAs {
 					authors.add(currOrder.getAuthor());
 					if (currOrder.getType().equals("CDs")) {
 						CD newMedia = new CD(currOrder.getName(), authors, currOrder.getDate(), new Status("available"));
+						dtb.getCds().add(newMedia);
 						
 					} else if (currOrder.getType().equals("DVDs")) {
 						DVD newMedia = new DVD(currOrder.getName(), authors, currOrder.getDate(), new Status("available"));
+						dtb.getDvds().add(newMedia);
 						
 					} else {
 						PaperMedia newMedia = new PaperMedia(currOrder.getName(), authors, currOrder.getDate(), new Status("available"));
-						
+						dtb.getPaperMedias().add(newMedia);
 					}
 					
 					// remove order
