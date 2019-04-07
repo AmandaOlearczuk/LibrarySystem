@@ -1,5 +1,6 @@
 package DataStorage;
 import java.io.Serializable;
+import java.util.Calendar;
 
 import Actors.Librarian;
 /**
@@ -16,6 +17,39 @@ public class Order implements Serializable{
 	private String year;
 	private String month;
 	private String day;
+	
+	/**
+	 * Getters and Setters
+	 */
+	public String getType() {
+		return this.mediaType;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public String getAuthor() {
+		return this.creator;
+	}
+	
+	public Calendar getDate() {
+		Calendar mediaDate = Calendar.getInstance();
+		int y = 2000;
+		int m = 1;
+		int d = 1;
+		try {
+			y = Integer.parseInt(this.year);
+			m = Integer.parseInt(this.month);
+			d = Integer.parseInt(this.day);
+			
+		} catch (NumberFormatException e) {
+			System.out.println("Error - format incorrect");
+		}
+		
+		mediaDate.set(y, m, d);
+		return mediaDate;
+	}
 	
 	/**
 	 * Constructor

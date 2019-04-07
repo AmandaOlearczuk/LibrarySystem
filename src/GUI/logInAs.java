@@ -46,6 +46,7 @@ import javax.swing.border.SoftBevelBorder;
 import Actors.Customer;
 import Actors.Librarian;
 import DataStorage.Database;
+import DataStorage.Order;
 import DataStorage.OrderRequest;
 import Media.CD;
 import Media.DVD;
@@ -1649,6 +1650,7 @@ public class logInAs {
 				int num = dtb.getOrders().size();
 				
 				currentOrdersList.setModel(currentOrderRequestsModel);
+				currentOrderRequestsModel.clear();
 				
 				for (int i = 0; i < num; i++) {
 					currentOrderRequestsModel.addElement(dtb.getOrders().get(i));
@@ -1666,14 +1668,28 @@ public class logInAs {
 			public void actionPerformed(ActionEvent e) {
 				if (currentOrdersList.getSelectedIndex() == -1) {
 					JOptionPane.showMessageDialog(dialogShowOrders, "Please Select an Order From the List", "Errorbox ", JOptionPane.INFORMATION_MESSAGE);
-				} else {
+				} else {								
+					// add to shelf
+					System.out.println(currentOrdersList.getSelectedIndex());
+					Order currOrder = dtb.getOrders().get(currentOrdersList.getSelectedIndex());
+					ArrayList<String> authors = new ArrayList<String>();
+					authors.add(currOrder.getAuthor());
+					if (currOrder.getType().equals("CDs")) {
+						CD newMedia = new CD(currOrder.getName(), authors, currOrder.getDate(), new Status("available"));
+						
+					} else if (currOrder.getType().equals("DVDs")) {
+						DVD newMedia = new DVD(currOrder.getName(), authors, currOrder.getDate(), new Status("available"));
+						
+					} else {
+						PaperMedia newMedia = new PaperMedia(currOrder.getName(), authors, currOrder.getDate(), new Status("available"));
+						
+					}
+					
 					// remove order
 					dtb.removeOrder(currentOrdersList.getSelectedIndex());
 					
-					// add to shelf
-					
-					
 					dtb.save();
+					System.out.println(dtb.shelfString());
 					
 					// clear and re-populate the dlm
 					currentOrderRequestsModel.clear();
