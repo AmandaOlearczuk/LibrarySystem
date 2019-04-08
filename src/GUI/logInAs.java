@@ -345,6 +345,7 @@ public class logInAs {
 	Librarian librarian;
 	Customer customer;
 	String IDPersonLoggedIn;
+	private final JButton btnDeleteRequest = new JButton("Delete Request");
 	
 	/**
 	 * Launch the application.
@@ -679,9 +680,31 @@ public class logInAs {
 
 		
 		panel_23.add(panel_25, BorderLayout.EAST);
-		panel_25.setLayout(new GridLayout(1, 1, 0, 0));
+		panel_25.setLayout(new GridLayout(2, 1, 0, 0));
 
 		panel_25.add(btnCreateNewOrder);
+		btnDeleteRequest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// and remove the request
+				dtb.removeOrderRequest(listMediaOrders.getSelectedIndex());
+				
+				dtb.save();
+				
+				dialogRequestMedia.setVisible(false);
+				dialogRequestMedia.dispose();
+				
+				//Refresh dlm
+				customerOrderRequestsModel.clear();
+				int numRequests = dtb.getNumberOfOrderRequests();
+				for (int i = 0; i < dtb.getOrderRequests().size(); i++) {
+					customerOrderRequestsModel.addElement(dtb.getOrderRequests().get(i));
+				}
+				
+				dlm.clear();
+			}
+		});
+		
+		panel_25.add(btnDeleteRequest);
 		
 		cl.show(ParentJPanel, "1");
 		
