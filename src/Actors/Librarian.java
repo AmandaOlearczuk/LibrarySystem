@@ -19,6 +19,7 @@ public class Librarian implements Serializable{
 	private Address Address;
 	private String phoneNumber;
 	private String password;
+	private Boolean isAdmin;
 	
 	/**
 	 * Constructor
@@ -30,7 +31,7 @@ public class Librarian implements Serializable{
 	 * @param phoneNumber
 	 */
 	public Librarian(String iD, String firstName, String lastName, Calendar birthDate, Utilities.Address address,
-			String phoneNumber) {
+			String phoneNumber, Boolean admin) {
 		super();
 		ID = iD;
 		FirstName = firstName;
@@ -39,6 +40,7 @@ public class Librarian implements Serializable{
 		Address = address;
 		this.phoneNumber = phoneNumber;
 		this.password = (firstName+lastName);
+		this.isAdmin = admin;
 	}
 
 
@@ -59,6 +61,9 @@ public class Librarian implements Serializable{
 		return LastName;
 	}
 
+	public Boolean getAdmin() {
+		return isAdmin;
+	}
 
 	public void setLastName(String lastName) {
 		LastName = lastName;

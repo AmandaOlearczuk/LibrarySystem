@@ -771,7 +771,7 @@ public class logInAs {
 				
 				Boolean verifyLogin = false;
 				
-				//Try looking for customers
+				//Try looking for librarians
 				if (who.getText().equals("Librarian")){
 					try {
 						librarian = dtb.searchLibrarianByID(idTxtField.getText());
@@ -1501,17 +1501,25 @@ public class logInAs {
 		 */
 		btnOrderMedia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
-				cl1.show(middle, "order");
-				customerDLM.clear();
-				customerOrderRequestsModel.clear();
-				
-				//populate list with current Media Requests from Customers
-				int numRequests = dtb.getNumberOfOrderRequests();
-				for (int i = 0; i < dtb.getOrderRequests().size(); i++) {
-					customerOrderRequestsModel.addElement(dtb.getOrderRequests().get(i));
+				Librarian temp = dtb.searchLibrarianByID(IDPersonLoggedIn);
+				if (!temp.getAdmin()) {	
+					cl1.show(middle, "order");
+					customerDLM.clear();
+					customerOrderRequestsModel.clear();
+					
+					//populate list with current Media Requests from Customers
+					int numRequests = dtb.getNumberOfOrderRequests();
+					for (int i = 0; i < dtb.getOrderRequests().size(); i++) {
+						customerOrderRequestsModel.addElement(dtb.getOrderRequests().get(i));
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "ERROR! You do not have permission to access that, please contact a system administrator",
+							"ERROR!", JOptionPane.INFORMATION_MESSAGE);
+					
 				}
 			}
+			
 		});
 		
 		/**

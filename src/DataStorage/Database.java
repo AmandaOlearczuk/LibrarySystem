@@ -169,8 +169,14 @@ public class Database implements Serializable {
 		Calendar librarianSophieBirthDate = Calendar.getInstance();
 		librarianSophieBirthDate.set(1970,0,12);
 		Librarian Sophie = new Librarian("100","Sophie", "Lee", librarianSophieBirthDate, 
-				new Address(10,"St.Paul","AAAA33","Calgary","Canada"),"4035667080");
+				new Address(10,"St.Paul","AAAA33","Calgary","Canada"),"4035667080", false);
 		librarians.add(Sophie);
+		
+		Calendar librarianJaneBirthDate = Calendar.getInstance();
+		librarianSophieBirthDate.set(1970,0,12);
+		Librarian Jane = new Librarian("99","Jane", "Doe", librarianJaneBirthDate, 
+				new Address(15,"1st ave","AAAB33","Calgary","Canada"),"4035557080", true);
+		librarians.add(Jane);
 		
 		//Create metallica CD
 		ArrayList<String> metallicaComposers = new ArrayList<String>();
@@ -274,8 +280,8 @@ public class Database implements Serializable {
     public void loadData() {
     	
     	//The two lines below can be uncommented and the rest of function commented out if we want to reset database basically
-    	//this.createCustomerMediaBase();
-    	//this.save();
+    	this.createCustomerMediaBase();
+    	this.save();
     	
     	this.filterHolds(); //removes expired holds
     	this.calculateOverdueFees(); //calculates customer's owned books fees if return date is expired
