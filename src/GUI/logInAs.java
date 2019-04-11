@@ -1634,7 +1634,9 @@ public class logInAs {
 						mediaDateTextField_y.getText(), mediaDateTextField_m.getText(), mediaDateTextField_d.getText());
 
 				// and remove the request
-				dtb.removeOrderRequest(listMediaOrders.getSelectedIndex());
+				if (listMediaOrders.getSelectedIndex() != -1) {
+					dtb.removeOrderRequest(listMediaOrders.getSelectedIndex());
+				}
 				
 				dtb.save();
 				
