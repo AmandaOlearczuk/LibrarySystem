@@ -1888,7 +1888,12 @@ public class logInAs {
 				
 			dialogCustomerRequestMedia.getContentPane().add(btnRequestMediaSend);
 			dialogCustomerRequestMedia.getContentPane().add(cancelButton_customerRequest);
-				
+			
+			//clear all fields
+			mediaNameTextField.setText("");
+			mediaNameTextField.setText("");
+			mediaAuthorTextField.setText("");
+			
 			dialogCustomerRequestMedia.setVisible(true);
 		}
 	});
